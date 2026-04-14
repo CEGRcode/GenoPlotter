@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/libraries/jquery-3.7.1.js"></script>
+    <script src="js/libraries/jquery-ui.js"></script>
+    <script src="js/libraries/d3.v7.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body style="overflow-x: hidden;">
+    <main>
+        <div class="container-fluid">
+            <div id="top-panel">
+                <div id="top-left-panel">
+                    <div id="axes-input" class="text-left">
+                        <div id="x-axis-input"></div>
+                        <div id="y-axis-input"></div>
+                    </div>
+                    <button id="autoscale-axes-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
+                    <div id="lock-axes"></div>
+                    <br/>
+                    <div id="bed-loader"></div>
+                </div>
+                <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
+                <div id="top-right-panel">
+                    <div id="settings-tabs"></div>
+                    <div id="global-settings" class="settings-section">
+                        <table id="slider-settings">
+                            <tr id="opacity-input"></tr>
+                            <tr id="smoothing-input"></tr>
+                            <tr id="bp-shift-input"></tr>
+                        </table>
+
+                        <div id="combine-strands"></div>
+                        <div id="separate-colors"></div>
+                        <div id="color-trace"></div>
+                        <div id="enable-plot-tooltip"></div>
+                        <div id="show-legend"></div>
+                        <div id="download-svg-buttons">
+                            <button id="download-as-svg"><i class="fa fas fa-lg fa-image"></i> Download as SVG</button>
+                            <button id="download-minimal-svg">Download minimal SVG</button>
+                        </div>
+                        <div id="json-buttons">
+                            <button id="download-json">Download JSON</button>
+                        </div>
+                    </div>
+                    <div id="reference-lines-input" class="settings-section hidden"></div>
+                    <div id="nucleosome-slider-input" class="settings-section hidden"></div>
+                </div>
+            </div>
+            <div id="bottom-panel">
+                <div id="target-selector"></div>
+                <div id="composite-table"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Javascript classes -->
+    <script src="js/classes/data_object.js"></script>
+    <script src="js/classes/composite_object.js"></script>
+    <script src="js/classes/x_axis_input.js"></script>
+    <script src="js/classes/y_axis_input.js"></script>
+    <script src="js/classes/lock_axes.js"></script>
+    <script src="js/classes/load_bed.js"></script>
+    <script src="js/classes/composite_plot.js"></script>
+    <script src="js/classes/composite_legend.js"></script>
+    <script src="js/classes/opacity_input.js"></script>
+    <script src="js/classes/smoothing_input.js"></script>
+    <script src="js/classes/bp_shift_input.js"></script>
+    <script src="js/classes/combined_checkbox.js"></script>
+    <script src="js/classes/separate_colors_checkbox.js"></script>
+    <script src="js/classes/color_trace_checkbox.js"></script>
+    <script src="js/classes/enable_plot_tooltip_checkbox.js"></script>
+    <script src="js/classes/show_legend_checkbox.js"></script>
+    <script src="js/classes/nucleosome_slider.js"></script>
+    <script src="js/classes/nucleosome_slider_input.js"></script>
+    <script src="js/classes/reference_lines.js"></script>
+    <script src="js/classes/reference_lines_input.js"></script>
+    <script src="js/classes/plot_tooltip.js"></script>
+    <script src="js/classes/target_selector.js"></script>
+    <script src="js/classes/normalization_toggle_checkbox.js"></script>
+    <script src="js/classes/composite_row.js"></script>
+    <script src="js/classes/composite_table.js"></script>
+
+    <!-- JSONS -->
+    <script src="js/default_settings/default_data_obj.js"></script>
+    <script src="js/default_settings/default_colors.js"></script>
+    <script src="js/default_settings/default_line_styles.js"></script>
+
+    <!-- Functions -->
+    <script src="js/functions/round_with_precision.js"></script>
+    <script src="js/functions/editable_svg_text.js"></script>
+    <script src="js/functions/update_all.js"></script>
+
+    <!-- Small UI elements -->
+    <script src="js/small_ui_elements/export_json.js"></script>
+    <script src="js/small_ui_elements/import_json.js"></script>
+    <script src="js/small_ui_elements/autoscale_axes.js"></script>
+    <script src="js/small_ui_elements/settings_tabs.js"></script>
+    <script src="js/small_ui_elements/download_as_svg_button.js"></script>
+
+    <!-- Initialize objects -->
+    <script src="js/initialize_server.js"></script>
+</body>
+</html>

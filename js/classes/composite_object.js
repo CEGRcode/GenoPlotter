@@ -157,7 +157,7 @@ const compositeObject = class {
         return new Promise(async function(resolve) {
             const xmin = -radius,
                 xmax = radius,
-                res = await fetch("http://149.165.170.173/api/bigwig/pileup", {
+                res = await fetch(document.URL + "api/bigwig/pileup", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({

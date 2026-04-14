@@ -1,0 +1,105 @@
+const bedLoader = class {
+    constructor(elementID) {
+        if (document.getElementById(elementID) === null) {
+            throw "Element ID " + elementID + " not found"
+        };
+
+        let self = this;
+        this.element = d3.select("#" + elementID);
+        this.file_input = this.element.append("input")
+            .attr("type", "file")
+            .on("change", async function(ev) {
+                let bed_data = await new Promise(function(resolve, reject) {
+                    let reader = new FileReader();
+                    reader.onload = function() {
+                        try {
+                            resolve(self.parseBedFile(reader.result))
+                        } catch (e) {
+                            reject("Error parsing BED file: " + e)
+                        }
+                    };
+                    reader.onerror = function() {
+                        reject("Error reading BED file: " + reader.error)
+                    };
+                    reader.readAsText(ev.target.files[0])
+                });
+                self.reference_points = bed_data.reference_points;
+                self.radius = bed_data.radius;
+                self.label.text(ev.target.files[0].name + " (N = " + self.reference_points.length + ")");
+
+                await Promise.all(dataObj.compositeData.map(d => d.fetchPileup(self.reference_points, self.radius)));
+                await dataObj.autoscaleAxisLimits();
+                xAxisInputObj.update();
+                yAxisInputObj.update();
+                plotObj.updatePlot();
+                legendObj.updateLegend()
+            });
+        this.button = this.element.append("button")
+            .text("Load BED file")
+            .on("click", function() {self.file_input.node().click()});
+        this.label = this.element.append("label")
+            .attr("id", "bed-loader-label")
+            .text("No BED loaded");
+        this.text_input = this.element.append("div")
+            .classed("bed-text-input", true)
+            .attr("contenteditable", "true")
+            .attr("placeholder", "Or paste BED file content here...");
+        this.submit_button = this.element.append("button")
+            .text("Load pasted BED")
+            .on("click", async function() {
+                let bed_data = self.parseBedFile(self.text_input.node().innerText);
+                self.reference_points = bed_data.reference_points;
+                self.radius = bed_data.radius;
+                self.label.text("BED (N = " + self.reference_points.length + ")");
+
+                await Promise.all(dataObj.compositeData.map(d => d.fetchPileup(self.reference_points, self.radius)));
+                await dataObj.autoscaleAxisLimits();
+                xAxisInputObj.update();
+                yAxisInputObj.update();
+                plotObj.updatePlot();
+                legendObj.updateLegend()
+            });
+
+        this.reference_points = [];
+        this.radius = 500
+    }
+
+    parseBedFile(content) {
+        let lines = content.split("\n"),
+            midpoints = [],
+            radius = 0;
+        for (let line of lines) {
+            if (line.startsWith("#") || line.trim() === "") {
+                continue
+            };
+
+            let fields = line.split("\t");
+            if (fields.length < 6) {
+                console.warn("Skipping malformed BED line: " + line);
+                continue
+            };
+
+            let chrom = fields[0],
+                start = parseInt(fields[1]),
+                end = parseInt(fields[2]),
+                strand = fields[5];
+            if (isNaN(start) || isNaN(end) || start >= end) {
+                console.warn("Skipping BED line with invalid coordinates: " + line);
+                continue
+            };
+            let r = Math.ceil((end - 1 - start) / 2),
+                _mid = (start + end - 1) / 2,
+                mid = strand === "+" ? Math.floor(_mid) : Math.ceil(_mid);
+            radius = Math.max(radius, r);
+
+            midpoints.push({chrom: chrom, pos: mid, strand: strand})
+        };
+        let reference_points = midpoints.map(d => ({
+            chrom: d.chrom,
+            start: d.pos - radius,
+            end: d.pos + radius + 1,
+            strand: d.strand
+        }));
+        return {reference_points: reference_points, radius: radius}
+    }
+}
