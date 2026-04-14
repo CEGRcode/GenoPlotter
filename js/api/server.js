@@ -24,20 +24,35 @@ app.post('/api/bigwig/pileup', async (req, res) => {
       return res.status(400).json({ error: 'Invalid request format' })
     }
 
-    if (!isSafeFilename(forward) || !isSafeFilename(reverse)) {
-      return res.status(400).json({ error: 'Invalid file name' })
+    let forwardBW, reverseBW
+    
+    if (forwardBW.startswith("http://") || forwardBW.startsWith("https://")) {
+      forwardBW = new BigWig({ url: forward })
+    } else {
+      if (!isSafeFilename(forward)) {
+        return res.status(400).json({ error: 'Invalid file name' })
+      }
+      const forwardPath = path.join(DATA_DIR, forward)
+      if (!fs.existsSync(forwardPath)) {
+        return res.status(404).json({ error: 'File not found' })
+      }
+      forwardBW = new BigWig({ path: forwardPath })
+    }
+    
+    if (reverseBW.startswith("http://") || reverseBW.startsWith("https://")) {
+      reverseBW = new BigWig({ url: reverse })
+    } else {
+      if (!isSafeFilename(reverse)) {
+        return res.status(400).json({ error: 'Invalid file name' })
+      }
+      const reversePath = path.join(DATA_DIR, reverse)
+      if (!fs.existsSync(reversePath)) {
+        return res.status(404).json({ error: 'File not found' })
+      }
+      reverseBW = new BigWig({ path: reversePath })
     }
 
-    const forwardPath = path.join(DATA_DIR, forward)
-    const reversePath = path.join(DATA_DIR, reverse)
-
-    if (!fs.existsSync(forwardPath) || !fs.existsSync(reversePath)) {
-      return res.status(404).json({ error: 'File not found' })
-    }
-
-    const forwardBW = new BigWig({ path: forwardPath }),
-      reverseBW = new BigWig({ path: reversePath }),
-      forwardPromises = ranges.map(range => forwardBW.getFeatures(range.chrom, range.start, range.end)),
+    forwardPromises = ranges.map(range => forwardBW.getFeatures(range.chrom, range.start, range.end)),
       reversePromises = ranges.map(range => reverseBW.getFeatures(range.chrom, range.start, range.end))
 
     const width = ranges[0].end - ranges[0].start,
