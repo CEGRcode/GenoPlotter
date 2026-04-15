@@ -3,10 +3,12 @@ if [[ ! -n $1 ]] ; then
     exit 0
 fi
 
+GENOPLOTTER_DIR=$(dirname $(dirname $(realpath $0)))
+
 apt-get install -y nginx=1.18.0
-cp ../nginx/nginx.conf /etc/nginx/
+cp ${GENOPLOTTER_DIR}/nginx/nginx.conf /etc/nginx/
 eval "cat <<EOF
-$(<../nginx/GenoPlotter)
+$(<${GENOPLOTTER_DIR}/nginx/GenoPlotter)
 EOF
 " > /etc/nginx/sites-available/GenoPlotter
 rm /etc/nginx/sites-enabled/default
@@ -21,11 +23,11 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 # Download and install Node.js:
 nvm install 24
 
-npm install --prefix ../js/api express@5.2.1 cors@2.8.6 @gmod/bbi@8.1.1
+npm install --prefix ${GENOPLOTTER_DIR}/js/api express@5.2.1 cors@2.8.6 @gmod/bbi@8.1.1
 
 eval "cat <<EOF
-$(<../js/api/server_template.js)
+$(<${GENOPLOTTER_DIR}/js/api/server_template.js)
 EOF
-" > ../js/api/server.js
+" > ${GENOPLOTTER_DIR}/js/api/server.js
 
-mv ../server.html ../index.html
+mv ${GENOPLOTTER_DIR}/server.html ${GENOPLOTTER_DIR}/index.html
