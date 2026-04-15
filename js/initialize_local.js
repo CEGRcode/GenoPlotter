@@ -29,4 +29,17 @@ const referenceLinesInputObj = new referenceLinesInput("reference-lines-input");
 
 const tooltipObj = new plotTooltip();
 
-let tableObj = new compositeTable("composite-table", true)
+let tableObj = new compositeTable("composite-table", true);
+
+d3.select("#json-download").on("click", function() {
+    dataObj.exportDataAsJSON()
+});
+
+d3.select("#json-button").on("click", function() {
+    $(d3.select("#json-loader").node()).click()
+});
+
+d3.select("#json-loader").on("change", async function() {
+    await dataObj.importDataFromJSON(this.files[0]);
+    updateAll()
+})
