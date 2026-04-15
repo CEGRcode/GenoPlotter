@@ -40,7 +40,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
 
     let forwardBW, reverseBW
     
-    if (forwardBW.startsWith('http://') || forwardBW.startsWith('https://')) {
+    if (forward.startsWith('http://') || forward.startsWith('https://')) {
       forwardBW = new BigWig({ url: forward })
     } else {
       const forwardPath = path.resolve(forward)
@@ -50,7 +50,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
       forwardBW = new BigWig({ path: forwardPath })
     }
     
-    if (reverseBW.startsWith('http://') || reverseBW.startsWith('https://')) {
+    if (reverse.startsWith('http://') || reverse.startsWith('https://')) {
       reverseBW = new BigWig({ url: reverse })
     } else {
       const reversePath = path.resolve(reverse)
@@ -60,7 +60,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
       reverseBW = new BigWig({ path: reversePath })
     }
 
-    forwardPromises = ranges.map(range => forwardBW.getFeatures(range.chrom, range.start, range.end)),
+    let forwardPromises = ranges.map(range => forwardBW.getFeatures(range.chrom, range.start, range.end)),
       reversePromises = ranges.map(range => reverseBW.getFeatures(range.chrom, range.start, range.end))
 
     const width = ranges[0].end - ranges[0].start,
