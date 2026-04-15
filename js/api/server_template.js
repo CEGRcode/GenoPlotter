@@ -8,12 +8,26 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-const DATA_DIR = '/var/www/bigwigs/',
-  NORM_DIR = '/var/www/normalization_factors/'
-
-// Basic validation helper
-function isSafeFilename(filename) {
-  return /^[a-zA-Z0-9._-]+$/.test(filename)
+const BIGWIGS = '$1',
+  NORM_FACTORS = '$2',
+  normTable = {}
+if (fs.existsSync(NORM_FACTORS)) {
+  const normLines = fs.readFileSync(NORM_FACTORS, 'utf-8').split('\n'),
+    normHeader = normLines[0].split('\t')
+  for (let i = 1; i < normLines.length; i++) {
+    let line = normLines[i].trim()
+    if (line === '') {continue}
+    let cols = line.split('\t')
+    if (cols.length !== normHeader.length) {
+      console.warn('Skipping malformed line in normalization factors table: ' + line)
+      continue
+    }
+    let name = cols[0]
+    normTable[name] = {}
+    for (let j = 1; j < cols.length; j++) {
+      normTable[name][normHeader[j]] = parseFloat(cols[j]) || 1
+    }
+  }
 }
 
 app.post('/api/bigwig/pileup', async (req, res) => {
@@ -26,26 +40,20 @@ app.post('/api/bigwig/pileup', async (req, res) => {
 
     let forwardBW, reverseBW
     
-    if (forwardBW.startswith("http://") || forwardBW.startsWith("https://")) {
+    if (forwardBW.startsWith('http://') || forwardBW.startsWith('https://')) {
       forwardBW = new BigWig({ url: forward })
     } else {
-      if (!isSafeFilename(forward)) {
-        return res.status(400).json({ error: 'Invalid file name' })
-      }
-      const forwardPath = path.join(DATA_DIR, forward)
+      const forwardPath = path.resolve(forward)
       if (!fs.existsSync(forwardPath)) {
         return res.status(404).json({ error: 'File not found' })
       }
       forwardBW = new BigWig({ path: forwardPath })
     }
     
-    if (reverseBW.startswith("http://") || reverseBW.startsWith("https://")) {
+    if (reverseBW.startsWith('http://') || reverseBW.startsWith('https://')) {
       reverseBW = new BigWig({ url: reverse })
     } else {
-      if (!isSafeFilename(reverse)) {
-        return res.status(400).json({ error: 'Invalid file name' })
-      }
-      const reversePath = path.join(DATA_DIR, reverse)
+      const reversePath = path.resolve(reverse)
       if (!fs.existsSync(reversePath)) {
         return res.status(404).json({ error: 'File not found' })
       }
@@ -113,15 +121,27 @@ app.post('/api/bigwig/pileup', async (req, res) => {
 
 app.get('/api/bigwig/list', async (_, res) => {
   try {
-    const files = fs.readdirSync(DATA_DIR).filter(file => 
-        file.endsWith('.forward.bw') &&
-          fs.existsSync(path.join(DATA_DIR, file.replace('.forward.bw', '.reverse.bw')))
-      ),
-      BWPairs = files.map(file => ({
-        name: file.replace('.forward.bw', ''),
-        forward: file,
-        reverse: file.replace('.forward.bw', '.reverse.bw')
-      }))
+    const table = fs.readFileSync(BIGWIGS, 'utf-8').split('\n'),
+      header = table[0].split('\t'),
+      fields = {},
+      BWPairs = []
+    for (let i in header) {
+      fields[header[i]] = parseInt(i)
+    }
+    for (let i = 1; i < table.length; i++) {
+      let line = table[i].trim()
+      if (line === '') {continue}
+      let cols = line.split('\t')
+      if (cols.length !== header.length) {
+        console.warn('Skipping malformed line in bigwig list: ' + line)
+        continue
+      }
+      BWPairs.push({
+        name: cols[fields['name']],
+        forward: cols[fields['forward']],
+        reverse: cols[fields['reverse']]
+      })
+    }
     res.json(BWPairs)
   } catch (err) {
     console.error(err)
@@ -137,27 +157,11 @@ app.post('/api/bigwig/normalization', async (req, res) => {
       return res.status(400).json({ error: 'Invalid request format' })
     }
 
-    if (!isSafeFilename(sample)) {
-      return res.status(400).json({ error: 'Invalid sample name' })
+    if (!normTable[sample] || !normTable[sample][method]) {
+      res.json({ sample, method, normFactor: 1 })
+    } else {
+      res.json({ sample, method, normFactor: normTable[sample][method] })
     }
-
-    // TODO: Standardize file name for normalization factor
-    const normFile = fs.readdirSync(path.join(NORM_DIR, method)).filter(
-      file => file.startsWith(sample) && file.endsWith(method + '.out')
-    )
-
-    if (normFile.length === 0) {
-      return res.status(404).json({ error: 'Normalization factors not found' })
-    }
-
-    if (normFile.length > 1) {
-      console.warn(`Multiple normalization files found for sample ${sample} and method ${method}. Returning the first one.`)
-    }
-
-    // TODO: Standardize format for normalization factor
-    const normFactor = parseFloat(fs.readFileSync(path.join(NORM_DIR, method, normFile[0]), 'utf-8')
-      .split('\n')[5].trim().slice(16))
-    res.json({ sample, method, normFactor })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Internal server error' })
@@ -165,5 +169,5 @@ app.post('/api/bigwig/normalization', async (req, res) => {
 })
 
 // Standardize index location
-app.use(express.static('/home/ubuntu'))
+app.use(express.static('$(dirname $(dirname $(realpath $0)))'))
 app.listen(3000)
