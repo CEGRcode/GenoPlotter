@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    server_name GenoPlotter;
+
+    root $(dirname $(dirname $(realpath $0)));
+
+    # No compression (range requests break with gzip)
+    gzip off;
+
+    # Allow cross-origin genome browsers
+    add_header Access-Control-Allow-Origin *;
+    add_header Access-Control-Allow-Headers Range;
+
+    # Ensure byte range requests
+    aio threads;
+    directio 8m;
+    output_buffers 1 512k;
+
+    location / {
+        proxy_pass http://localhost:3000;
+    }
+}
