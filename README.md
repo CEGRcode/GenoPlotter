@@ -18,7 +18,7 @@ sample1	1.23	4.56	...
 #### Ubuntu
 On your remote server:
 1. Clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`
-2. Run setup script with admin priveleges with `sudo GenoPlotter/server_setup_scripts/setup-ubuntu.sh /path/to/bigwig_table.txt /path/to/normalization_factors.txt`
+2. Run setup script (make sure you have sudo priveleges) `GenoPlotter/server_setup_scripts/setup-ubuntu.sh /path/to/bigwig_table.txt /path/to/normalization_factors.txt`
 
 ### Running the server
 1. Open up a background shell with `tmux new -s GenoPlotter`

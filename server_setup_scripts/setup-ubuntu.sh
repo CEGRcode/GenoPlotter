@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ ! -n $1 ]] ; then
     echo 'Usage: setup-ubuntu.sh <bigwig_list_file> <normalization_factors_file (optional)>'
     exit 0
@@ -5,16 +7,16 @@ fi
 
 GENOPLOTTER_DIR=$(dirname $(dirname $(realpath $0)))
 
-apt-get install -y nginx=1.18.0
-cp ${GENOPLOTTER_DIR}/nginx/nginx.conf /etc/nginx/
-eval "cat <<EOF
+sudo apt-get install -y nginx
+sudo cp ${GENOPLOTTER_DIR}/nginx/nginx.conf /etc/nginx/
+sudo sh -c "eval \"cat <<EOF
 $(<${GENOPLOTTER_DIR}/nginx/GenoPlotter)
 EOF
-" > /etc/nginx/sites-available/GenoPlotter
-rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
-nginx -t
-systemctl restart nginx
+\" > /etc/nginx/sites-available/GenoPlotter"
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
 
 # Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
@@ -24,6 +26,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 nvm install 24
 
 npm install --prefix ${GENOPLOTTER_DIR}/js/api express@5.2.1 cors@2.8.6 @gmod/bbi@8.1.1
+npm pkg set --prefix ${GENOPLOTTER_DIR}/js/api type="module"
 
 eval "cat <<EOF
 $(<${GENOPLOTTER_DIR}/js/api/server_template.js)
