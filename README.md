@@ -1,9 +1,14 @@
 # GenoPlotter
 
+**GenoPlotter** is a **genomic composite visualization tool** designed for bioinformaticians and bench scientists to visualize and analyze signal occupancy across genomic regions. It supports dual deployment modes:
+
+- **Local Mode** (`local.html`): Standalone web app requiring no server - load and visualize data entirely in the browser
+- **Server Mode** (`server.html`): Full-stack deployment with Node.js backend for efficient querying of large BIGWIG files
+
 ## Getting started
 
 ### Local mode (no server required)
-First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open local.html using an internet browser.
+First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open `local.html` using an internet browser.
 
 ### Server setup
 The remote version of GenoPlotter requires a table of BIGWIG files formatted as a tab-separated table:
