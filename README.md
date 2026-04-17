@@ -1,5 +1,10 @@
 # GenoPlotter
 
+## Getting started
+
+### Local mode (no server required)
+First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open local.html using an internet browser.
+
 ### Server setup
 The remote version of GenoPlotter requires a table of BIGWIG files formatted as a tab-separated table:
 ```
