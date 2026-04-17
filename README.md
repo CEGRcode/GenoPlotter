@@ -12,7 +12,7 @@ name	forward	reverse
 sample1	/path/to/sample1.forward.bigwig	/path/to/sample1.reverse.bigwig
 ...
 ```
-BIGWIG files can be absolute paths or http(s) URLs.
+BIGWIG files can be absolute paths or http(s) URLs. Many databases are rate-limited (e.g., GEO) in which case it is recommended to download the BIGWIG files to your server.
 
 You can optionally include a table of normalization factors also formatted as a tab-separated table:
 ```
