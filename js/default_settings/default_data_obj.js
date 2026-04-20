@@ -6,7 +6,7 @@ const defaultDataObjectSettings = {
         ymax: 1,
         symmetricY: true,
         lockAxes: false,
-        minOpacity: 0,
+        minOpacity: .5,
         maxOpacity: 1,
         smoothing: 7,
         bpShift: 0,
