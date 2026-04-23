@@ -129,11 +129,14 @@ const compositeObject = class {
     }
 
     updateData() {
+        let xmin, xmax, sense = [], anti = [];
         // Get the minimum and maximum x values of the selected files and initialize the sense and anti arrays
-        const xmin = Math.min(...this.ids.map(id => dataObj.fileData[id].xmin)),
-            xmax = Math.max(...this.ids.map(id => dataObj.fileData[id].xmax)),
-            sense = Array(xmax - xmin + 1).fill(0),
-            anti = Array(xmax - xmin + 1).fill(0);
+        if (this.ids.length > 0) {
+            xmin = Math.min(...this.ids.map(id => dataObj.fileData[id].xmin));
+            xmax = Math.max(...this.ids.map(id => dataObj.fileData[id].xmax));
+            sense = Array(xmax - xmin + 1).fill(0);
+            anti = Array(xmax - xmin + 1).fill(0)
+        };
         
         // Add the sense and anti values of the selected files to the sense and anti arrays
         for (let x = xmin; x <= xmax; x++) {
