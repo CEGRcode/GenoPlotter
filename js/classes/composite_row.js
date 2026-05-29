@@ -1,5 +1,6 @@
 const compositeRow = class {
-    constructor(row, idx, compositeDataObj, local=true) {
+    constructor(table, row, idx, compositeDataObj, local=true) {
+        this.table = table;
         this.row = row;
         this.idx = idx;
         this.compositeDataObj = compositeDataObj;
@@ -7,24 +8,30 @@ const compositeRow = class {
         
         const self = this;
         this.row
-            .attr("draggable", true)
             .on("mouseover", function() {self.mouseHighlight()})
-            .on("mouseleave", function() {self.mouseUnhighlight()})
-            .on("dragstart", function(ev) {ev.dataTransfer.setData("text/plain", self.idx)});
+            .on("mouseleave", function() {self.mouseUnhighlight()});
         if (local) {
             this.row.on("dragover", function(ev) {
-                self.fileDragHighlight();
-                // This is necessary to allow a drop
-                ev.preventDefault()
+                ev.preventDefault();
+                if (ev.dataTransfer.items[0].kind === "file") {
+                    self.fileDragHighlight()
+                }
             })
             .on("dragleave", function() {self.fileDragUnhighlight()})
             .on("drop", function(ev) {
                 self.fileDragUnhighlight();
-                self.directDropEvent(ev)
+                ev.preventDefault();
+                if (ev.dataTransfer.items[0].kind === "file") {
+                    const files = [];
+                    for (let i = 0; i < ev.dataTransfer.items.length; i++) {
+                        files.push(ev.dataTransfer.items[i].getAsFile())
+                    };
+                    this.loadFiles(files)
+                }
             });
         } else {
             this.row.on("dragover", function(ev) {ev.preventDefault()})
-            .on("drop", function(ev) {self.directDropEvent(ev)})
+            .on("drop", function(ev) {ev.preventDefault()})
         };
 
         // Add the drag column
@@ -361,11 +368,11 @@ const compositeRow = class {
     }
 
     disableDrag() {
-        this.row.attr("draggable", false)
+        this.table.sortable.option("disabled", true)
     }
 
     enableDrag() {
-        this.row.attr("draggable", true)
+        this.table.sortable.option("disabled", false)
     }
 
     mouseHighlight() {
@@ -384,20 +391,6 @@ const compositeRow = class {
         this.row.classed("file-drag-highlight", false)
     }
 
-    directDropEvent(ev) {
-        ev.preventDefault();
-        if (ev.dataTransfer.items[0].kind === "file") {
-            const files = [];
-            for (let i = 0; i < ev.dataTransfer.items.length; i++) {
-                files.push(ev.dataTransfer.items[i].getAsFile())
-            };
-            this.loadFiles(files)
-        } else {
-            this.insertRow(parseInt(ev.dataTransfer.getData("text/plain")), ev.clientY);
-            plotObj.updatePlot()
-        }
-    }
-
     async loadFiles(files) {
         await this.compositeDataObj.loadFiles(files)
         await dataObj.autoscaleAxisLimits();
@@ -408,23 +401,6 @@ const compositeRow = class {
         referenceLinesObj.updateReferenceLines();
         nucleosomeSliderObj.updateNucleosomeSlider();
         this.updateInputs()
-    }
-
-    insertRow(dragIdx, dropY) {
-        const {y, height} = this.row.node().getBoundingClientRect();
-        if (dropY > y + (height / 2)) {
-            dataObj.moveCompositeData(dragIdx, this.idx - (this.idx >= dragIdx) + 1);
-            if (!this.local) {
-                targetSelectorObj.moveTarget(dragIdx, this.idx - (this.idx >= dragIdx) + 1)
-            };
-            tableObj.insertRowAfter(dragIdx, this.idx)
-        } else {
-            dataObj.moveCompositeData(dragIdx, this.idx - (this.idx > dragIdx));
-            if (!this.local) {
-                targetSelectorObj.moveTarget(dragIdx, this.idx - (this.idx > dragIdx))
-            };
-            tableObj.insertRowBefore(dragIdx, this.idx)
-        }
     }
 
     remove() {
