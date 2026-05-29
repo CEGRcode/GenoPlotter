@@ -53,7 +53,8 @@ const compositeTable = class {
             onEnd: function(ev) {
                 self.updateRowOrder(ev.oldIndex, ev.newIndex);
                 self.updateStickyRows();
-                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex)
+                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                plotObj.updatePlot()
             }
         });
 
