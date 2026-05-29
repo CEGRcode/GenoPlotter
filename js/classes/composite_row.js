@@ -13,7 +13,9 @@ const compositeRow = class {
         if (local) {
             this.row.on("dragover", function(ev) {
                 ev.preventDefault();
-                self.fileDragHighlight()
+                if (ev.dataTransfer.types[0] === "Files") {
+                    self.fileDragHighlight()
+                }
             })
             .on("dragleave", function() {self.fileDragUnhighlight()})
             .on("drop", function(ev) {
