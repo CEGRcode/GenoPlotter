@@ -258,7 +258,7 @@ const dataObject = class {
                 };
 
                 if (data.referenceLines) {
-                    for (lineObj of data.referenceLines.horizontalLines) {
+                    for (const lineObj of data.referenceLines.horizontalLines) {
                         lineObj.y = lineObj.y || 0;
                         lineObj.color = lineObj.color || "#FF0000";
                         lineObj.linewidth = typeof lineObj.linewidth === "number" ? lineObj.linewidth : 1;
@@ -268,7 +268,7 @@ const dataObject = class {
                         lineObj.textOrientation = lineObj.textOrientation || "horizontal";
                         lineObj.labelOffset = typeof lineObj.labelOffset === "number" ? lineObj.labelOffset : 10
                     };
-                    for (lineObj of data.referenceLines.verticalLines) {
+                    for (const lineObj of data.referenceLines.verticalLines) {
                         lineObj.x = lineObj.x || 0;
                         lineObj.color = lineObj.color || "#FF0000";
                         lineObj.linewidth = typeof lineObj.linewidth === "number" ? lineObj.linewidth : 1;
