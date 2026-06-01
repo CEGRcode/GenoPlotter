@@ -47,6 +47,16 @@ const compositeTable = class {
         }
 
         this.table = thb.append("tbody");
+        this.sortable = new Sortable(this.table.node(), {
+            animation: 150,
+            ghostClass: 'blue-background-class',
+            onEnd: function(ev) {
+                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateStickyRows();
+                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                plotObj.updatePlot()
+            }
+        });
 
         this.rows = [];
         this.nRows = 0;
@@ -59,6 +69,7 @@ const compositeTable = class {
     addRow(compositeDataObj) {
         // Add the row
         this.rows.push(new compositeRow(
+            this,
             this.table.append("tr").classed("composite-row", true),
             this.nRows,
             compositeDataObj,
@@ -67,38 +78,11 @@ const compositeTable = class {
         this.nRows++
     }
 
-    insertRowBefore(dragIdx, dropIdx) {
-        // Move row elements
-        const dragRow = this.rows[dragIdx],
-            dropRow = this.rows[dropIdx];
-        $(dragRow.row.node()).insertBefore(dropRow.row.node());
-
-        // Update row array
-        this.rows.splice(dropIdx - (dropIdx > dragIdx), 0, this.rows.splice(dragIdx, 1)[0]);
-
-        // Update row indices
+    updateRowOrder(oldIdx, newIdx) {
+        this.rows.splice(newIdx, 0, this.rows.splice(oldIdx, 1)[0]);
         for (const i in this.rows) {
             this.rows[i].updateIndex(i)
-        };
-
-        this.updateStickyRows()
-    }
-
-    insertRowAfter(dragIdx, dropIdx) {
-        // Move row elements
-        const dragRow = this.rows[dragIdx],
-            dropRow = this.rows[dropIdx];
-        $(dragRow.row.node()).insertAfter(dropRow.row.node());
-
-        // Update row array
-        this.rows.splice(dropIdx - (dropIdx >= dragIdx) + 1, 0, this.rows.splice(dragIdx, 1)[0]);
-
-        // Update row indices
-        for (const i in this.rows) {
-            this.rows[i].updateIndex(parseInt(i))
-        };
-
-        this.updateStickyRows()
+        }
     }
 
     removeRow(idx) {
