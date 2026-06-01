@@ -36,9 +36,20 @@ html, body, main, div.container-fluid {
     max-width: 50%;
 }
 
-#download-minimal-svg {
-    min-width: 185px;
-    max-width: 50%;
+#download-svg-prompt {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid black;
+    padding: 20px;
+    z-index: 1000;
+}
+
+#download-svg-button-container {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .padded-container {
