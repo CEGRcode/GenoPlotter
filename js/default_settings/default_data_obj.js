@@ -28,6 +28,7 @@ const defaultDataObjectSettings = {
         verticalLines: [{
             x: 0,
             color: "#999999",
+            linewidth: 1,
             linestyle: "dashed",
             fontSize: 14,
             fontColor: "#000000",
