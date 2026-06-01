@@ -95,8 +95,12 @@ const referenceLinesInput = class {
                 .each(function(d) {
                     this.value = d.data[axis];
                     d3.select(this).on("change", function() {
-                        referenceLinesArr[d.index][axis] = parseFloat(this.value);
-                        referenceLinesObj.updateReferenceLines()
+                        if (isNaN(this.value) || this.value.trim() === "") {
+                            this.value = referenceLinesArr[d.index][axis]
+                        } else {
+                            referenceLinesArr[d.index][axis] = parseFloat(this.value);
+                            referenceLinesObj.updateReferenceLines()
+                        }
                     })
                 });
 
@@ -136,8 +140,12 @@ const referenceLinesInput = class {
                 .each(function(d) {
                     this.value = d.data.linewidth;
                     d3.select(this).on("change", function() {
-                        referenceLinesArr[d.index].linewidth = parseFloat(this.value);
-                        referenceLinesObj.updateReferenceLines()
+                        if (isNaN(this.value) || this.value.trim() === "" || parseFloat(this.value) < 0) {
+                            this.value = referenceLinesArr[d.index].linewidth
+                        } else {
+                            referenceLinesArr[d.index].linewidth = parseFloat(this.value);
+                            referenceLinesObj.updateReferenceLines()
+                        }
                     })
                 });
         
@@ -233,8 +241,12 @@ const referenceLinesInput = class {
                 .each(function(d) {
                     this.value = d.data.fontSize;
                     d3.select(this).on("change", function() {
-                        referenceLinesArr[d.index].fontSize = parseFloat(this.value);
-                        referenceLinesObj.updateReferenceLines()
+                        if (this.value.trim() === "" || parseFloat(this.value) < 0) {
+                            this.value = referenceLinesArr[d.index].fontSize
+                        } else {
+                            referenceLinesArr[d.index].fontSize = parseFloat(this.value);
+                            referenceLinesObj.updateReferenceLines()
+                        }
                     })
                 });
         
@@ -293,8 +305,12 @@ const referenceLinesInput = class {
                 .each(function(d) {
                     this.value = d.data.labelOffset;
                     d3.select(this).on("change", function() {
-                        referenceLinesArr[d.index].labelOffset = parseFloat(this.value);
-                        referenceLinesObj.updateReferenceLines()
+                        if (this.value.trim() === "" || parseFloat(this.value) < 0) {
+                            this.value = referenceLinesArr[d.index].labelOffset
+                        } else {
+                            referenceLinesArr[d.index].labelOffset = parseFloat(this.value);
+                            referenceLinesObj.updateReferenceLines()
+                        }
                     })
                 })
     }
