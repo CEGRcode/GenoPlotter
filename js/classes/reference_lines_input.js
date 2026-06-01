@@ -118,7 +118,8 @@ const referenceLinesInput = class {
                             this.value = d.data.color;
                             d3.select(this).on("change", function() {
                                 referenceLinesArr[d.index].color = this.value;
-                                referenceLinesObj.updateReferenceLines()
+                                referenceLinesObj.updateReferenceLines();
+                                self.defaultColor = this.value
                             })
                         });
 
@@ -144,7 +145,8 @@ const referenceLinesInput = class {
                             this.value = referenceLinesArr[d.index].linewidth
                         } else {
                             referenceLinesArr[d.index].linewidth = parseFloat(this.value);
-                            referenceLinesObj.updateReferenceLines()
+                            referenceLinesObj.updateReferenceLines();
+                            self.defaultLineWidth = parseFloat(this.value)
                         }
                     })
                 });
@@ -181,6 +183,7 @@ const referenceLinesInput = class {
                             selector.on("click", function() {
                                 referenceLinesArr[d.index].linestyle = d.style;
                                 referenceLinesObj.updateReferenceLines();
+                                self.defaultLineStyle = d.style;
                                 table.select("tr.ref-line-row:nth-child(" + (d.index + 1) + ")")
                                     .select("svg.main-line-style-svg")
                                     .selectAll("line")
@@ -245,7 +248,8 @@ const referenceLinesInput = class {
                             this.value = referenceLinesArr[d.index].fontSize
                         } else {
                             referenceLinesArr[d.index].fontSize = parseFloat(this.value);
-                            referenceLinesObj.updateReferenceLines()
+                            referenceLinesObj.updateReferenceLines();
+                            self.defaultFontSize = parseFloat(this.value)
                         }
                     })
                 });
@@ -262,7 +266,8 @@ const referenceLinesInput = class {
                             this.value = d.data.fontColor;
                             d3.select(this).on("change", function() {
                                 referenceLinesArr[d.index].fontColor = this.value;
-                                referenceLinesObj.updateReferenceLines()
+                                referenceLinesObj.updateReferenceLines();
+                                self.defaultFontColor = this.value
                             })
                         });
         
@@ -278,7 +283,8 @@ const referenceLinesInput = class {
                             this.value = d.data.textOrientation;
                             d3.select(this).on("change", function() {
                                 referenceLinesArr[d.index].textOrientation = this.value;
-                                referenceLinesObj.updateReferenceLines()
+                                referenceLinesObj.updateReferenceLines();
+                                self.defaultTextOrientation = this.value
                             })
                         })
                         .selectAll("option")
@@ -309,7 +315,8 @@ const referenceLinesInput = class {
                             this.value = referenceLinesArr[d.index].labelOffset
                         } else {
                             referenceLinesArr[d.index].labelOffset = parseFloat(this.value);
-                            referenceLinesObj.updateReferenceLines()
+                            referenceLinesObj.updateReferenceLines();
+                            self.defaultLabelOffset = parseFloat(this.value)
                         }
                     })
                 })
