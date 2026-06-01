@@ -1,5 +1,7 @@
 const referenceLinesInput = class {
-    constructor(elementID, defaultColor="#FF0000", defaultLineStyle="dashed") {
+    constructor(elementID, defaultColor="#FF0000", defaultLineWidth=1,
+        defaultLineStyle="dashed", defaultFontSize=6, defaultLabelOffset=10
+    ) {
         if (document.getElementById(elementID) === null) {
             throw "Element ID " + elementID + " not found"
         };
@@ -7,8 +9,10 @@ const referenceLinesInput = class {
 
         this.defaultColor = defaultColor;
         this.defaultLineStyle = defaultLineStyle;
-        this.defaultFontSize = 6;
-        this.defaultLabelOffset = 10;
+        this.defaultLineWidth = defaultLineWidth;
+        this.defaultFontColor = defaultColor;
+        this.defaultFontSize = defaultFontSize;
+        this.defaultLabelOffset = defaultLabelOffset;
 
         const self = this;
 
@@ -18,8 +22,9 @@ const referenceLinesInput = class {
             .classed("add-row-icon fa-solid fa-lg fa-circle-plus", true)
             .on("click", function() {
                 const y = (plotObj.yscale.domain()[0] + plotObj.yscale.domain()[1]) / 2;
-                dataObj.addHorizontalReferenceLine(y, self.defaultColor, self.defaultLineStyle,
-                    self.defaultFontSize, self.defaultColor, "horizontal", self.defaultLabelOffset);
+                dataObj.addHorizontalReferenceLine(y, self.defaultColor, self.defaultLineWidth,
+                    self.defaultLineStyle, self.defaultFontSize, self.defaultFontColor,
+                    "horizontal", self.defaultLabelOffset);
                 self.update("horizontal");
                 referenceLinesObj.updateReferenceLines()
             });
@@ -34,8 +39,9 @@ const referenceLinesInput = class {
             .classed("add-row-icon fa-solid fa-lg fa-circle-plus", true)
             .on("click", function() {
                 const x = Math.floor((dataObj.globalSettings.xmin + dataObj.globalSettings.xmax) / 2);
-                dataObj.addVerticalReferenceLine(x, self.defaultColor, self.defaultLineStyle,
-                    self.defaultFontSize, self.defaultColor, "horizontal", self.defaultLabelOffset);
+                dataObj.addVerticalReferenceLine(x, self.defaultColor, self.defaultLineWidth,
+                    self.defaultLineStyle, self.defaultFontSize, self.defaultFontColor,
+                    "horizontal", self.defaultLabelOffset);
                 self.update("vertical");
                 referenceLinesObj.updateReferenceLines()
             });
@@ -80,7 +86,7 @@ const referenceLinesInput = class {
             .data(() => [null])
             .join("label")
                 .classed("setting-label", true)
-                .text(axis + "=");
+                .text(axis + "-pos:");
         posColSelector.selectAll("input.ref-line-pos-input")
             .data(d => [d])
             .join("input")
@@ -111,6 +117,29 @@ const referenceLinesInput = class {
                                 referenceLinesObj.updateReferenceLines()
                             })
                         });
+
+        // Add a column for the line width input
+        const widthColSelector = lineSettingsSelector.selectAll("td.ref-line-width-col")
+            .data(d => [d])
+            .join("td")
+                .classed("ref-line-width-col", true);
+        widthColSelector.selectAll("label.setting-label")
+            .data(() => [null])
+            .join("label")
+                .classed("setting-label", true)
+                .text("width:");
+        widthColSelector.selectAll("input.ref-line-width-input")
+            .data(d => [d])
+            .join("input")
+                .attr("type", "text")
+                .classed("ref-line-width-input", true)
+                .each(function(d) {
+                    this.value = d.data.linewidth;
+                    d3.select(this).on("change", function() {
+                        referenceLinesArr[d.index].linewidth = parseFloat(this.value);
+                        referenceLinesObj.updateReferenceLines()
+                    })
+                });
         
         // Add a column for the line style selector
         const styleColSelector = lineSettingsSelector.selectAll("td.ref-line-style-col")
@@ -249,7 +278,8 @@ const referenceLinesInput = class {
         const offsetCol = labelSettingsSelector.selectAll("td.label-offset-col")
             .data(d => [d])
             .join("td")
-                .classed("label-offset-col", true);
+                .classed("label-offset-col", true)
+                .attr("colspan", 2);
         offsetCol.selectAll("label")
             .data(() => [null])
             .join("label")

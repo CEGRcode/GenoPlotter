@@ -183,10 +183,11 @@ const dataObject = class {
         })
     }
 
-    addHorizontalReferenceLine(y, color, linestyle, fontSize, fontColor, textOrientation, labelOffset) {
+    addHorizontalReferenceLine(y, color, linewidth, linestyle, fontSize, fontColor, textOrientation, labelOffset) {
         const referenceLineObj = {
             y: y,
             color: color,
+            linewidth: linewidth,
             linestyle: linestyle,
             fontSize: fontSize,
             fontColor: fontColor,
@@ -202,10 +203,11 @@ const dataObject = class {
         this.referenceLines.horizontalLines.splice(idx, 1)
     }
 
-    addVerticalReferenceLine(x, color, linestyle, fontSize, fontColor, textOrientation, labelOffset) {
+    addVerticalReferenceLine(x, color, linewidth, linestyle, fontSize, fontColor, textOrientation, labelOffset) {
         const referenceLineObj = {
             x: x,
             color: color,
+            linewidth: linewidth,
             linestyle: linestyle,
             fontSize: fontSize,
             fontColor: fontColor,
@@ -256,6 +258,26 @@ const dataObject = class {
                 };
 
                 if (data.referenceLines) {
+                    for (lineObj of data.referenceLines.horizontalLines) {
+                        lineObj.y = lineObj.y || 0;
+                        lineObj.color = lineObj.color || "#FF0000";
+                        lineObj.linewidth = typeof lineObj.linewidth === "number" ? lineObj.linewidth : 1;
+                        lineObj.linestyle = lineObj.linestyle || "solid";
+                        lineObj.fontSize = typeof lineObj.fontSize === "number" ? lineObj.fontSize : 6;
+                        lineObj.fontColor = lineObj.fontColor || "#FF0000";
+                        lineObj.textOrientation = lineObj.textOrientation || "horizontal";
+                        lineObj.labelOffset = typeof lineObj.labelOffset === "number" ? lineObj.labelOffset : 10
+                    };
+                    for (lineObj of data.referenceLines.verticalLines) {
+                        lineObj.x = lineObj.x || 0;
+                        lineObj.color = lineObj.color || "#FF0000";
+                        lineObj.linewidth = typeof lineObj.linewidth === "number" ? lineObj.linewidth : 1;
+                        lineObj.linestyle = lineObj.linestyle || "solid";
+                        lineObj.fontSize = typeof lineObj.fontSize === "number" ? lineObj.fontSize : 6;
+                        lineObj.fontColor = lineObj.fontColor || "#FF0000";
+                        lineObj.textOrientation = lineObj.textOrientation || "horizontal";
+                        lineObj.labelOffset = typeof lineObj.labelOffset === "number" ? lineObj.labelOffset : 10
+                    };
                     self.referenceLines = data.referenceLines
                 } else {
                     self.referenceLines = {
