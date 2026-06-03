@@ -4,7 +4,7 @@ const plotTooltip = class {
         
         const self = this;
         // Add event listeners to show and hide the tooltip
-        $(this.mainPlot.node())
+        this.mainPlot
             .on("mousemove", function(ev) {self.update(ev)})
             .on("mouseleave", function() {self.hide()});
 
@@ -30,7 +30,8 @@ const plotTooltip = class {
             mouseY = (ev.clientY - plotY) * plotObj.height / height,
             mouseXScaled = Math.round(plotObj.xscale.invert(mouseX)),
             // Filter data to only include data that is visible and has been loaded
-            data = dataObj.compositeData.filter(d => (!d.hideSense || !d.hideAnti) && d.filesLoaded > 0);
+            data = dataObj.compositeData.filter(d => (!d.hideSense || !d.hideAnti) &&
+                (d.sense.length > 0 || d.anti.length > 0));
         // If cursor is out of range or there is no data, hide the tooltip
         if (mouseX < plotObj.margins.left || mouseX > plotObj.width - plotObj.margins.right ||
             mouseY < plotObj.margins.top || mouseY > plotObj.height - plotObj.margins.bottom ||
