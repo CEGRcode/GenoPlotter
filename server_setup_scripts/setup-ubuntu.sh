@@ -25,7 +25,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 # Download and install Node.js:
 nvm install 24
 
-npm install --prefix ${GENOPLOTTER_DIR}/js/api express@5.2.1 cors@2.8.6 @gmod/bbi@8.1.1
+npm install --prefix ${GENOPLOTTER_DIR}/js/api express@5.2.1 cors@2.8.6 @gmod/bbi@9.2.0
 npm pkg set --prefix ${GENOPLOTTER_DIR}/js/api type="module"
 
 eval "cat <<EOF

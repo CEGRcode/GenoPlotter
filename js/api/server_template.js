@@ -32,11 +32,14 @@ if (fs.existsSync(NORM_FACTORS)) {
 
 app.post('/api/bigwig/pileup', async (req, res) => {
   try {
-    const { forward, reverse, ranges } = req.body
+    const { forward, reverse, ranges } = req.body,
+      n = ranges.length
 
     if (!forward || !reverse || !ranges || !Array.isArray(ranges)) {
       return res.status(400).json({ error: 'Invalid request format' })
     }
+
+    const query = ranges.map(r => ({refName: r.chrom, start: r.start, end: r.end}))
 
     let forwardBW, reverseBW
     
@@ -60,18 +63,17 @@ app.post('/api/bigwig/pileup', async (req, res) => {
       reverseBW = new BigWig({ path: reversePath })
     }
 
-    let forwardPromises = ranges.map(range => forwardBW.getFeatures(range.chrom, range.start, range.end)),
-      reversePromises = ranges.map(range => reverseBW.getFeatures(range.chrom, range.start, range.end))
-
-    const width = ranges[0].end - ranges[0].start,
+    const forwardFeaturesArr = await forwardBW.getFeaturesMulti(query),
+      reverseFeaturesArr = await reverseBW.getFeaturesMulti(query),
+      width = ranges[0].end - ranges[0].start,
       results = {
         sense: Array(width).fill(0),
         anti: Array(width).fill(0)
       }
-
+    
     for (const i in ranges) {
-      const forwardFeatures = await forwardPromises[i],
-        reverseFeatures = await reversePromises[i],
+      const forwardFeatures = forwardFeaturesArr[i],
+        reverseFeatures = reverseFeaturesArr[i],
         range = ranges[i]
 
       if (range.end - range.start !== width) {
@@ -82,26 +84,26 @@ app.post('/api/bigwig/pileup', async (req, res) => {
         for (let fblock of forwardFeatures) {
           let occ = fblock.score
           for (let x = Math.max(fblock.start, range.start); x < Math.min(fblock.end, range.end); x++) {
-            results.sense[x - range.start] += occ
+            results.sense[x - range.start] += occ / n
           }
         }
         for (let rblock of reverseFeatures) {
           let occ = rblock.score
           for (let x = Math.max(rblock.start, range.start); x < Math.min(rblock.end, range.end); x++) {
-            results.anti[x - range.start] += occ
+            results.anti[x - range.start] += occ / n
           }
         }
       } else {
         for (let fblock of forwardFeatures) {
           let occ = fblock.score
           for (let x = Math.max(fblock.start, range.start); x < Math.min(fblock.end, range.end); x++) {
-            results.anti[range.end - 1 - x] += occ
+            results.anti[range.end - 1 - x] += occ / n
           }
         }
         for (let rblock of reverseFeatures) {
           let occ = rblock.score
           for (let x = Math.max(rblock.start, range.start); x < Math.min(rblock.end, range.end); x++) {
-            results.sense[range.end - 1 - x] += occ
+            results.sense[range.end - 1 - x] += occ / n
           }
         }
       }
