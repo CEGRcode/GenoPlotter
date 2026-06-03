@@ -43,13 +43,13 @@ const compositeRow = class {
                 // .classed("drag-icon fa-solid fa-2xl fa-grip-lines", true);
 
         // Add the name column
-        this.nameInput = this.row.append("td").classed("name-col", true).append("div")
-            .classed("name-div", true)
-            .on("mousedown", function() {self.disableDrag()})
-            .on("mouseup", function() {self.enableDrag()})
-            .on("mouseleave", function() {self.enableDrag()});
+        this.nameInput = this.row.append("td").classed("name-col", true).append("div");
         if (local) {
             this.nameInput
+                .classed("name-div", true)
+                .on("mousedown", function() {self.disableDrag()})
+                .on("mouseup", function() {self.enableDrag()})
+                .on("mouseleave", function() {self.enableDrag()})
                 .attr("contenteditable", true)
                 .on("input", function(ev) {
                     self.compositeDataObj.changeName(ev.target.textContent);
