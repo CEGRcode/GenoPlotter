@@ -29,8 +29,4 @@ const tooltipObj = new plotTooltip();
 
 const targetSelectorObj = new targetSelector("target-selector");
 
-let tableObj = new compositeTable("composite-table", false);
-
-d3.select("#download-json").on("click", function() {
-    dataObj.exportDataAsJSON()
-})
+let tableObj = new compositeTable("composite-table", false)
