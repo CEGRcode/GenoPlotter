@@ -5,7 +5,7 @@ const targetSelector = class {
         };
 
         let self = this;
-        this.selected_targets = [];
+        this.selected_targets = {};
         this.targets_object = {};
 
         this.element = d3.select("#" + elementID);
@@ -29,7 +29,7 @@ const targetSelector = class {
             });
         this.selected_counter = this.element.append("div")
             .classed("selected-counter", true)
-            .text("Selected targets: " + this.selected_targets.length);
+            .text("Selected targets: " + Object.keys(this.selected_targets).length);
         this.target_list = this.element.append("ul")
             .classed("target-list", true);
         
@@ -48,7 +48,10 @@ const targetSelector = class {
                 selected: false
             }
         };
-        this.updateTargets(Object.keys(this.targets_object))
+
+        let sorted_targets = Object.keys(this.targets_object);
+        sorted_targets.sort();
+        this.updateTargets(sorted_targets)
     }
 
     updateTargets(targets) {
@@ -68,7 +71,7 @@ const targetSelector = class {
                         .property("checked", self.targets_object[d].selected)
                         .on("change", async function() {
                             let checkbox = d3.select(this),
-                                n = self.selected_targets.length;
+                                n = Object.keys(self.selected_targets).length;
                             self.targets_object[d].selected = checkbox.property("checked");
                             let sorted_targets = Object.keys(self.targets_object);
                             sorted_targets.sort((a, b) => !(self.targets_object[a].selected ^ self.targets_object[b].selected) ?
@@ -80,7 +83,7 @@ const targetSelector = class {
                                     body: JSON.stringify({sample: d.split("_")[0], method: "NCIS"})
                                 }),
                                     normData = await res.json();
-                                self.selected_targets.push(d);
+                                self.selected_targets[d] = n;
                                 const compositeDataObj = dataObj.addCompositeData({
                                     idx: n,
                                     name: d,
@@ -98,14 +101,14 @@ const targetSelector = class {
                                     legendObj.updateLegend()
                                 }
                             } else {
-                                for (let i = 0; i < n; i++) {
-                                    if (self.selected_targets[i] === d) {
-                                        self.selected_targets.splice(i, 1);
-                                        tableObj.removeRow(i);
-                                        dataObj.removeCompositeData(i);
-                                        break
+                                tableObj.removeRow(self.selected_targets[d]);
+                                dataObj.removeCompositeData(self.selected_targets[d]);
+                                for (let target in self.selected_targets) {
+                                    if (self.selected_targets[target] > self.selected_targets[d]) {
+                                        self.selected_targets[target]--
                                     }
                                 };
+                                delete self.selected_targets[d];
                                 plotObj.updatePlot();
                                 legendObj.updateLegend()
                             };
@@ -122,7 +125,7 @@ const targetSelector = class {
     }
 
     updateSelectedCounter() {
-        this.selected_counter.text("Selected targets: " + this.selected_targets.length)
+        this.selected_counter.text("Selected targets: " + Object.keys(this.selected_targets).length)
     }
 
     parseTargetsFile(content) {
@@ -148,8 +151,14 @@ const targetSelector = class {
     }
 
     moveTarget(oldIdx, newIdx) {
-        let target = this.selected_targets[oldIdx];
-        this.selected_targets.splice(oldIdx, 1);
-        this.selected_targets.splice(newIdx, 0, target)
+        for (let target in this.selected_targets) {
+            if (this.selected_targets[target] === oldIdx) {
+                this.selected_targets[target] = newIdx
+            } else if (this.selected_targets[target] > oldIdx && this.selected_targets[target] <= newIdx) {
+                this.selected_targets[target]--
+            } else if (this.selected_targets[target] < oldIdx && this.selected_targets[target] >= newIdx) {
+                this.selected_targets[target]++
+            }
+        }
     }
 }

@@ -50,11 +50,17 @@ const compositeTable = class {
         this.sortable = new Sortable(this.table.node(), {
             animation: 150,
             ghostClass: 'blue-background-class',
-            onEnd: function(ev) {
+            onEnd: local ? function(ev) {
                 self.updateRowOrder(ev.oldIndex, ev.newIndex);
                 self.updateStickyRows();
                 dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
                 plotObj.updatePlot()
+            } : function(ev) {
+                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateStickyRows();
+                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                plotObj.updatePlot();
+                targetSelectorObj.moveTarget(ev.oldIndex, ev.newIndex)
             }
         });
 
