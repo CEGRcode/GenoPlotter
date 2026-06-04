@@ -307,13 +307,17 @@ const dataObject = class {
 
     exportDataAsJSON() {
         const a = document.createElement("a"),
-            e = new MouseEvent("click");
+            e = new MouseEvent("click"),
+            self = this;
         a.download = "composite_plot_config.json";
         a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(
             {
-                globalSettings: this.globalSettings,
+                globalSettings: Object.assign({}, this.globalSettings, {normalization: "none"}),
                 fileData: this.fileData,
-                compositeData: this.compositeData,
+                compositeData: this.compositeData.map(compositeDataObj => Object.assign({}, compositeDataObj, {
+                    scale: compositeDataObj.scale * (self.globalSettings.normalization !== "none" ?
+                        compositeDataObj.normalizationFactor[self.globalSettings.normalization] : 1)
+                })),
                 legendOrder: this.legendOrder,
                 referenceLines: this.referenceLines,
                 nucleosomeSlider: this.nucleosomeSlider
