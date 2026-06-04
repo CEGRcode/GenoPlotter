@@ -446,6 +446,10 @@ ul.target-list li {
     margin-left: 10px;
 }
 
+#normalization-dropdown {
+    background-color: white;
+}
+
 #normalization-dropdown-label {
     font-size: 10px;
     margin-right: 5px;
