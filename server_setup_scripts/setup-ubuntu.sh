@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [[ ! -n $1 ]] ; then
     echo 'Usage: setup-ubuntu.sh <bigwig_list_file> <normalization_factors_file (optional)>'
     exit 0
@@ -13,8 +15,8 @@ sudo sh -c "eval \"cat <<EOF
 $(<${GENOPLOTTER_DIR}/nginx/GenoPlotter)
 EOF
 \" > /etc/nginx/sites-available/GenoPlotter"
-sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
+[ -f /etc/nginx/sites-enabled/default ] && sudo rm /etc/nginx/sites-enabled/default
+[ -f /etc/nginx/sites-available/GenoPlotter ] || sudo ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 
