@@ -35,7 +35,7 @@ const compositeTable = class {
             this.headerRow.append("th").classed("name-col", true).text("Name");
             this.headerRow.append("th").text("Color");
             this.headerRow.append("th").text("Scale")
-                .append("div").attr("id", "normalization-toggle");
+                .append("div").attr("id", "normalization-select");
             this.headerRow.append("th").text("Opacity");
             this.headerRow.append("th").text("Smooth");
             this.headerRow.append("th").text("Shift");
@@ -43,7 +43,7 @@ const compositeTable = class {
             this.headerRow.append("th");
             this.headerRow.append("th");
 
-            this.normalizationToggle = new normalizationToggle("normalization-toggle")
+            this.normalizationSelectObj = new normalizationSelect("normalization-select")
         }
 
         this.table = thb.append("tbody");
@@ -103,9 +103,6 @@ const compositeTable = class {
 
     loadFromDataObject() {
         this.clear();
-        if (typeof normalizationToggleObj !== "undefined") {
-            normalizationToggleObj.update()
-        };
         for (const compositeDataObj of dataObj.compositeData) {
             this.addRow(compositeDataObj)
         }

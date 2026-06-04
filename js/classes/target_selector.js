@@ -80,7 +80,7 @@ const targetSelector = class {
                                 let res = await fetch(document.URL + "api/bigwig/normalization", {
                                     method: "POST",
                                     headers: {"Content-Type": "application/json"},
-                                    body: JSON.stringify({sample: d, method: "NCIS"})
+                                    body: JSON.stringify({sample: d})
                                 }),
                                     normData = await res.json();
                                 self.selected_targets[d] = n;

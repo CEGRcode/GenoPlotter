@@ -1,6 +1,6 @@
 const compositeObject = class {
     constructor({idx, name=null, forward_bw=null, reverse_bw=null, xmin=Infinity, xmax=-Infinity, sense=null,
-        anti=null, primaryColor=null, secondaryColor=null, scale=1, normalizationFactor=1, minOpacity=null,
+        anti=null, primaryColor=null, secondaryColor=null, scale=1, normalizationFactor={}, minOpacity=null,
         maxOpacity=null, smoothing=null, bpShift=null, shiftOccupancy=0, hideSense=false, hideAnti=false,
         swap=false, sticky=false, ids=null}) {
         this.name = name || "Composite " + idx;
@@ -13,7 +13,7 @@ const compositeObject = class {
         this.primaryColor = primaryColor || defaultColors[idx % defaultColors.length];
         this.secondaryColor = secondaryColor;
         this.scale = scale;
-        this.normalizationFactor = normalizationFactor;
+        this.normalizationFactor = typeof normalizationFactor === "object" ? normalizationFactor : {};
         this.minOpacity = minOpacity;
         this.maxOpacity = maxOpacity;
         this.smoothing = smoothing;
@@ -170,19 +170,11 @@ const compositeObject = class {
                     })
                 }),
                 data = await res.json();
-            let sense, anti;
-            if (dataObj.globalSettings.normalization) {
-                sense = data.results.sense.map(d => d * self.normalizationFactor);
-                anti = data.results.anti.map(d => d * self.normalizationFactor)
-            } else {
-                sense = data.results.sense;
-                anti = data.results.anti
-            };
 
             self.changeXmin(xmin);
             self.changeXmax(xmax);
-            self.changeSense(sense);
-            self.changeAnti(anti);
+            self.changeSense(data.results.sense);
+            self.changeAnti(data.results.anti);
 
             resolve()
         })

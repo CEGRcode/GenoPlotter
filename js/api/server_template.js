@@ -11,21 +11,22 @@ app.use(cors())
 const BIGWIGS = '$1',
   NORM_FACTORS = '$2',
   normTable = {}
+let normMethods = []
 if (fs.existsSync(NORM_FACTORS)) {
-  const normLines = fs.readFileSync(NORM_FACTORS, 'utf-8').split('\n'),
-    normHeader = normLines[0].split('\t')
+  const normLines = fs.readFileSync(NORM_FACTORS, 'utf-8').split('\n')
+  normMethods = normLines[0].split('\t').slice(1)
   for (let i = 1; i < normLines.length; i++) {
     let line = normLines[i].trim()
     if (line === '') {continue}
     let cols = line.split('\t')
-    if (cols.length !== normHeader.length) {
+    if (cols.length !== normMethods.length + 1) {
       console.warn('Skipping malformed line in normalization factors table: ' + line)
       continue
     }
     let name = cols[0]
     normTable[name] = {}
     for (let j = 1; j < cols.length; j++) {
-      normTable[name][normHeader[j]] = parseFloat(cols[j]) || 1
+      normTable[name][normMethods[j - 1]] = parseFloat(cols[j]) || 1
     }
   }
 }
@@ -153,17 +154,22 @@ app.get('/api/bigwig/list', async (_, res) => {
 
 app.post('/api/bigwig/normalization', async (req, res) => {
   try {
-    const { sample, method } = req.body
+    const { sample } = req.body
 
-    if (!sample || !method) {
+    if (!sample) {
       return res.status(400).json({ error: 'Invalid request format' })
     }
 
-    if (!normTable[sample] || !normTable[sample][method]) {
-      res.json({ sample, method, normFactor: 1 })
-    } else {
-      res.json({ sample, method, normFactor: normTable[sample][method] })
-    }
+    res.json({ sample, normFactor: normTable[sample] || {} })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
+app.get('/api/bigwig/normalization_methods', async (_, res) => {
+  try {
+    res.json({ methods: normMethods })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Internal server error' })

@@ -15,6 +15,7 @@ const defaultDataObjectSettings = {
         colorTrace: false,
         enableTooltip: true,
         showLegend: true,
+        normalization: "none",
         labels: {
             title: "Composite plot",
             xlabel: "Position (bp)",
