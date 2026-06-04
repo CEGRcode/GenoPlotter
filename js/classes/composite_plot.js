@@ -411,9 +411,11 @@ const plotObject = class {
     downloadAsSVG(minimal=false) {
         const plot_clone = d3.select(this._elements.mainPlot.node().cloneNode(true));
 
-        // Hide placeholder labels
+        // Remove placeholder labels
         plot_clone.selectAll(".blank-plot-label").remove();
         plot_clone.selectAll(".legend-move").remove();
+
+        // Remove hidden elements
         plot_clone.selectAll("[display=\"none\"]").remove();
 
         if (minimal) {
