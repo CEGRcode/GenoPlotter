@@ -349,7 +349,6 @@ input[type=range] {
     padding-top: 15px;
 }
 
-
 .progress-bar-label {
     margin-right: 5px;
 }
@@ -441,13 +440,15 @@ ul.target-list li {
     border-bottom: .5px solid black;
 }
 
-#normalization-toggle {
+#normalization-select {
+    font-size: 10px;
     display: inline-block;
     margin-left: 10px;
 }
 
-#normalization-toggle-label {
+#normalization-dropdown-label {
     font-size: 10px;
+    margin-right: 5px;
 }
 
 #composite-table th:first-child {

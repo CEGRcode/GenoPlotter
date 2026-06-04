@@ -114,8 +114,9 @@ const compositeRow = class {
         if (!local) {
             this.normalizationFactorDisplay = scaleDiv.append("div")
                 .classed("normalization-factor-display", true)
-                .classed("greyed", !dataObj.globalSettings.normalization)
-                .text("(" + self.compositeDataObj.normalizationFactor.toPrecision(3) + ")");
+                .style("display", dataObj.globalSettings.normalization === "none" ? "none" : null)
+                .text("(" + (dataObj.globalSettings.normalization === "none" ||
+                    self.compositeDataObj.normalizationFactor[dataObj.globalSettings.normalization].toPrecision(3)) + ")");
         };
 
         // Add the opacity column

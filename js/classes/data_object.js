@@ -86,7 +86,7 @@ const dataObject = class {
 
     addCompositeData({idx, name=null, forward_bw=null, reverse_bw=null,xmin=Infinity, xmax=-Infinity, sense=null,
         anti=null, primaryColor=null, secondaryColor=null, scale=1, minOpacity=null, maxOpacity=null, smoothing=null,
-        bpShift=null, shiftOccupancy=0, hideSense=false, hideAnti=false, swap=false, sticky=false, ids=null, normalizationFactor=1}) {
+        bpShift=null, shiftOccupancy=0, hideSense=false, hideAnti=false, swap=false, sticky=false, ids=null, normalizationFactor={}}) {
         const compositeDataObj = new compositeObject({idx, name: name, forward_bw: forward_bw, reverse_bw: reverse_bw,
             xmin: xmin, xmax: xmax, sense: sense, anti: anti, primaryColor: primaryColor, secondaryColor: secondaryColor,
             scale: scale, minOpacity: minOpacity, maxOpacity: maxOpacity, smoothing: smoothing, bpShift: bpShift,
@@ -162,11 +162,13 @@ const dataObject = class {
                 xmax = Math.max(xmax, compositeDataObj.xmax + bpShift);
                 if (!compositeDataObj.hideSense) {
                     ymax = Math.max(ymax, Math.max(...plotObj.slidingWindow(compositeDataObj.sense, smoothing)) *
-                        compositeDataObj.scale * (self.globalSettings.normalization ? compositeDataObj.normalizationFactor : 1))
+                        compositeDataObj.scale * (self.globalSettings.normalization !== "none" ?
+                            compositeDataObj.normalizationFactor[self.globalSettings.normalization] : 1))
                 };
                 if (!compositeDataObj.hideAnti) {
                     ymin = Math.min(ymin, -Math.max(...plotObj.slidingWindow(compositeDataObj.anti, smoothing)) *
-                        compositeDataObj.scale * (self.globalSettings.normalization ? compositeDataObj.normalizationFactor : 1))
+                        compositeDataObj.scale * (self.globalSettings.normalization !== "none" ?
+                            compositeDataObj.normalizationFactor[self.globalSettings.normalization] : 1))
                 }
             };
 

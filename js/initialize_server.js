@@ -1,4 +1,5 @@
 // Initialize classes
+defaultDataObjectSettings.globalSettings.normalization = "none";
 let dataObj = new dataObject(defaultDataObjectSettings);
 
 const xAxisInputObj = new xAxisInput("x-axis-input");

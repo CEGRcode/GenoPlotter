@@ -271,7 +271,10 @@ const plotObject = class {
             smoothing = compositeData.smoothing === null ? dataObj.globalSettings.smoothing : compositeData.smoothing,
             smoothShift = (smoothing - 1) / 2,
             bpShift = compositeData.bpShift === null ? dataObj.globalSettings.bpShift : compositeData.bpShift,
-            scale = compositeData.scale * (dataObj.globalSettings.normalization ? compositeData.normalizationFactor : 1);
+            scale = compositeData.scale * (
+                dataObj.globalSettings.normalization !== "none" ? 
+                    compositeData.normalizationFactor[dataObj.globalSettings.normalization] : 1
+            );
         if (dataObj.globalSettings.combined) {
             // Adjust composite data according to settings
             let shiftedSense, shiftedAnti;
