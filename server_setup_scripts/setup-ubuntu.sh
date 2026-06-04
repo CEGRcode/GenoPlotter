@@ -35,4 +35,4 @@ $(<${GENOPLOTTER_DIR}/js/api/server_template.js)
 EOF
 " > ${GENOPLOTTER_DIR}/js/api/server.js
 
-mv ${GENOPLOTTER_DIR}/server.html ${GENOPLOTTER_DIR}/index.html
+cp ${GENOPLOTTER_DIR}/server.html ${GENOPLOTTER_DIR}/index.html
