@@ -11,19 +11,7 @@ const normalizationToggle = class {
             .attr("id", "normalization-toggle-checkbox")
             .on("change", async function() {
                 dataObj.changeNormalization(this.checked);
-                if (this.checked) {
-                    d3.selectAll(".normalization-factor-display").classed("greyed", false);
-                    for (let compositeDataObj of dataObj.compositeData) {
-                        compositeDataObj.sense = compositeDataObj.sense.map(d => d * compositeDataObj.normalizationFactor);
-                        compositeDataObj.anti = compositeDataObj.anti.map(d => d * compositeDataObj.normalizationFactor)
-                    }
-                } else {
-                    d3.selectAll(".normalization-factor-display").classed("greyed", true);
-                    for (let compositeDataObj of dataObj.compositeData) {
-                        compositeDataObj.sense = compositeDataObj.sense.map(d => Math.round(d / compositeDataObj.normalizationFactor));
-                        compositeDataObj.anti = compositeDataObj.anti.map(d => Math.round(d / compositeDataObj.normalizationFactor))
-                    }
-                }
+                d3.selectAll(".normalization-factor-display").classed("greyed", !this.checked);
                 await dataObj.autoscaleAxisLimits(false, true);
                 xAxisInputObj.update();
                 yAxisInputObj.update();

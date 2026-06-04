@@ -162,11 +162,11 @@ const dataObject = class {
                 xmax = Math.max(xmax, compositeDataObj.xmax + bpShift);
                 if (!compositeDataObj.hideSense) {
                     ymax = Math.max(ymax, Math.max(...plotObj.slidingWindow(compositeDataObj.sense, smoothing)) *
-                        compositeDataObj.scale)
+                        compositeDataObj.scale * (self.globalSettings.normalization ? compositeDataObj.normalizationFactor : 1))
                 };
                 if (!compositeDataObj.hideAnti) {
                     ymin = Math.min(ymin, -Math.max(...plotObj.slidingWindow(compositeDataObj.anti, smoothing)) *
-                        compositeDataObj.scale)
+                        compositeDataObj.scale * (self.globalSettings.normalization ? compositeDataObj.normalizationFactor : 1))
                 }
             };
 
