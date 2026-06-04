@@ -409,25 +409,24 @@ const plotObject = class {
     }
 
     downloadAsSVG(minimal=false) {
+        const plot_clone = d3.select(this._elements.mainPlot.node().cloneNode(true));
+
         // Hide placeholder labels
-        this._elements.mainPlot.selectAll(".blank-plot-label").attr("display", "none");
-        this._elements.mainPlot.selectAll(".legend-move").attr("display", "none");
+        plot_clone.selectAll(".blank-plot-label").remove();
+        plot_clone.selectAll(".legend-move").remove();
+        plot_clone.selectAll("[display=\"none\"]").remove();
 
         if (minimal) {
-            this._elements.mainPlot.selectAll(".plot-text").attr("display", "none");
-            legendObj.legend.attr("display", "none")
+            plot_clone.selectAll(".plot-text").remove();
+            plot_clone.select("#composite-legend").remove()
         };
 
         // Download plot as SVG
-        const b64doc = btoa(this._elements.mainPlot.node().outerHTML.replaceAll("&nbsp;", "")),
+        const b64doc = btoa(plot_clone.node().outerHTML.replaceAll("&nbsp;", "")),
             a = document.createElement("a"),
             e = new MouseEvent("click");
         a.download = "composite_plot.svg";
         a.href = "data:image/svg+xml;base64," + b64doc;
-        a.dispatchEvent(e);
-        // Revert any changes to the plot
-        this.updatePlot();
-        this._elements.mainPlot.selectAll(".plot-text").attr("display", null);
-        legendObj.updateLegend()
+        a.dispatchEvent(e)
     }
 }
