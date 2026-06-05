@@ -189,7 +189,7 @@ const compositeLoader = class {
                 // If the x domain starts at 0 shift it to the left
                 if (xmin === 0) {
                     xmin -= Math.floor(xmax / 2)
-                    xmin -= Math.floor(xmax / 2)
+                    xmax -= Math.floor(xmax / 2)
                 }
             } else {
                 id = col0.split("_").slice(0, -1).join("_");
