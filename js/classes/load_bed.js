@@ -32,7 +32,15 @@ const bedLoader = class {
                 xAxisInputObj.update();
                 yAxisInputObj.update();
                 plotObj.updatePlot();
-                legendObj.updateLegend()
+                legendObj.updateLegend();
+                for (const compositeData of dataObj.compositeData) {
+                    dataObj.fileData[compositeData.name] = {
+                        xmin: compositeData.xmin,
+                        xmax: compositeData.xmax,
+                        sense: compositeData.sense,
+                        anti: compositeData.anti
+                    }
+                }
             });
         this.button = this.element.append("button")
             .text("Load BED file")
@@ -57,7 +65,15 @@ const bedLoader = class {
                 xAxisInputObj.update();
                 yAxisInputObj.update();
                 plotObj.updatePlot();
-                legendObj.updateLegend()
+                legendObj.updateLegend();
+                for (const compositeData of dataObj.compositeData) {
+                    dataObj.fileData[compositeData.name] = {
+                        xmin: compositeData.xmin,
+                        xmax: compositeData.xmax,
+                        sense: compositeData.sense,
+                        anti: compositeData.anti
+                    }
+                }
             });
 
         this.reference_points = [];
