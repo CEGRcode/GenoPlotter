@@ -87,6 +87,7 @@ const targetSelector = class {
                                 const compositeDataObj = dataObj.addCompositeData({
                                     idx: n,
                                     name: d,
+                                    ids: [d],
                                     forward_bw: self.targets_object[d].forward,
                                     reverse_bw: self.targets_object[d].reverse,
                                     normalizationFactor: normData.normFactor
@@ -98,7 +99,13 @@ const targetSelector = class {
                                     xAxisInputObj.update();
                                     yAxisInputObj.update();
                                     plotObj.updatePlot();
-                                    legendObj.updateLegend()
+                                    legendObj.updateLegend();
+                                    dataObj.fileData[d] = {
+                                        xmin: compositeDataObj.xmin,
+                                        xmax: compositeDataObj.xmax,
+                                        sense: compositeDataObj.sense,
+                                        anti: compositeDataObj.anti
+                                    }
                                 }
                             } else {
                                 tableObj.removeRow(self.selected_targets[d]);
@@ -110,7 +117,8 @@ const targetSelector = class {
                                 };
                                 delete self.selected_targets[d];
                                 plotObj.updatePlot();
-                                legendObj.updateLegend()
+                                legendObj.updateLegend();
+                                delete dataObj.fileData[d]
                             };
                             self.updateSelectedCounter();
                             self.updateTargets(sorted_targets)
