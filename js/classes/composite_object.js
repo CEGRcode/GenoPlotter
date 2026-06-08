@@ -164,8 +164,7 @@ const compositeObject = class {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({
-                        forward: self.forward_bw,
-                        reverse: self.reverse_bw,
+                        sample: self.name,
                         ranges: reference_points
                     })
                 }),

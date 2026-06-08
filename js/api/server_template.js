@@ -10,7 +10,40 @@ app.use(cors())
 
 const BIGWIGS = '$1',
   NORM_FACTORS = '$2',
+  BWPairs = [],
+  sampleMap = {},
   normTable = {}
+
+if (!fs.existsSync(BIGWIGS)) {
+  console.error('Bigwig list file not found at ' + BIGWIGS)
+  process.exit(1)
+} else {
+  const table = fs.readFileSync(BIGWIGS, 'utf-8').split('\n'),
+    header = table[0].split('\t'),
+    fields = {}
+  for (let i = 0; i < header.length; i++) {
+    fields[header[i]] = parseInt(i)
+  }
+  for (let i = 1; i < table.length; i++) {
+    let line = table[i].trim()
+    if (line === '') {continue}
+    let cols = line.split('\t')
+    if (cols.length !== header.length) {
+      console.warn('Skipping malformed line in bigwig list: ' + line)
+      continue
+    }
+    BWPairs.push({
+      name: cols[fields['name']],
+      forward: cols[fields['forward']],
+      reverse: cols[fields['reverse']]
+    })
+    sampleMap[cols[fields['name']]] = {
+      forward: cols[fields['forward']],
+      reverse: cols[fields['reverse']]
+    }
+  }
+}
+
 let normMethods = []
 if (fs.existsSync(NORM_FACTORS)) {
   const normLines = fs.readFileSync(NORM_FACTORS, 'utf-8').split('\n')
@@ -33,12 +66,15 @@ if (fs.existsSync(NORM_FACTORS)) {
 
 app.post('/api/bigwig/pileup', async (req, res) => {
   try {
-    const { forward, reverse, ranges } = req.body,
+    const { sample, ranges } = req.body,
       n = ranges.length
-
-    if (!forward || !reverse || !ranges || !Array.isArray(ranges)) {
+    if (!sample || !ranges || !Array.isArray(ranges)) {
       return res.status(400).json({ error: 'Invalid request format' })
     }
+    if (!sampleMap[sample]) {
+      return res.status(404).json({ error: 'Sample not found' })
+    }
+    const { forward, reverse } = sampleMap[sample]
 
     const query = ranges.map(r => ({refName: r.chrom, start: r.start, end: r.end}))
 
@@ -124,27 +160,6 @@ app.post('/api/bigwig/pileup', async (req, res) => {
 
 app.get('/api/bigwig/list', async (_, res) => {
   try {
-    const table = fs.readFileSync(BIGWIGS, 'utf-8').split('\n'),
-      header = table[0].split('\t'),
-      fields = {},
-      BWPairs = []
-    for (let i = 0; i < header.length; i++) {
-      fields[header[i]] = parseInt(i)
-    }
-    for (let i = 1; i < table.length; i++) {
-      let line = table[i].trim()
-      if (line === '') {continue}
-      let cols = line.split('\t')
-      if (cols.length !== header.length) {
-        console.warn('Skipping malformed line in bigwig list: ' + line)
-        continue
-      }
-      BWPairs.push({
-        name: cols[fields['name']],
-        forward: cols[fields['forward']],
-        reverse: cols[fields['reverse']]
-      })
-    }
     res.json(BWPairs)
   } catch (err) {
     console.error(err)
