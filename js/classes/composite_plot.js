@@ -383,6 +383,9 @@ const plotObject = class {
     }
 
     slidingWindow(vec, window) {
+        if (vec.length < window) {
+            return []
+        };
         let val = vec.slice(0, window).reduce((a, c) => a + c, 0) / window,
             newVec = [val];
         for (let i = 0; i < vec.length - window; i++) {
