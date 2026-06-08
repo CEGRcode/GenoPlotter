@@ -72,7 +72,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
         anti: Array(width).fill(0)
       }
     
-    for (const i in ranges) {
+    for (let i = 0; i < ranges.length; i++) {
       const forwardFeatures = forwardFeaturesArr[i],
         reverseFeatures = reverseFeaturesArr[i],
         range = ranges[i]
@@ -128,7 +128,7 @@ app.get('/api/bigwig/list', async (_, res) => {
       header = table[0].split('\t'),
       fields = {},
       BWPairs = []
-    for (let i in header) {
+    for (let i = 0; i < header.length; i++) {
       fields[header[i]] = parseInt(i)
     }
     for (let i = 1; i < table.length; i++) {
