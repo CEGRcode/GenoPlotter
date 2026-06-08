@@ -6,7 +6,11 @@ import { BigWig } from '@gmod/bbi'
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS
+        ? process.env.ALLOWED_ORIGINS.split(',').toSpliced(0, 0, 'http://localhost:3000')
+        : ['http://localhost:3000']
+}))
 
 const BIGWIGS = '$1',
   NORM_FACTORS = '$2',
