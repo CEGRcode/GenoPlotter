@@ -21,7 +21,7 @@ const smoothingInput = class {
                     return
                 };
                 dataObj.globalSettings.smoothing = Math.max(smoothing, 1);
-                self.update();
+                self.update(true);
                 plotObj.updatePlot()
             });
         this.sliderInput = this.element.append("td")
@@ -35,15 +35,20 @@ const smoothingInput = class {
                 .attr("step", 2)
                 .on("input", function() {
                     dataObj.globalSettings.smoothing = parseInt(this.value);
-                    self.textInput.node().value = dataObj.globalSettings.smoothing;
+                    self.update(true);
                     plotObj.updatePlot()
                 });
         
         this.update()
     }
 
-    update() {
+    update(updateTable=false) {
         this.textInput.node().value = dataObj.globalSettings.smoothing;
-        this.sliderInput.node().value = dataObj.globalSettings.smoothing
+        this.sliderInput.node().value = dataObj.globalSettings.smoothing;
+        if (updateTable) {
+            tableObj.rows.forEach(function(row) {
+                row.smoothingInput.attr("placeholder", dataObj.globalSettings.smoothing)
+            })
+        }
     }
 }

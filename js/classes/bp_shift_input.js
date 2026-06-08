@@ -21,7 +21,7 @@ const bpShiftInput = class {
                     return
                 };
                 dataObj.globalSettings.bpShift = bpShift;
-                self.update();
+                self.update(true);
                 plotObj.updatePlot()
             });
         this.sliderInput = this.element.append("td")
@@ -34,15 +34,20 @@ const bpShiftInput = class {
                 .attr("max", 50)
                 .on("input", function() {
                     dataObj.globalSettings.bpShift = parseInt(this.value);
-                    self.textInput.node().value = dataObj.globalSettings.bpShift;
+                    self.update(true);
                     plotObj.updatePlot()
                 });
         
         this.update()
     }
 
-    update() {
+    update(updateTable=false) {
         this.textInput.node().value = dataObj.globalSettings.bpShift;
-        this.sliderInput.node().value = dataObj.globalSettings.bpShift
+        this.sliderInput.node().value = dataObj.globalSettings.bpShift;
+        if (updateTable) {
+            tableObj.rows.forEach(function(row) {
+                row.shiftInput.attr("placeholder", dataObj.globalSettings.bpShift)
+            })
+        }
     }
 }

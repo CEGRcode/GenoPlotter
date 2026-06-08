@@ -128,6 +128,7 @@ const compositeRow = class {
         const opacityCol = this.row.append("td").classed("opacity-col", true);
         this.minOpacityInput = opacityCol.append("input")
             .attr("type", "text")
+            .attr("placeholder", dataObj.globalSettings.minOpacity)
             .classed("setting-text", true)
             .on("change", function(ev) {
                 let minOpacity;
@@ -155,6 +156,7 @@ const compositeRow = class {
             .text(" - ");
         this.maxOpacityInput = opacityCol.append("input")
             .attr("type", "text")
+            .attr("placeholder", dataObj.globalSettings.maxOpacity)
             .classed("setting-text", true)
             .on("change", function(ev) {
                 let maxOpacity;
@@ -183,6 +185,7 @@ const compositeRow = class {
         const smoothingCol = this.row.append("td");
         this.smoothingInput = smoothingCol.append("input")
             .attr("type", "text")
+            .attr("placeholder", dataObj.globalSettings.smoothing)
             .classed("setting-text", true)
             .on("change", function(ev) {
                 let smoothing;
@@ -208,6 +211,7 @@ const compositeRow = class {
         const bpShiftCol = this.row.append("td");
         this.shiftInput = bpShiftCol.append("input")
             .attr("type", "text")
+            .attr("placeholder", dataObj.globalSettings.bpShift)
             .classed("setting-text", true)
             .on("change", function(ev) {
                 let bpShift;

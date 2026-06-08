@@ -22,8 +22,7 @@ const opacityInput = class {
                     return
                 };
                 dataObj.globalSettings.minOpacity = Math.max(Math.min(opacity, dataObj.globalSettings.maxOpacity), 0);
-                self.slider1.node().value = dataObj.globalSettings.minOpacity * 100;
-                self.slider2.node().value = dataObj.globalSettings.maxOpacity * 100;
+                self.update(true);
                 plotObj.updatePlot()
             });
         this.textInputCol.append("span")
@@ -39,7 +38,7 @@ const opacityInput = class {
                     return
                 };
                 dataObj.globalSettings.maxOpacity = Math.min(Math.max(opacity, dataObj.globalSettings.minOpacity), 1);
-                self.update();
+                self.update(true);
                 plotObj.updatePlot()
             });
         this.sliderInputCol = this.element.append("td").classed("slider-container", true);
@@ -60,7 +59,7 @@ const opacityInput = class {
                     dataObj.globalSettings.minOpacity = value1 / 100;
                     dataObj.globalSettings.maxOpacity = value2 / 100
                 }
-                self.update();
+                self.update(true);
                 plotObj.updatePlot()
             });
         this.slider2 = this.sliderInputCol.append("input")
@@ -80,18 +79,23 @@ const opacityInput = class {
                     dataObj.globalSettings.minOpacity = value1 / 100;
                     dataObj.globalSettings.maxOpacity = value2 / 100
                 }
-                self.minTextInput.node().value = dataObj.globalSettings.minOpacity;
-                self.maxTextInput.node().value = dataObj.globalSettings.maxOpacity;
+                self.update(true);
                 plotObj.updatePlot()
             });
         
         this.update()
     }
 
-    update() {
+    update(updateTable=false) {
         this.minTextInput.node().value = dataObj.globalSettings.minOpacity;
         this.maxTextInput.node().value = dataObj.globalSettings.maxOpacity;
         this.slider1.node().value = dataObj.globalSettings.minOpacity * 100;
-        this.slider2.node().value = dataObj.globalSettings.maxOpacity * 100
+        this.slider2.node().value = dataObj.globalSettings.maxOpacity * 100;
+        if (updateTable) {
+            tableObj.rows.forEach(function(row) {
+                row.minOpacityInput.attr("placeholder", dataObj.globalSettings.minOpacity);
+                row.maxOpacityInput.attr("placeholder", dataObj.globalSettings.maxOpacity)
+            })
+        }
     }
 }
