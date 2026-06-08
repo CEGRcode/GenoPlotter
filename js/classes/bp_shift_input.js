@@ -15,8 +15,13 @@ const bpShiftInput = class {
             .attr("id", "bp-shift-text")
             .classed("setting-text", true)
             .on("change", function() {
-                dataObj.globalSettings.bpShift = parseInt(this.value);
-                self.sliderInput.node().value = dataObj.globalSettings.bpShift;
+                const bpShift = parseInt(this.value);
+                if (isNaN(bpShift)) {
+                    this.value = dataObj.globalSettings.bpShift;
+                    return
+                };
+                dataObj.globalSettings.bpShift = bpShift;
+                self.update();
                 plotObj.updatePlot()
             });
         this.sliderInput = this.element.append("td")

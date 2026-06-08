@@ -16,7 +16,12 @@ const opacityInput = class {
             .attr("id", "min-opacity-text")
             .classed("setting-text", true)
             .on("change", function() {
-                dataObj.globalSettings.minOpacity = parseFloat(this.value);
+                const opacity = parseFloat(this.value);
+                if (isNaN(opacity)) {
+                    this.value = dataObj.globalSettings.minOpacity;
+                    return
+                };
+                dataObj.globalSettings.minOpacity = Math.max(Math.min(opacity, dataObj.globalSettings.maxOpacity), 0);
                 self.slider1.node().value = dataObj.globalSettings.minOpacity * 100;
                 self.slider2.node().value = dataObj.globalSettings.maxOpacity * 100;
                 plotObj.updatePlot()
@@ -28,9 +33,13 @@ const opacityInput = class {
             .attr("id", "max-opacity-text")
             .classed("setting-text", true)
             .on("change", function() {
-                dataObj.globalSettings.maxOpacity = parseFloat(this.value);
-                self.slider1.node().value = dataObj.globalSettings.minOpacity * 100;
-                self.slider2.node().value = dataObj.globalSettings.maxOpacity * 100;
+                const opacity = parseFloat(this.value);
+                if (isNaN(opacity)) {
+                    this.value = dataObj.globalSettings.maxOpacity;
+                    return
+                };
+                dataObj.globalSettings.maxOpacity = Math.min(Math.max(opacity, dataObj.globalSettings.minOpacity), 1);
+                self.update();
                 plotObj.updatePlot()
             });
         this.sliderInputCol = this.element.append("td").classed("slider-container", true);
@@ -51,8 +60,7 @@ const opacityInput = class {
                     dataObj.globalSettings.minOpacity = value1 / 100;
                     dataObj.globalSettings.maxOpacity = value2 / 100
                 }
-                self.minTextInput.node().value = dataObj.globalSettings.minOpacity;
-                self.maxTextInput.node().value = dataObj.globalSettings.maxOpacity;
+                self.update();
                 plotObj.updatePlot()
             });
         this.slider2 = this.sliderInputCol.append("input")

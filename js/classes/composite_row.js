@@ -89,7 +89,12 @@ const compositeRow = class {
             .attr("type", "text")
             .classed("setting-text", true)
             .on("change", function(ev) {
-                const scale = roundNearestWithPrecision(ev.target.value)
+                let scale = parseFloat(ev.target.value);
+                if (isNaN(scale)) {
+                    ev.target.value = self.compositeDataObj.scale;
+                    return
+                };
+                scale = Math.max(roundNearestWithPrecision(ev.target.value), 0);
                 ev.target.value = scale.toPrecision(2);
                 scaleDiv.select(".scale-slider").node().value = Math.log10(scale) * 50 + 50;
                 self.compositeDataObj.changeScale(scale);
@@ -125,7 +130,21 @@ const compositeRow = class {
             .attr("type", "text")
             .classed("setting-text", true)
             .on("change", function(ev) {
-                const minOpacity = !isNaN(parseFloat(ev.target.value)) ? parseFloat(ev.target.value) : null;
+                let minOpacity;
+                if (ev.target.value === "") {
+                    minOpacity = null
+                } else {
+                    minOpacity = parseFloat(ev.target.value);
+                    if (isNaN(minOpacity)) {
+                        ev.target.value = self.compositeDataObj.minOpacity;
+                        return
+                    };
+                    minOpacity = Math.max(Math.min(minOpacity,
+                        self.compositeDataObj.maxOpacity === null ?
+                            dataObj.globalSettings.maxOpacity : self.compositeDataObj.maxOpacity),
+                    0)
+                }
+                ev.target.value = minOpacity;
                 self.compositeDataObj.changeMinOpacity(minOpacity);
                 plotObj.updatePlot();
             })
@@ -138,7 +157,21 @@ const compositeRow = class {
             .attr("type", "text")
             .classed("setting-text", true)
             .on("change", function(ev) {
-                const maxOpacity = !isNaN(parseFloat(ev.target.value)) ? parseFloat(ev.target.value) : null;
+                let maxOpacity;
+                if (ev.target.value === "") {
+                    maxOpacity = null
+                } else {
+                    maxOpacity = parseFloat(ev.target.value);
+                    if (isNaN(maxOpacity)) {
+                        ev.target.value = self.compositeDataObj.maxOpacity;
+                        return
+                    };
+                    maxOpacity = Math.min(Math.max(maxOpacity,
+                        self.compositeDataObj.minOpacity === null ?
+                            dataObj.globalSettings.minOpacity : self.compositeDataObj.minOpacity),
+                    1)
+                };
+                ev.target.value = maxOpacity;
                 self.compositeDataObj.changeMaxOpacity(maxOpacity);
                 plotObj.updatePlot()
             })
@@ -152,7 +185,18 @@ const compositeRow = class {
             .attr("type", "text")
             .classed("setting-text", true)
             .on("change", function(ev) {
-                const smoothing = parseInt(ev.target.value) > 0 ? parseInt(ev.target.value) : null;
+                let smoothing;
+                if (ev.target.value === "") {
+                    smoothing = null
+                } else {
+                    smoothing = Math.floor(parseInt(ev.target.value) / 2) * 2 + 1;
+                    if (isNaN(smoothing)) {
+                        ev.target.value = self.compositeDataObj.smoothing;
+                        return
+                    };
+                    smoothing = Math.max(smoothing, 1)
+                };
+                ev.target.value = smoothing;
                 self.compositeDataObj.changeSmoothing(smoothing);
                 plotObj.updatePlot()
             })
@@ -166,7 +210,17 @@ const compositeRow = class {
             .attr("type", "text")
             .classed("setting-text", true)
             .on("change", function(ev) {
-                const bpShift = !isNaN(parseInt(ev.target.value)) ? parseInt(ev.target.value) : null;
+                let bpShift;
+                if (ev.target.value === "") {
+                    bpShift = null
+                } else {
+                    bpShift = parseInt(ev.target.value);
+                    if (isNaN(bpShift)) {
+                        ev.target.value = self.compositeDataObj.bpShift;
+                        return
+                    };
+                };
+                ev.target.value = bpShift;
                 self.compositeDataObj.changeBpShift(bpShift);
                 plotObj.updatePlot()
             })

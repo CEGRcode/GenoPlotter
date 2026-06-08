@@ -3,6 +3,9 @@ const yAxisInput = class {
         if (document.getElementById(elementID) === null) {
             throw "Element ID " + elementID + " not found"
         };
+
+        const self = this;
+
         this.element = d3.select("#" + elementID);
         this.label = this.element.append("label")
             .attr("for", "y-axis-min")
@@ -13,7 +16,12 @@ const yAxisInput = class {
             .attr("id", "y-axis-min")
             .classed("axis-limit-input", true)
             .on("change", function() {
-                dataObj.globalSettings.ymin = parseFloat(this.value);
+                const ymin = parseFloat(this.value);
+                if (isNaN(ymin) || ymin >= 0) {
+                    this.value = dataObj.globalSettings.ymin;
+                    return
+                };
+                dataObj.globalSettings.ymin = ymin;
                 if (dataObj.globalSettings.symmetricY) {
                     dataObj.globalSettings.ymax = -dataObj.globalSettings.ymin;
                     yAxisInputObj.update()
@@ -27,12 +35,17 @@ const yAxisInput = class {
             .attr("id", "y-axis-max")
             .classed("axis-limit-input", true)
             .on("change", function() {
+                const ymax = parseFloat(this.value);
+                if (isNaN(ymax) || ymax <= 0) {
+                    this.value = dataObj.globalSettings.ymax * (dataObj.globalSettings.combined ? 2 : 1);
+                    return
+                };
                 if (dataObj.globalSettings.combined) {
-                    const yTotal = parseFloat(this.value);
+                    const yTotal = ymax;
                     dataObj.globalSettings.ymax = yTotal / 2;
                     dataObj.globalSettings.ymin = -yTotal / 2
                 } else {
-                    dataObj.globalSettings.ymax = parseFloat(this.value);
+                    dataObj.globalSettings.ymax = ymax;
                     if (dataObj.globalSettings.symmetricY) {
                         dataObj.globalSettings.ymin = -dataObj.globalSettings.ymax
                     }

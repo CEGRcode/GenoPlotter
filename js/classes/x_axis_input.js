@@ -3,6 +3,9 @@ const xAxisInput = class {
         if (document.getElementById(elementID) === null) {
             throw "Element ID " + elementID + " not found"
         };
+
+        const self = this;
+        
         this.element = d3.select("#" + elementID);
         this.label = this.element.append("label")
             .attr("for", "x-axis-min")
@@ -13,7 +16,13 @@ const xAxisInput = class {
             .attr("id", "x-axis-min")
             .classed("axis-limit-input", true)
             .on("change", function() {
-                dataObj.globalSettings.xmin = parseInt(this.value);
+                const xmin = parseInt(this.value);
+                if (isNaN(xmin)) {
+                    this.value = dataObj.globalSettings.xmin;
+                    return
+                };
+                dataObj.globalSettings.xmin = Math.max(xmin, dataObj.globalSettings.xmax - 1);
+                self.update();
                 plotObj.updatePlot();
                 referenceLinesObj.updateReferenceLines();
                 nucleosomeSliderObj.updateNucleosomeSlider()
@@ -23,7 +32,13 @@ const xAxisInput = class {
             .attr("id", "x-axis-max")
             .classed("axis-limit-input", true)
             .on("change", function() {
-                dataObj.globalSettings.xmax = parseInt(this.value);
+                const xmax = parseInt(this.value);
+                if (isNaN(xmax)) {
+                    this.value = dataObj.globalSettings.xmax;
+                    return
+                };
+                dataObj.globalSettings.xmax = xmax;
+                self.update();
                 plotObj.updatePlot();
                 referenceLinesObj.updateReferenceLines();
                 nucleosomeSliderObj.updateNucleosomeSlider()

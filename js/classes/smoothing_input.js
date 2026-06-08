@@ -15,7 +15,12 @@ const smoothingInput = class {
             .attr("id", "smoothing-text")
             .classed("setting-text", true)
             .on("change", function() {
-                dataObj.globalSettings.smoothing = Math.floor(parseInt(this.value) / 2) * 2 + 1;
+                const smoothing = Math.floor(parseInt(this.value) / 2) * 2 + 1;
+                if (isNaN(smoothing)) {
+                    this.value = dataObj.globalSettings.smoothing;
+                    return
+                };
+                dataObj.globalSettings.smoothing = Math.max(smoothing, 1);
                 self.update();
                 plotObj.updatePlot()
             });
