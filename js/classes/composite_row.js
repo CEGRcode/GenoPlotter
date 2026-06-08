@@ -90,11 +90,11 @@ const compositeRow = class {
             .classed("setting-text", true)
             .on("change", function(ev) {
                 let scale = parseFloat(ev.target.value);
-                if (isNaN(scale)) {
+                if (isNaN(scale) || scale <= 0) {
                     ev.target.value = self.compositeDataObj.scale;
                     return
                 };
-                scale = Math.max(roundNearestWithPrecision(ev.target.value), 0);
+                scale = roundNearestWithPrecision(ev.target.value);
                 ev.target.value = scale.toPrecision(2);
                 scaleDiv.select(".scale-slider").node().value = Math.log10(scale) * 50 + 50;
                 self.compositeDataObj.changeScale(scale);
