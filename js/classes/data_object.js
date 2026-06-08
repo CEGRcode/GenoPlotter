@@ -171,6 +171,10 @@ const dataObject = class {
                             compositeDataObj.normalizationFactor[self.globalSettings.normalization] : 1))
                 }
             };
+            if (ymin === 0 && ymax === 0) {
+                ymin = -1;
+                ymax = 1
+            };
 
             if (changeX) {
                 self.changeXmin(xmin);
