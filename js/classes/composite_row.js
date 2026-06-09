@@ -260,7 +260,7 @@ const compositeRow = class {
         const hideCol = this.row.append("td").classed("hide-col", true);
         this.eyeOpenIcon = hideCol.append("div")
             .classed("hide-container", true)
-            .attr("title", "Hide")
+            .attr("title", "Hide this composite")
             .on("click", function() {
                 self.compositeDataObj.changeHideSense(true);
                 self.compositeDataObj.changeHideAnti(true);
@@ -273,7 +273,7 @@ const compositeRow = class {
                 .classed("hide-icon eye-open fas fa-2xl fa-eye", true);
         this.eyeClosedIcon = hideCol.append("div")
             .classed("hide-container", true)
-            .attr("title", "Show")
+            .attr("title", "Show this composite")
             .on("click", function() {
                 self.compositeDataObj.changeHideSense(false);
                 self.compositeDataObj.changeHideAnti(false);
@@ -289,7 +289,7 @@ const compositeRow = class {
         const stickyCol = this.row.append("td").classed("sticky-col", true);
         this.stickyIcon = stickyCol.append("div")
             .classed("sticky-container", true)
-            .attr("title", "Unsticky")
+            .attr("title", "Unpin row from top")
             .on("click", function() {
                 self.compositeDataObj.changeSticky(false);
                 self.row.classed("sticky", false);
@@ -303,7 +303,7 @@ const compositeRow = class {
                 .classed("sticky-icon fa-solid fa-thumbtack", true);
         this.noStickyIcon = stickyCol.append("div")
             .classed("sticky-container", true)
-            .attr("title", "Sticky")
+            .attr("title", "Pin row to top")
             .on("click", function() {
                 self.compositeDataObj.changeSticky(true);
                 self.row.classed("sticky", true);
