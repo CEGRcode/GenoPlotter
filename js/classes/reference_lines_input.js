@@ -86,7 +86,7 @@ const referenceLinesInput = class {
             .data(() => [null])
             .join("label")
                 .classed("setting-label", true)
-                .text(axis + "-pos:");
+                .text(axis + " position:");
         posColSelector.selectAll("input.ref-line-pos-input")
             .data(d => [d])
             .join("input")
@@ -132,7 +132,7 @@ const referenceLinesInput = class {
             .data(() => [null])
             .join("label")
                 .classed("setting-label", true)
-                .text("width:");
+                .text("Width:");
         widthColSelector.selectAll("input.ref-line-width-input")
             .data(d => [d])
             .join("input")
@@ -234,7 +234,7 @@ const referenceLinesInput = class {
             .data(() => [null])
             .join("label")
                 .classed("setting-label", true)
-                .text("Size:");
+                .text("Font size:");
         fontSizeCol.selectAll("input")
             .data(d => [d])
             .join("input")
@@ -302,7 +302,7 @@ const referenceLinesInput = class {
             .data(() => [null])
             .join("label")
                 .classed("setting-label", true)
-                .text("Pad:");
+                .text("Label offset:");
         offsetCol.selectAll("input")
             .data(d => [d])
             .join("input")
