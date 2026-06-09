@@ -18,10 +18,10 @@ const xAxisInput = class {
             .on("change", function() {
                 const xmin = parseInt(this.value);
                 if (isNaN(xmin)) {
-                    this.value = dataObj.globalSettings.xmin;
+                    self.update();
                     return
                 };
-                dataObj.globalSettings.xmin = Math.max(xmin, dataObj.globalSettings.xmax - 1);
+                dataObj.globalSettings.xmin = Math.min(xmin, dataObj.globalSettings.xmax - 1);
                 self.update();
                 plotObj.updatePlot();
                 referenceLinesObj.updateReferenceLines();
@@ -34,10 +34,10 @@ const xAxisInput = class {
             .on("change", function() {
                 const xmax = parseInt(this.value);
                 if (isNaN(xmax)) {
-                    this.value = dataObj.globalSettings.xmax;
+                    self.update();
                     return
                 };
-                dataObj.globalSettings.xmax = xmax;
+                dataObj.globalSettings.xmax = Math.max(xmax, dataObj.globalSettings.xmin + 1);
                 self.update();
                 plotObj.updatePlot();
                 referenceLinesObj.updateReferenceLines();
