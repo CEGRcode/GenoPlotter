@@ -7,10 +7,10 @@ d3.select("#download-as-svg").on("click", function() {
             .attr("id", "download-svg-button-container"),
         includeTextButton = buttonContainer.append("button")
             .attr("id", "include-text")
-            .text("Yes"),
+            .text("Include labels"),
         excludeTextButton = buttonContainer.append("button")
             .attr("id", "exclude-text")
-            .text("No"),
+            .text("Plot only"),
         cancelDownloadButton = buttonContainer.append("button")
             .attr("id", "cancel-download")
             .text("Cancel");

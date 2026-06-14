@@ -5,6 +5,10 @@
 - **Local Mode** (`local.html`): Standalone web app requiring no server - load and visualize data entirely in the browser
 - **Server Mode** (`server.html`): Full-stack deployment with Node.js backend for efficient querying of large BIGWIG files
 
+## Prerequisites
+
+For the local version, any modern web browser will work (e.g., Chrome, Firefox, Safari, etc.). To deploy the server version, a remote server (ubuntu supported) is required to host the API and genomic BIGWIG files.
+
 ## Getting started
 
 ### Local mode (no server required)

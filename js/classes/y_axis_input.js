@@ -18,7 +18,7 @@ const yAxisInput = class {
             .on("change", function() {
                 const ymin = parseFloat(this.value);
                 if (isNaN(ymin) || ymin >= 0) {
-                    this.value = dataObj.globalSettings.ymin;
+                    self.update();
                     return
                 };
                 dataObj.globalSettings.ymin = ymin;
@@ -37,7 +37,7 @@ const yAxisInput = class {
             .on("change", function() {
                 const ymax = parseFloat(this.value);
                 if (isNaN(ymax) || ymax <= 0) {
-                    this.value = dataObj.globalSettings.ymax * (dataObj.globalSettings.combined ? 2 : 1);
+                    self.update();
                     return
                 };
                 if (dataObj.globalSettings.combined) {
