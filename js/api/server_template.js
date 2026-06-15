@@ -5,7 +5,7 @@ import cors from 'cors'
 import { BigWig } from '@gmod/bbi'
 
 const app = express()
-app.use(express.json())
+app.use(express.json({ limit: '10mb' }))
 app.use(cors({
     origin: process.env.ALLOWED_ORIGINS
         ? process.env.ALLOWED_ORIGINS.split(',').toSpliced(0, 0, 'http://localhost:3000')
