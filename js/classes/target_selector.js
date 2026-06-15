@@ -30,7 +30,9 @@ const targetSelector = class {
         this.selected_counter = this.element.append("div")
             .classed("selected-counter", true)
             .text("Selected targets: " + Object.keys(this.selected_targets).length);
-        this.target_list = this.element.append("ul")
+        const target_list_container = this.element.append("div")
+            .classed("target-list-container", true)
+        this.target_list = target_list_container.append("ul")
             .classed("target-list", true);
         
         this.loadTargets()

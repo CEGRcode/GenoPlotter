@@ -393,9 +393,14 @@ input[type=range] {
     display: none;
 }
 
+.target-list-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 ul.target-list {
     max-height: 200px;
-    width: 100%;
+    width: max-content;
     overflow-y: auto;
     list-style-type: none;
     padding-left: 0;
