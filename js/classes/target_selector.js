@@ -42,7 +42,7 @@ const targetSelector = class {
         let self = this,
             res = await fetch(document.URL + "api/bigwig/list", {method: "GET"}),
             targets = await res.json();
-        targets.sort();
+        targets.sort((a, b) => a.name.localeCompare(b.name));
         
         this.targets_object = {};
         this.target_list.selectAll("li").data(targets).join("li")
@@ -55,8 +55,9 @@ const targetSelector = class {
         let targets = Object.keys(this.targets_object),
             target_list_node = this.target_list.node();
         targets
-            .sort((a, b) => !(a.selected ^ b.selected) ? a.name.localeCompare(b.name) : b.selected - a.selected)
-            .forEach(target => target_list_node.appendChild(target.element.node()))
+            .sort((a, b) => !(this.targets_object[a].selected ^ this.targets_object[b].selected) ?
+                a.localeCompare(b) : this.targets_object[b].selected - this.targets_object[a].selected)
+            .forEach(target => target_list_node.appendChild(this.targets_object[target].element.node()))
     }
 
     updateSelectedCounter() {

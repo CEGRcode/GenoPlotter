@@ -67,6 +67,7 @@ const targetCheckbox = class {
 
             self.parent.selected_targets[self.name] = composite_idx;
             self.parent.updateSelectedCounter();
+            self.parent.sortTargets();
             dataObj.fileData[self.name] = {
                 xmin: self.compositeDataObj.xmin,
                 xmax: self.compositeDataObj.xmax,
@@ -92,8 +93,8 @@ const targetCheckbox = class {
         }
         delete this.parent.selected_targets[this.name];
         this.parent.updateSelectedCounter();
-
         this.selected = false;
+        this.parent.sortTargets();
         this.compositeDataObj = null;
         delete dataObj.fileData[this.name]
     }
