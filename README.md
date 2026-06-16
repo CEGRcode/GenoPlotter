@@ -54,7 +54,11 @@ The result should look something like this:
 ![local_result_screenshot](images/local_example_result.png)
 
 ### Server mode
-An example set of inputs is provided in `sample_inputs/server`, from [Louder et al 2024](https://github.com/CEGRcode/2024-Louder_Cell). To set it up on a remote ubuntu server, run `GenoPlotter/server_setup_scripts/setup-ubuntu.sh GenoPlotter/sample_inputs/server/sample_bigwig_table.txt GenoPlotter/sample_inputs/server/sample_normalization_factors.txt`. Then you can visit the page by typing your remote server's IP address into your web browser. It should look like this:
+An example set of inputs is provided in `sample_inputs/server`, from [Louder et al 2024](https://github.com/CEGRcode/2024-Louder_Cell). To set it up on a remote ubuntu server, run:
+```
+GenoPlotter/server_setup_scripts/setup-ubuntu.sh GenoPlotter/sample_inputs/server/sample_bigwig_table.txt GenoPlotter/sample_inputs/server/sample_normalization_factors.txt
+```
+Then you can visit the page by typing your remote server's IP address into your web browser. It should look like this:
 
 ![server_landing_screenshot](images/server_example_landing_page.png)
 
