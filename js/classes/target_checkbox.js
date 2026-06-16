@@ -94,7 +94,7 @@ const targetCheckbox = class {
         delete this.parent.selected_targets[this.name];
         this.parent.updateSelectedCounter();
         this.parent.sortTargets();
-        
+
         this.compositeDataObj = null;
         delete dataObj.fileData[this.name]
     }
@@ -104,7 +104,7 @@ const targetCheckbox = class {
         return new Promise(async function(resolve) {
             self.checkbox.attr("disabled", true).style("display", "none");
             self.loadingCircle.style("display", null);
-            await self.compositeDataObj.fetchPileup(reference_points, radius)
+            await self.compositeDataObj.fetchPileup(reference_points, radius);
             self.checkbox.property("disabled", false).style("display", null);
             self.loadingCircle.style("display", "none");
 
