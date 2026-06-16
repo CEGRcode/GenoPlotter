@@ -12,7 +12,6 @@ const targetSelector = class {
         this.element.append("h5").text("Select targets:");
         this.search_bar = this.element.append("input")
             .classed("target-search-bar", true)
-            .classed("inactive", true)
             .attr("type", "text")
             .attr("placeholder", "Search targets...")
             .on("input", function() {
