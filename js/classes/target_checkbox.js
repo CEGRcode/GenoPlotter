@@ -79,6 +79,8 @@ const targetCheckbox = class {
     }
 
     unselect() {
+        this.selected = false;
+
         const idx = this.parent.selected_targets[this.name];
 
         dataObj.removeCompositeData(idx);
@@ -88,11 +90,11 @@ const targetCheckbox = class {
             if (this.parent.selected_targets[sample] > idx) {
                 this.parent.selected_targets[sample]--
             }
-        }
+        };
         delete this.parent.selected_targets[this.name];
         this.parent.updateSelectedCounter();
-        this.selected = false;
         this.parent.sortTargets();
+        
         this.compositeDataObj = null;
         delete dataObj.fileData[this.name]
     }
