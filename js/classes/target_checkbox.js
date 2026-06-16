@@ -30,8 +30,7 @@ const targetCheckbox = class {
                     self.unselect();
                     plotObj.updatePlot();
                     legendObj.updateLegend()
-                };
-                
+                }
             });
 
         this.loadingCircle = element.append("div")
