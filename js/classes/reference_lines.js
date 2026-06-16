@@ -7,7 +7,7 @@ const referenceLines = class {
 
         const self = this;
         this.selectedLine = null;
-        $(this.mainPlot.node()).on("mousemove", function(ev) {
+        this.mainPlot.node().addEventListener("mousemove", function(ev) {
             if (self.selectedLine === null) {
                 return
             };
@@ -28,7 +28,8 @@ const referenceLines = class {
             };
             referenceLinesObj.updateReferenceLines();
             referenceLinesInputObj.updateAll()
-        }).on("mouseup", function() {
+        });
+        this.mainPlot.node().addEventListener("mouseup", function() {
             self.selectedLine = null
         });
 

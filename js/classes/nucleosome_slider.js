@@ -36,8 +36,8 @@ const nucleosomeSlider = class {
                 self.xOffset = Math.round(plotObj.xscale.invert(mouseX)) - dataObj.nucleosomeSlider.x
             });
         this.nucleosomeLines = this.nucleosomeGroup.append("g");
-
-        $(this.mainPlot.node()).on("mousemove", function(ev) {
+        
+        this.mainPlot.node().addEventListener("mousemove", function(ev) {
             if (self.selectedElement === null) {
                 return
             };
@@ -54,7 +54,8 @@ const nucleosomeSlider = class {
             };
             self.updateNucleosomeSlider();
             nucleosomeSliderInputObj.update()
-        }).on("mouseup", function() {
+        });
+        this.mainPlot.node().addEventListener("mouseup", function() {
             self.selectedElement = null;
             self.xOffset = null
         });
