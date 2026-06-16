@@ -92,8 +92,8 @@ const dataObject = class {
             scale: scale, minOpacity: minOpacity, maxOpacity: maxOpacity, smoothing: smoothing, bpShift: bpShift,
             shiftOccupancy: shiftOccupancy, hideSense: hideSense, hideAnti: hideAnti, swap: swap, sticky: sticky, ids: ids,
             normalizationFactor: normalizationFactor});
-        this.compositeData.push(compositeDataObj);
-        this.legendOrder.push(idx);
+        this.compositeData[idx] = (compositeDataObj);
+        this.legendOrder[idx] = idx;
 
         return compositeDataObj
     }

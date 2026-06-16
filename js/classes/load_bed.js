@@ -27,7 +27,8 @@ const bedLoader = class {
                 self.radius = bed_data.radius;
                 self.label.text(ev.target.files[0].name + " (N = " + self.reference_points.length + ")");
 
-                await Promise.all(dataObj.compositeData.map(d => d.fetchPileup(self.reference_points, self.radius)));
+                await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
+                    targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));
                 await dataObj.autoscaleAxisLimits();
                 xAxisInputObj.update();
                 yAxisInputObj.update();
@@ -60,7 +61,8 @@ const bedLoader = class {
                 self.radius = bed_data.radius;
                 self.label.text("BED (N = " + self.reference_points.length + ")");
 
-                await Promise.all(dataObj.compositeData.map(d => d.fetchPileup(self.reference_points, self.radius)));
+                await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
+                    targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));
                 await dataObj.autoscaleAxisLimits();
                 xAxisInputObj.update();
                 yAxisInputObj.update();

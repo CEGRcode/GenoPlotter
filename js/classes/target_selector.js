@@ -39,125 +39,28 @@ const targetSelector = class {
     }
 
     async loadTargets() {
-        let res = await fetch(document.URL + "api/bigwig/list", {method: "GET"}),
+        let self = this,
+            res = await fetch(document.URL + "api/bigwig/list", {method: "GET"}),
             targets = await res.json();
+        targets.sort();
         
         this.targets_object = {};
-        for (let target of targets) {
-            this.targets_object[target.name] = {
-                forward: target.forward,
-                reverse: target.reverse,
-                selected: false
-            }
-        };
-
-        let sorted_targets = Object.keys(this.targets_object);
-        sorted_targets.sort();
-        this.updateTargets(sorted_targets)
-    }
-
-    updateTargets(targets) {
-        let self = this;
-        this.search_bar.classed("inactive", false);
-        let search_term = self.search_bar.node().value.toLowerCase();
         this.target_list.selectAll("li").data(targets).join("li")
             .each(function(d) {
-                let target_item = d3.select(this);
-                target_item.selectAll("input")
-                    .data([d])
-                    .join("input")
-                        .attr("type", "checkbox")
-                        .attr("id", d + "-checkbox")
-                        .style("margin-right", "5px")
-                        .classed("target-checkbox", true)
-                        .property("checked", self.targets_object[d].selected)
-                        .on("change", async function() {
-                            let checkbox = d3.select(this),
-                                n = Object.keys(self.selected_targets).length;
-                            self.targets_object[d].selected = checkbox.property("checked");
-                            let sorted_targets = Object.keys(self.targets_object);
-                            sorted_targets.sort((a, b) => !(self.targets_object[a].selected ^ self.targets_object[b].selected) ?
-                                a.localeCompare(b) : self.targets_object[b].selected - self.targets_object[a].selected);
-                            if (checkbox.property("checked")) {
-                                let res = await fetch(document.URL + "api/bigwig/normalization", {
-                                    method: "POST",
-                                    headers: {"Content-Type": "application/json"},
-                                    body: JSON.stringify({sample: d})
-                                }),
-                                    normData = await res.json();
-                                self.selected_targets[d] = n;
-                                const compositeDataObj = dataObj.addCompositeData({
-                                    idx: n,
-                                    name: d,
-                                    ids: [d],
-                                    forward_bw: self.targets_object[d].forward,
-                                    reverse_bw: self.targets_object[d].reverse,
-                                    normalizationFactor: normData.normFactor
-                                });
-                                tableObj.addRow(compositeDataObj);
-                                if (bedLoaderObj.reference_points.length > 0) {
-                                    await compositeDataObj.fetchPileup(bedLoaderObj.reference_points, bedLoaderObj.radius);
-                                    await dataObj.autoscaleAxisLimits();
-                                    xAxisInputObj.update();
-                                    yAxisInputObj.update();
-                                    plotObj.updatePlot();
-                                    legendObj.updateLegend();
-                                    dataObj.fileData[d] = {
-                                        xmin: compositeDataObj.xmin,
-                                        xmax: compositeDataObj.xmax,
-                                        sense: compositeDataObj.sense,
-                                        anti: compositeDataObj.anti
-                                    }
-                                }
-                            } else {
-                                tableObj.removeRow(self.selected_targets[d]);
-                                dataObj.removeCompositeData(self.selected_targets[d]);
-                                for (let target in self.selected_targets) {
-                                    if (self.selected_targets[target] > self.selected_targets[d]) {
-                                        self.selected_targets[target]--
-                                    }
-                                };
-                                delete self.selected_targets[d];
-                                plotObj.updatePlot();
-                                legendObj.updateLegend();
-                                delete dataObj.fileData[d]
-                            };
-                            self.updateSelectedCounter();
-                            self.updateTargets(sorted_targets)
-                        });
-                target_item.selectAll("label")
-                    .data([d])
-                    .join("label")
-                        .attr("for", d + "-checkbox")
-                        .text(d);
-                target_item.style("display", d.toLowerCase().includes(search_term) ? null : "none")
+                self.targets_object[d.name] = new targetCheckbox(d3.select(this), d.name, d.forward, d.reverse, self)
             })
+    }
+
+    sortTargets() {
+        let targets = Object.keys(this.targets_object),
+            target_list_node = this.target_list.node();
+        targets
+            .sort((a, b) => !(a.selected ^ b.selected) ? a.name.localeCompare(b.name) : b.selected - a.selected)
+            .forEach(target => target_list_node.appendChild(target.element.node()))
     }
 
     updateSelectedCounter() {
         this.selected_counter.text("Selected targets: " + Object.keys(this.selected_targets).length)
-    }
-
-    parseTargetsFile(content) {
-        let lines = content.split("\n"),
-            targets_object = {};
-        for (let i = 1; i < lines.length; i++) {
-            let line = lines[i];
-            if (line.startsWith("#") || line.trim() === "") {
-                continue
-            };
-            let fields = line.split("\t");
-            if (fields.length < 3) {
-                console.warn("Skipping malformed line: " + line);
-                continue
-            };
-            targets_object[fields[0]] = {
-                forward: fields[1],
-                reverse: fields[2],
-                scale: fields[3] === "" || fields[3] === undefined ? 1 : parseFloat(fields[3])
-            }
-        };
-        return targets_object
     }
 
     moveTarget(oldIdx, newIdx) {
