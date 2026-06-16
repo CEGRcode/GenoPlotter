@@ -41,7 +41,6 @@ const targetCheckbox = class {
         this.label = element.append("label")
             .attr("for", name + "-checkbox")
             .text(name)
-
     }
 
     select(composite_idx) {
