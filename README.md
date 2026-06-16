@@ -62,7 +62,7 @@ Then you can visit the page by typing your remote server's IP address into your 
 
 ![server_landing_screenshot](images/server_example_landing_page.png)
 
-To load the reference points, simply click the "Load BED file" button and select the file to upload:
+To load the reference points, simply click the "Load BED file" button and select the file to upload (note that all genomic regions in the BED file must be the same width):
 
 ![server_load-bed_screenshot](images/server_example_load_bed.png)
 
