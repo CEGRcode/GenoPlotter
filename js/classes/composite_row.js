@@ -329,7 +329,7 @@ const compositeRow = class {
             uploadCol.append("button")
                 .classed("upload-button", true)
                 .attr("title", "Upload file(s)")
-                .on("click", function() {$(fileInput.node()).click()})
+                .on("click", function() {fileInput.node().click()})
                 .append("i")
                 .classed("upload-icon fas fa-upload", true);
             this.uploadLabel = uploadCol.append("label")

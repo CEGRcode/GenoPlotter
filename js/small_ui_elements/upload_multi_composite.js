@@ -1,5 +1,5 @@
 d3.select("#multi-composite-button").on("click", function() {
-    $(d3.select("#multi-composite-loader").node()).click()
+    d3.select("#multi-composite-loader").node().click()
 })
 
 d3.select("#multi-composite-loader").on("input", async function() {
