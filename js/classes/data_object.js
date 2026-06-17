@@ -248,7 +248,27 @@ const dataObject = class {
                 reader.readAsText(file)
             });
             if (data.globalSettings && data.compositeData) {
+                data.globalSettings.xmin = typeof data.globalSettings.xmin === "number" ? data.globalSettings.xmin : -500;
+                data.globalSettings.xmax = typeof data.globalSettings.xmax === "number" ? data.globalSettings.xmax : 500;
+                data.globalSettings.ymin = typeof data.globalSettings.ymin === "number" ? data.globalSettings.ymin : -1;
+                data.globalSettings.ymax = typeof data.globalSettings.ymax === "number" ? data.globalSettings.ymax : 1;
+                data.globalSettings.symmetricY = typeof data.globalSettings.symmetricY === "boolean" ? data.globalSettings.symmetricY : true;
+                data.globalSettings.lockAxes = typeof data.globalSettings.lockAxes === "boolean" ? data.globalSettings.lockAxes : false;
+                data.globalSettings.minOpacity = typeof data.globalSettings.minOpacity === "number" ? data.globalSettings.minOpacity : .5;
+                data.globalSettings.maxOpacity = typeof data.globalSettings.maxOpacity === "number" ? data.globalSettings.maxOpacity : 1;
+                data.globalSettings.smoothing = typeof data.globalSettings.smoothing === "number" ? data.globalSettings.smoothing : 7;
+                data.globalSettings.bpShift = typeof data.globalSettings.bpShift === "number" ? data.globalSettings.bpShift : 0;
+                data.globalSettings.combined = typeof data.globalSettings.combined === "boolean" ? data.globalSettings.combined : false;
+                data.globalSettings.colorTrace = typeof data.globalSettings.colorTrace === "boolean" ? data.globalSettings.colorTrace : false;
+                data.globalSettings.enableTooltip = typeof data.globalSettings.enableTooltip === "boolean" ? data.globalSettings.enableTooltip : true;
+                data.globalSettings.showLegend = typeof data.globalSettings.showLegend === "boolean" ? data.globalSettings.showLegend : true;
+                data.globalSettings.normalization = typeof data.globalSettings.normalization === "string" ? data.globalSettings.normalization : "none";
+                data.globalSettings.labels = typeof data.globalSettings.labels === "object" ? data.globalSettings.labels : {title: "Composite plot", xlabel: "Position (bp)", ylabel: "Occupancy (AU)"};
+                data.globalSettings.labels.title = typeof data.globalSettings.labels.title === "string" ? data.globalSettings.labels.title : "Composite plot";
+                data.globalSettings.labels.xlabel = typeof data.globalSettings.labels.xlabel === "string" ? data.globalSettings.labels.xlabel : "Position (bp)";
+                data.globalSettings.labels.ylabel = typeof data.globalSettings.labels.ylabel === "string" ? data.globalSettings.labels.ylabel : "Occupancy (AU)";
                 self.globalSettings = data.globalSettings;
+
                 self.fileData = data.fileData;
                 self.compositeData = [];
                 for (const idx in data.compositeData) {
