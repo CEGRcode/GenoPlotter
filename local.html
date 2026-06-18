@@ -47,36 +47,45 @@
                 <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
                 <div id="top-right-panel">
                     <div id="settings-tabs"></div>
-                    <div id="global-settings" class="settings-section">
-                        <select id="preset-dropdown"></select>
-                        <table>
-                            <tr id="opacity-input"></tr>
-                            <!-- <i class="fas fa-lg fa-arrow-up"></i> -->
-                            <tr id="smoothing-input"></tr>
-                            <!-- <i class="fas fa-lg fa-icicles fa-rotate-180"></i> -->
-                            <!-- <i class="fas fa-lg fa-mound"></i> -->
-                            <tr id="bp-shift-input"></tr>
-                            <!-- <i class="fas fa-lg fa-right-from-bracket"></i> -->
-                        </table>
+                    <div id="settings-panel-content">
+                        <div id="global-settings" class="settings-section">
+                            <div class="settings-panel-intro">
+                                <div class="settings-panel-header">
+                                    <h5 class="settings-section-title">Global Settings</h5>
+                                </div>
+                            </div>
+                            <select id="preset-dropdown"></select>
+                            <table>
+                                <tr id="opacity-input"></tr>
+                                <!-- <i class="fas fa-lg fa-arrow-up"></i> -->
+                                <tr id="smoothing-input"></tr>
+                                <!-- <i class="fas fa-lg fa-icicles fa-rotate-180"></i> -->
+                                <!-- <i class="fas fa-lg fa-mound"></i> -->
+                                <tr id="bp-shift-input"></tr>
+                                <!-- <i class="fas fa-lg fa-right-from-bracket"></i> -->
+                            </table>
 
-                        <div id="combine-strands"></div>
-                        <!-- <i class="fas fa-xl fa-code-merge fa-rotate-90"></i> -->
-                        <!-- <i class="fas fa-xl fa-arrows-split-up-and-left fa-rotate-90"></i> -->
-                        <div id="separate-colors"></div>
-                        <!-- <i class="far fa-xl fa-circle"></i> -->
-                        <!-- <i class="fas fa-xl fa-circle"></i> -->
-                        <!-- <i class="fas fa-xl fa-circle-half-stroke"></i> -->
-                        <div id="color-trace"></div>
-                        <!-- <i class="fas fa-xl fa-chart-area"></i> -->
-                        <div id="enable-plot-tooltip"></div>
-                        <!-- <i class="far fa-xl fa-message"></i> -->
-                        <div id="show-legend"></div>
-                        <!-- <i class="far fa-xl fa-rectangle-list"></i> -->
-                        <br/>
-                        <button id="download-as-svg"><i class="fa fas fa-lg fa-file-image"></i> Download as SVG</button>
+                            <div id="combine-strands"></div>
+                            <!-- <i class="fas fa-xl fa-code-merge fa-rotate-90"></i> -->
+                            <!-- <i class="fas fa-xl fa-arrows-split-up-and-left fa-rotate-90"></i> -->
+                            <div id="separate-colors"></div>
+                            <!-- <i class="far fa-xl fa-circle"></i> -->
+                            <!-- <i class="fas fa-xl fa-circle"></i> -->
+                            <!-- <i class="fas fa-xl fa-circle-half-stroke"></i> -->
+                            <div id="color-trace"></div>
+                            <!-- <i class="fas fa-xl fa-chart-area"></i> -->
+                            <div id="enable-plot-tooltip"></div>
+                            <!-- <i class="far fa-xl fa-message"></i> -->
+                            <div id="show-legend"></div>
+                            <!-- <i class="far fa-xl fa-rectangle-list"></i> -->
+                            <br/>
+                            <button id="download-as-svg"><i class="fa fas fa-lg fa-file-image"></i> Download as SVG</button>
+                        </div>
+                        <!-- See js/classes/reference_lines_input.js -->
+                        <div id="reference-lines-input" class="settings-section hidden"></div>
+                        <!-- See js/classes/nucleosome_slider_input.js -->
+                        <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                     </div>
-                    <div id="reference-lines-input" class="settings-section hidden"></div>
-                    <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                 </div>
             </div>
             <div id="composite-table"></div>

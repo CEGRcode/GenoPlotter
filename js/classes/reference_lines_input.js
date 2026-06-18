@@ -16,10 +16,23 @@ const referenceLinesInput = class {
 
         const self = this;
 
+        // Add intro block: title + description
+        this.introSection = this.container.append("div")
+            .classed("settings-panel-intro", true);
+        this.headerSection = this.introSection.append("div")
+            .classed("settings-panel-header", true);
+        this.headerSection.append("h5")
+            .classed("settings-section-title", true)
+            .text("Reference lines");
+        this.introSection.append("span")
+            .classed("settings-header-description", true)
+            .text("Add vertical reference lines at fixed bp positions, with custom color, width, style, and labels.");
+
         this.horizontalLinesSection = this.container.append("span")
             .classed("ref-line-section", true)
         this.horizontalLinesSection.append("i")
             .classed("add-row-icon fa-solid fa-lg fa-circle-plus", true)
+            .attr("title", "Add horizontal line")
             .on("click", function() {
                 const y = (plotObj.yscale.domain()[0] + plotObj.yscale.domain()[1]) / 2;
                 dataObj.addHorizontalReferenceLine(y, self.defaultColor, self.defaultLineWidth,
