@@ -20,6 +20,12 @@ const targetCheckbox = class {
                     await self.select(Object.keys(self.parent.selected_targets).length);
                     if (bedLoaderObj.reference_points.length > 0) {
                         await self.fetchPileup(bedLoaderObj.reference_points, bedLoaderObj.radius);
+                        dataObj.fileData[self.name] = {
+                            xmin: self.compositeDataObj.xmin,
+                            xmax: self.compositeDataObj.xmax,
+                            sense: self.compositeDataObj.sense,
+                            anti: self.compositeDataObj.anti
+                        };
                         await dataObj.autoscaleAxisLimits();
                         xAxisInputObj.update();
                         yAxisInputObj.update();
@@ -57,7 +63,7 @@ const targetCheckbox = class {
             self.compositeDataObj = dataObj.addCompositeData({
                 idx: composite_idx,
                 name: self.name,
-                ids: [self.name],
+                ids: [],
                 forward_bw: self.forward,
                 reverse_bw: self.reverse,
                 normalizationFactor: normData.normFactor
@@ -66,12 +72,6 @@ const targetCheckbox = class {
             self.parent.selected_targets[self.name] = composite_idx;
             self.parent.updateSelectedCounter();
             self.parent.sortTargets();
-            dataObj.fileData[self.name] = {
-                xmin: self.compositeDataObj.xmin,
-                xmax: self.compositeDataObj.xmax,
-                sense: self.compositeDataObj.sense,
-                anti: self.compositeDataObj.anti
-            };
             tableObj.addRow(self.compositeDataObj);
 
             resolve()
@@ -108,7 +108,7 @@ const targetCheckbox = class {
             self.checkbox.property("disabled", false).style("display", null);
             self.loadingCircle.style("display", "none");
 
-            resolve()
+            resolve(self.compositeDataObj)
         })
     }
 }

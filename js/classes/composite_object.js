@@ -169,7 +169,8 @@ const compositeObject = class {
                     })
                 }),
                 data = await res.json();
-
+            
+            self.ids = [self.name];
             self.changeXmin(xmin);
             self.changeXmax(xmax);
             self.changeSense(data.results.sense);
