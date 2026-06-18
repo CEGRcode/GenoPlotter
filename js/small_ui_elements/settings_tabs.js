@@ -5,6 +5,7 @@ const settingsTabs = d3.select("#settings-tabs"),
         .attr("id", "global-settings-tab")
         .attr("title", "Global settings")
         .classed("settings-tab", true)
+        .classed("selected-tab", true)
         .on("click", function() {
             d3.selectAll(".settings-tab").classed("selected-tab", false);
             d3.select(this).classed("selected-tab", true);
