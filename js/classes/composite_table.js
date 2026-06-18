@@ -24,9 +24,7 @@ const compositeTable = class {
             this.headerRow.append("th").text("Opacity");
             this.headerRow.append("th").text("Smooth");
             this.headerRow.append("th").text("Shift");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
+            this.headerRow.append("th").classed("actions-col", true).text("Actions");
             this.headerRow.append("th").classed("upload-col", true).text("Upload files");
             this.headerRow.append("th");
             this.headerRow.append("th")
@@ -39,9 +37,7 @@ const compositeTable = class {
             this.headerRow.append("th").text("Opacity");
             this.headerRow.append("th").text("Smooth");
             this.headerRow.append("th").text("Shift");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
+            this.headerRow.append("th").classed("actions-col", true).text("Actions");
 
             this.normalizationSelectObj = new normalizationSelect("normalization-select")
         }

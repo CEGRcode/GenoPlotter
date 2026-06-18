@@ -232,34 +232,57 @@ const compositeRow = class {
             .on("mouseup", function() {self.enableDrag()})
             .on("mouseleave", function() {self.enableDrag()});
 
-        // Add swap icon
-        const swapCol = this.row.append("td").classed("swap-col", true);
-        this.swapIcon = swapCol.append("div")
-            .classed("swap-container", true)
+        // Add the actions column (swap, hide, sticky)
+        const actionsCol = this.row.append("td").classed("actions-col", true)
+            .append("div").classed("actions-col-inner", true);
+
+        // Add swap icon (swap and unswap icons swap in place over the same area)
+        const swapToggle = actionsCol.append("div").classed("swap-container", true);
+        this.unSwapIcon = swapToggle.append("i")
+            .classed("swap-icon", true)
+            .attr("title", "Unswap strands")
+            .on("click", function() {
+                self.compositeDataObj.changeSwap(!self.compositeDataObj.swap);
+                plotObj.updatePlot();
+
+                self.enableSwap()
+            });
+        const unSwapIconSvg = this.unSwapIcon.append("svg")
+                .attr("baseProfile", "full")
+                .attr("viewBox", "0 0 100 100")
+                .attr("version", "1.1")
+                .attr("xmlns", "http://www.w3.org/2000/svg");
+        unSwapIconSvg.append("path")
+            .attr("d", "M77.323 37.277L62.15 52.447h9.934c-.377 8.756-7.598 15.769-16.445 15.769h-37.3v10.409h37.3c14.589 0 26.492-11.68 26.872-26.178H92.5l-15.177-15.17z")
+            .attr("fill", "#ddd");
+        unSwapIconSvg.append("path")
+            .attr("d", "M17.489 47.553H7.5l15.177 15.17 15.173-15.17h-9.934c.377-8.756 7.598-15.769 16.445-15.769h37.3V21.375h-37.3c-14.588 0-26.492 11.68-26.872 26.178z")
+            .attr("fill", "#ddd");
+        this.swapIcon = swapToggle.append("i")
+            .classed("swap-icon", true)
             .attr("title", "Swap strands")
             .on("click", function() {
                 self.compositeDataObj.changeSwap(!self.compositeDataObj.swap);
                 plotObj.updatePlot();
 
-                self.swapIcon.classed("grayed", !self.compositeDataObj.swap)
-            })
-            .append("svg")
-                .classed("swap-icon", true)
+                self.disableSwap()
+            });
+        const swapIconSvg = this.swapIcon.append("svg")
                 .attr("baseProfile", "full")
                 .attr("viewBox", "0 0 100 100")
                 .attr("version", "1.1")
                 .attr("xmlns", "http://www.w3.org/2000/svg");
-        this.swapIcon.append("path")
+        swapIconSvg.append("path")
             .attr("d", "M77.323 37.277L62.15 52.447h9.934c-.377 8.756-7.598 15.769-16.445 15.769h-37.3v10.409h37.3c14.589 0 26.492-11.68 26.872-26.178H92.5l-15.177-15.17z")
-            .attr("fill", "#D2042D");
-        this.swapIcon.append("path")
+            .attr("fill", "#f00");
+        swapIconSvg.append("path")
             .attr("d", "M17.489 47.553H7.5l15.177 15.17 15.173-15.17h-9.934c.377-8.756 7.598-15.769 16.445-15.769h37.3V21.375h-37.3c-14.588 0-26.492 11.68-26.872 26.178z")
-            .attr("fill", "#0047AB");
+            .attr("fill", "#00f");
 
-        // Add hide icon
-        const hideCol = this.row.append("td").classed("hide-col", true);
-        this.eyeOpenIcon = hideCol.append("div")
-            .classed("hide-container", true)
+        // Add hide icon (eye-open and eye-closed swap in place over the same area)
+        const hideToggle = actionsCol.append("div").classed("hide-container", true);
+        this.eyeOpenIcon = hideToggle.append("i")
+            .classed("hide-icon eye-open fas fa-xl fa-eye", true)
             .attr("title", "Hide this composite")
             .on("click", function() {
                 self.compositeDataObj.changeHideSense(true);
@@ -268,11 +291,9 @@ const compositeRow = class {
                 legendObj.updateLegend();
 
                 self.closeEyeIcon()
-            })
-            .append("i")
-                .classed("hide-icon eye-open fas fa-2xl fa-eye", true);
-        this.eyeClosedIcon = hideCol.append("div")
-            .classed("hide-container", true)
+            });
+        this.eyeClosedIcon = hideToggle.append("i")
+            .classed("hide-icon eye-closed fas fa-xl fa-eye-slash", true)
             .attr("title", "Show this composite")
             .on("click", function() {
                 self.compositeDataObj.changeHideSense(false);
@@ -281,14 +302,12 @@ const compositeRow = class {
                 legendObj.updateLegend();
 
                 self.openEyeIcon()
-            })
-            .append("i")
-                .classed("hide-icon eye-closed fas fa-2xl fa-eye-slash", true);
+            });
 
-        // Add sticky column
-        const stickyCol = this.row.append("td").classed("sticky-col", true);
-        this.stickyIcon = stickyCol.append("div")
-            .classed("sticky-container", true)
+        // Add sticky icon (pin and unpin swap in place over the same area)
+        const stickyToggle = actionsCol.append("div").classed("sticky-container", true);
+        this.stickyIcon = stickyToggle.append("i")
+            .classed("sticky-icon fa-solid fa-xl fa-thumbtack highlight-color", true)
             .attr("title", "Unpin row from top")
             .on("click", function() {
                 self.compositeDataObj.changeSticky(false);
@@ -298,11 +317,9 @@ const compositeRow = class {
                     resizeObserver.observe(row)
                 };
                 self.disableSticky()
-            })
-            .append("i")
-                .classed("sticky-icon fa-solid fa-thumbtack", true);
-        this.noStickyIcon = stickyCol.append("div")
-            .classed("sticky-container", true)
+            });
+        this.noStickyIcon = stickyToggle.append("i")
+            .classed("sticky-icon fa-solid fa-xl fa-thumbtack-slash", true)
             .attr("title", "Pin row to top")
             .on("click", function() {
                 self.compositeDataObj.changeSticky(true);
@@ -312,10 +329,8 @@ const compositeRow = class {
                     resizeObserver.observe(row)
                 };
                 self.enableSticky()
-            })
-            .append("i")
-                .classed("sticky-icon fa-solid fa-thumbtack-slash", true);
-        
+            });
+
         if (local) {
             // Add file upload column
             const uploadCol = this.row.append("td").classed("upload-col", true),
@@ -383,7 +398,12 @@ const compositeRow = class {
         this.maxOpacityInput.node().value = this.compositeDataObj.maxOpacity || "";
         this.smoothingInput.node().value = this.compositeDataObj.smoothing || "";
         this.shiftInput.node().value = this.compositeDataObj.bpShift || "";
-        this.swapIcon.classed("grayed", !this.compositeDataObj.swap);
+
+        if (this.compositeDataObj.swap) {
+            this.enableSwap()
+        } else {
+            this.disableSwap()
+        };
         
         if (this.compositeDataObj.hideSense && this.compositeDataObj.hideAnti) {
             this.closeEyeIcon()
@@ -405,6 +425,16 @@ const compositeRow = class {
             )
         }
     } 
+
+    enableSwap() {
+        this.swapIcon.classed("hidden", false);
+        this.unSwapIcon.classed("hidden", true)
+    }
+
+    disableSwap() {
+        this.swapIcon.classed("hidden", true);
+        this.unSwapIcon.classed("hidden", false)
+    }
 
     openEyeIcon() {
         this.eyeOpenIcon.classed("hidden", false);
