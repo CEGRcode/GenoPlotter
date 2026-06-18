@@ -51,6 +51,7 @@ const nucleosomeSliderInput = class {
         this.molVizSection = this.container.append("div")
             .classed("mol-viz-section", true);
         this.molVizSection.append("button")
+            .classed("panel-action-button", true)
             .on("click", this.generate3DVisual)
             .append("text")
             .text("Generate 3D visual ")
