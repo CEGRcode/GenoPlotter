@@ -47,16 +47,16 @@ const compositeTable = class {
             animation: 150,
             ghostClass: 'blue-background-class',
             onEnd: local ? function(ev) {
-                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateRowOrder(ev.oldIndex - 1, ev.newIndex - 1);
                 self.updateStickyRows();
-                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                dataObj.moveCompositeData(ev.oldIndex - 1, ev.newIndex - 1);
                 plotObj.updatePlot()
             } : function(ev) {
-                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateRowOrder(ev.oldIndex - 1, ev.newIndex - 1);
                 self.updateStickyRows();
-                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                dataObj.moveCompositeData(ev.oldIndex - 1, ev.newIndex - 1);
                 plotObj.updatePlot();
-                targetSelectorObj.moveTarget(ev.oldIndex, ev.newIndex)
+                targetSelectorObj.moveTarget(ev.oldIndex - 1, ev.newIndex - 1)
             }
         });
 
@@ -64,7 +64,10 @@ const compositeTable = class {
         this.nRows = 0;
 
         this.placeholderRow = this.table.append("tr")
-            .classed("placeholder-row", true);
+            .classed("placeholder-row", true)
+            .on("mousedown", function() {self.sortable.option("disabled", true)})
+            .on("mouseup", function() {self.sortable.option("disabled", false)})
+            .on("mouseleave", function() {self.sortable.option("disabled", false)});
         if (local) {
             this.placeholderRow.append("td")
                 .attr("colspan", 11)
