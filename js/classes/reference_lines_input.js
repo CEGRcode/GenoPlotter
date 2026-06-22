@@ -385,7 +385,7 @@ const referenceLinesInput = class {
                 .each(function(d) {
                     this.value = d.data.labelOffset;
                     d3.select(this).on("change", function() {
-                        if (this.value.trim() === "" || parseFloat(this.value) < 0) {
+                        if (this.value.trim() === "") {
                             this.value = referenceLinesArr[d.index].labelOffset
                         } else {
                             referenceLinesArr[d.index].labelOffset = parseFloat(this.value);
