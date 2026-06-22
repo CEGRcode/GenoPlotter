@@ -209,12 +209,8 @@ input[type=file] {
     color: #212529;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
-    border-bottom: none;
-    cursor: pointer;
-}
-
-.settings-tab:last-child {
     border-bottom: 1px solid #dee2e6;
+    cursor: pointer;
 }
 
 .selected-tab {
