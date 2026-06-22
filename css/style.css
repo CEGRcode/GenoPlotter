@@ -156,6 +156,19 @@ input[type=file] {
     float: right;
 }
 
+#main-plot-placeholder {
+    height: 100%;
+    flex-basis: 50%;
+    overflow: hide;
+    float: right;
+    text-align: center;
+    padding-top: 100px;
+}
+
+#plot-placeholder-text {
+    font-size: 48px;
+}
+
 .plot-text {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -770,6 +783,13 @@ ul.target-list li {
     height: 50px;
     width: 100%;
     background: #FFFFFF;
+}
+
+#composite-table tr.placeholder-row {
+    cursor: default;
+    height: 30px;
+    width: 100%;
+    border: 1px solid black;
 }
 
 #composite-table tr.sticky {

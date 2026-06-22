@@ -10,6 +10,7 @@ const plotObject = class {
         this.yscale = d3.scaleLinear().range([this.height - this.margins.bottom, this.margins.top]);
         this._elements = {
             mainPlot: d3.select("#" + elementID),
+            placeholder: d3.select("#" + elementID + "-placeholder"),
             axisTop: null,
             axisBottom: null,
             axisRight: null,
@@ -33,7 +34,7 @@ const plotObject = class {
 
     createPlot() {
         // Set up svg element
-        this._elements.mainPlot.attr("viewBox", "0 0 " + this.width + " " + this.height);
+        this._elements.mainPlot.attr("viewBox", "0 0 " + this.width + " " + this.height).style("display", "none");
 
         // Create composite group
         this._elements.compositesGroup = this._elements.mainPlot.append("g");
@@ -412,6 +413,11 @@ const plotObject = class {
                 ymin: roundUpWithPrecision(dataObj.globalSettings.ymin)
             }
         }
+    }
+
+    togglePlaceholder(showPlot) {
+        this._elements.mainPlot.style("display", showPlot ? null : "none");
+        this._elements.placeholder.style("display", showPlot ? "none": null)
     }
 
     downloadAsSVG(minimal=false) {

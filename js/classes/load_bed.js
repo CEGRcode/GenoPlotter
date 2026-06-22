@@ -27,6 +27,10 @@ const bedLoader = class {
                 self.radius = bed_data.radius;
                 self.label.text(ev.target.files[0].name + " (N = " + self.reference_points.length + ")");
 
+                if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
+                    plotObj.togglePlaceholder(true)
+                };
+
                 const compositeData = await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
                     targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));
                 compositeData.forEach(function(compositeDataObj) {
@@ -70,6 +74,10 @@ const bedLoader = class {
                 self.reference_points = bed_data.reference_points;
                 self.radius = bed_data.radius;
                 self.label.text("BED (N = " + self.reference_points.length + ")");
+
+                if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
+                    plotObj.togglePlaceholder(true)
+                };
 
                 const compositeData = await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
                     targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));

@@ -63,12 +63,27 @@ const compositeTable = class {
         this.rows = [];
         this.nRows = 0;
 
+        this.placeholderRow = this.table.append("tr")
+            .classed("placeholder-row", true);
         if (local) {
-            this.addRow(dataObj.addCompositeData({idx: this.nRows}))
+            this.placeholderRow.append("td")
+                .attr("colspan", 11)
+                .text("Click the green \"+\" to create a composite")
+        } else {
+            this.placeholderRow.append("td")
+                .attr("colspan", 8)
+                .text("Select a target to create a composite")
         }
     }
 
     addRow(compositeDataObj) {
+        if (this.nRows === 0) {
+            if (this.local || bedLoaderObj.reference_points.length > 0) {
+                plotObj.togglePlaceholder(true)
+            };
+            this.placeholderRow.style("display", "none")
+        };
+
         // Add the row
         this.rows.push(new compositeRow(
             this,
@@ -94,7 +109,12 @@ const compositeTable = class {
 
         this.rows[idx].remove();
         this.rows.splice(idx, 1);
-        this.nRows--
+        this.nRows--;
+
+        if (this.nRows === 0) {
+            plotObj.togglePlaceholder(false);
+            this.placeholderRow.style("display", null)
+        }
     }
 
     loadFromDataObject() {
