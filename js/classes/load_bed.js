@@ -52,6 +52,7 @@ const bedLoader = class {
                 }
             });
         this.button = this.element.append("button")
+            .classed("panel-action-button", true)
             .text("Load BED file")
             .on("click", function() {self.file_input.node().click()});
         this.label = this.element.append("label")
@@ -62,6 +63,7 @@ const bedLoader = class {
             .attr("contenteditable", "true")
             .attr("placeholder", "Or paste BED file content here...");
         this.submit_button = this.element.append("button")
+            .classed("panel-action-button", true)
             .text("Load pasted BED")
             .on("click", async function() {
                 let bed_data = self.parseBedFile(self.text_input.node().innerText);

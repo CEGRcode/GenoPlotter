@@ -13,37 +13,41 @@
         <div class="container-fluid">
             <div id="top-panel">
                 <div id="top-left-panel">
-                    <button id="json-download" class="stretch-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
+                    <button id="json-download" class="stretch-button panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
+                    <br/>
                     <div id="axes-input" class="text-left">
                         <div id="x-axis-input"></div>
                         <div id="y-axis-input"></div>
                     </div>
-                    <button id="autoscale-axes-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
+                    <button id="autoscale-axes-button" class="panel-action-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
                     <div id="lock-axes"></div>
-                    <br/>
+                    <br>
                     <div id="bed-loader"></div>
                 </div>
                 <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
                 <div id="top-right-panel">
                     <div id="settings-tabs"></div>
-                    <div id="global-settings" class="settings-section">
-                        <table id="slider-settings">
-                            <tr id="opacity-input"></tr>
-                            <tr id="smoothing-input"></tr>
-                            <tr id="bp-shift-input"></tr>
-                        </table>
+                    <div id="settings-panel-content">
+                        <div id="global-settings" class="settings-section">
+                            <table>
+                                <tr id="opacity-input"></tr>
+                                <tr id="smoothing-input"></tr>
+                                <tr id="bp-shift-input"></tr>
+                            </table>
 
-                        <div id="combine-strands"></div>
-                        <div id="separate-colors"></div>
-                        <div id="color-trace"></div>
-                        <div id="enable-plot-tooltip"></div>
-                        <div id="show-legend"></div>
-                        <div id="download-svg-buttons">
-                            <button id="download-as-svg"><i class="fa fas fa-lg fa-file-image"></i> Download as SVG</button>
+                            <div id="combine-strands"></div>
+                            <div id="separate-colors"></div>
+                            <div id="color-trace"></div>
+                            <div id="enable-plot-tooltip"></div>
+                            <div id="show-legend"></div>
+                            <button id="download-as-svg" class="panel-action-button">
+                                <i class="fa fas fa-lg fa-file-image"></i>
+                                <span>Download as SVG</span>
+                            </button>
                         </div>
+                        <div id="reference-lines-input" class="settings-section hidden"></div>
+                        <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                     </div>
-                    <div id="reference-lines-input" class="settings-section hidden"></div>
-                    <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                 </div>
             </div>
             <div id="bottom-panel">
