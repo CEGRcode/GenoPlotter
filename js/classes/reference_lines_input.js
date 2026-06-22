@@ -19,18 +19,25 @@ const referenceLinesInput = class {
         // Add intro block: title + description + help button
         this.introSection = this.container.append("div")
             .classed("settings-panel-intro", true);
-        this.headerSection = this.introSection.append("div")
-            .classed("settings-panel-header", true);
-        this.headerSection.append("h5")
-            .classed("settings-section-title", true)
-            .text("Reference lines");
-        this.headerSection.append("i")
-            .classed("highlight-color fa-solid fa-lg fa-circle-question", true)
-            .attr("title", "How do I add reference lines?")
-            .on("click", function() {self.displayHelp()});
-        this.introSection.append("span")
-            .classed("settings-header-description", true)
-            .text("Add vertical reference lines at fixed bp positions, with custom color, width, style, and labels.");
+        // this.headerSection = this.introSection.append("div")
+        //     .classed("settings-panel-header", true);
+        // this.headerSection.append("h5")
+        //     .classed("settings-section-title", true)
+        //     .text("Reference lines");
+        this.introSection.append("div")
+            .style("width", "calc(100% - 30px)")
+            .style("display", "inline-block")
+            .append("span")
+                .classed("settings-header-description", true)
+                .text("Add horizontal or vertical reference lines at fixed positions, with custom color, width, style, and labels.");
+        this.introSection.append("div")
+            .style("width", "25px")
+            .style("display", "inline-block")
+            .style("vertical-align", "top")
+            .append("i")
+                .classed("highlight-color fa-solid fa-lg fa-circle-question", true)
+                .attr("title", "How do I add reference lines?")
+                .on("click", function() {self.displayHelp()});
 
         this.horizontalLinesSection = this.container.append("div")
             .classed("ref-line-section", true);

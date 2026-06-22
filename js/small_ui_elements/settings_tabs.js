@@ -6,6 +6,7 @@ const settingsTabs = d3.select("#settings-tabs"),
         .attr("title", "Global settings")
         .classed("settings-tab", true)
         .classed("selected-tab", true)
+        .text("Global settings")
         .on("click", function() {
             d3.selectAll(".settings-tab").classed("selected-tab", false);
             d3.select(this).classed("selected-tab", true);
@@ -18,6 +19,7 @@ const settingsTabs = d3.select("#settings-tabs"),
         .attr("id", "reference-lines-input-tab")
         .attr("title", "Reference lines")
         .classed("settings-tab", true)
+        .text("Reference lines")
         .on("click", function() {
             d3.selectAll(".settings-tab").classed("selected-tab", false);
             d3.select(this).classed("selected-tab", true);
@@ -30,6 +32,7 @@ const settingsTabs = d3.select("#settings-tabs"),
         .attr("id", "nucleosome-slider-tab")
         .attr("title", "Nucleosome slider")
         .classed("settings-tab", true)
+        .text("Nucleosome slider")
         .on("click", function() {
             d3.selectAll(".settings-tab").classed("selected-tab", false);
             d3.select(this).classed("selected-tab", true);
@@ -37,8 +40,4 @@ const settingsTabs = d3.select("#settings-tabs"),
             d3.select("#nucleosome-slider-input").classed("hidden", false);
             nucleosomeSliderActive = true;
             nucleosomeSliderObj.updateNucleosomeSlider()
-        });
-
-globalSettingsTab.append("i").classed("fas fa-2xl fa-globe", true);
-referenceAxesTab.append("i").classed("fas fa-2xl fa-ruler-combined", true);
-nucleosomeSliderTab.append("i").classed("fas fa-2xl fa-certificate", true)
+        })

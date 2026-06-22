@@ -10,11 +10,11 @@ const nucleosomeSliderInput = class {
         // Add intro block: title + description
         this.introSection = this.container.append("div")
             .classed("settings-panel-intro", true);
-        this.headerSection = this.introSection.append("div")
-            .classed("settings-panel-header", true);
-        this.headerSection.append("h5")
-            .classed("settings-section-title", true)
-            .text("Nucleosome slider");
+        // this.headerSection = this.introSection.append("div")
+        //     .classed("settings-panel-header", true);
+        // this.headerSection.append("h5")
+        //     .classed("settings-section-title", true)
+        //     .text("Nucleosome slider");
         this.introSection.append("span")
             .classed("settings-header-description", true)
             .text("Overlay a draggable nucleosome footprint marker to annotate specific base-pairs (e.g. for periodicity) and project onto a PDB structure.");

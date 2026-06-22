@@ -38,14 +38,14 @@ button:focus {
 
 #top-right-panel {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
 #settings-panel-content {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
 }
 
 #download-svg-buttons {
@@ -195,13 +195,12 @@ input[type=file] {
 
 #settings-tabs {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     margin-right: 10px;
 }
 
 .settings-tab {
-    width: 45px;
-    height: 45px;
+    width: 150px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -244,7 +243,6 @@ input[type=file] {
 }
 
 .settings-panel-intro {
-    width: 100%;
     padding-bottom: 8px;
     margin-bottom: 12px;
     border-bottom: 1px solid #ddd;
