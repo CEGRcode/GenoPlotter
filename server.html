@@ -33,17 +33,42 @@
                     <div id="settings-tabs"></div>
                     <div id="settings-panel-content">
                         <div id="global-settings" class="settings-section">
-                            <table>
+                            <table id="global-sliders" class="global-table">
                                 <tr id="opacity-input"></tr>
                                 <tr id="smoothing-input"></tr>
                                 <tr id="bp-shift-input"></tr>
                             </table>
-
-                            <div id="combine-strands"></div>
-                            <div id="separate-colors"></div>
-                            <div id="color-trace"></div>
-                            <div id="enable-plot-tooltip"></div>
-                            <div id="show-legend"></div>
+                            <table id="global-misc" class="global-table">
+                                <tr>
+                                    <td>
+                                        <div id="backdrop-color"></div>
+                                    </td>
+                                    <td>
+                                        <div id="backdrop-opacity"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="combine-strands"></div>
+                                    </td>
+                                    <td>
+                                        <div id="color-trace"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div id="separate-colors"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="show-legend"></div>
+                                    </td>
+                                    <td>
+                                        <div id="enable-plot-tooltip"></div>
+                                    </td>
+                                </tr>
+                            </table>
                             <button id="download-as-svg" class="panel-action-button">
                                 <i class="fa fas fa-lg fa-file-image"></i>
                                 <span>Download as SVG</span>
@@ -73,6 +98,8 @@
     <script src="js/classes/opacity_input.js"></script>
     <script src="js/classes/smoothing_input.js"></script>
     <script src="js/classes/bp_shift_input.js"></script>
+    <script src="js/classes/backdrop_color_input.js"></script>
+    <script src="js/classes/backdrop_opacity_input.js"></script>
     <script src="js/classes/combined_checkbox.js"></script>
     <script src="js/classes/separate_colors_checkbox.js"></script>
     <script src="js/classes/color_trace_checkbox.js"></script>

@@ -59,7 +59,7 @@
                                 </div>
                             </div> -->
                             <select id="preset-dropdown"></select>
-                            <table>
+                            <table id="global-sliders" class="global-table">
                                 <tr id="opacity-input"></tr>
                                 <!-- <i class="fas fa-lg fa-arrow-up"></i> -->
                                 <tr id="smoothing-input"></tr>
@@ -68,20 +68,37 @@
                                 <tr id="bp-shift-input"></tr>
                                 <!-- <i class="fas fa-lg fa-right-from-bracket"></i> -->
                             </table>
-
-                            <div id="combine-strands"></div>
-                            <!-- <i class="fas fa-xl fa-code-merge fa-rotate-90"></i> -->
-                            <!-- <i class="fas fa-xl fa-arrows-split-up-and-left fa-rotate-90"></i> -->
-                            <div id="separate-colors"></div>
-                            <!-- <i class="far fa-xl fa-circle"></i> -->
-                            <!-- <i class="fas fa-xl fa-circle"></i> -->
-                            <!-- <i class="fas fa-xl fa-circle-half-stroke"></i> -->
-                            <div id="color-trace"></div>
-                            <!-- <i class="fas fa-xl fa-chart-area"></i> -->
-                            <div id="enable-plot-tooltip"></div>
-                            <!-- <i class="far fa-xl fa-message"></i> -->
-                            <div id="show-legend"></div>
-                            <!-- <i class="far fa-xl fa-rectangle-list"></i> -->
+                            <table id="global-misc" class="global-table">
+                                <tr>
+                                    <td>
+                                        <div id="backdrop-color"></div>
+                                    </td>
+                                    <td>
+                                        <div id="backdrop-opacity"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="combine-strands"></div>
+                                    </td>
+                                    <td>
+                                        <div id="color-trace"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div id="separate-colors"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="show-legend"></div>
+                                    </td>
+                                    <td>
+                                        <div id="enable-plot-tooltip"></div>
+                                    </td>
+                                </tr>
+                            </table>
                             <button id="download-as-svg" class="panel-action-button">
                                 <i class="fa fas fa-lg fa-file-image"></i>
                                 <span>Download as SVG</span>
@@ -111,6 +128,8 @@
     <script src="js/classes/opacity_input.js"></script>
     <script src="js/classes/smoothing_input.js"></script>
     <script src="js/classes/bp_shift_input.js"></script>
+    <script src="js/classes/backdrop_color_input.js"></script>
+    <script src="js/classes/backdrop_opacity_input.js"></script>
     <script src="js/classes/combined_checkbox.js"></script>
     <script src="js/classes/separate_colors_checkbox.js"></script>
     <script src="js/classes/color_trace_checkbox.js"></script>

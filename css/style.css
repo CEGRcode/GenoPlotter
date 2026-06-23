@@ -48,8 +48,33 @@ button:focus {
     flex-flow: row nowrap;
 }
 
-#global-sliders td:first-child{
+.global-table {
+    width: 100%;
+}
+
+.global-table td:first-child {
     padding-left: 0px;
+}
+
+#global-misc {
+    margin-bottom: 10px;
+}
+
+#global-misc div {
+    height: 20px;
+}
+
+#backdrop-color-input {
+    height: 20px;
+    width: 50px;
+    margin-left: 10px;
+    border: 1px dotted black;
+}
+
+#backdrop-opacity-input {
+    height: 30px;
+    width: 60px;
+    margin-left: 10px;
 }
 
 #download-svg-buttons {

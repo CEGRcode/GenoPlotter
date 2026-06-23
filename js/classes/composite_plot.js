@@ -11,6 +11,7 @@ const plotObject = class {
         this._elements = {
             mainPlot: d3.select("#" + elementID),
             placeholder: d3.select("#" + elementID + "-placeholder"),
+            backdrop: null,
             axisTop: null,
             axisBottom: null,
             axisRight: null,
@@ -35,6 +36,14 @@ const plotObject = class {
     createPlot() {
         // Set up svg element
         this._elements.mainPlot.attr("viewBox", "0 0 " + this.width + " " + this.height).style("display", "none");
+
+        // Create backdrop
+        this._elements.backdrop = this._elements.mainPlot.append("rect")
+            .attr("x", this.margins.left)
+            .attr("y", this.margins.top)
+            .attr("width", this.width - this.margins.left - this.margins.right)
+            .attr("height", this.height - this.margins.top - this.margins.bottom)
+            .attr("stroke", "none");
 
         // Create composite group
         this._elements.compositesGroup = this._elements.mainPlot.append("g");
@@ -141,6 +150,9 @@ const plotObject = class {
     }
 
     updatePlot() {
+        this._elements.backdrop
+            .attr("fill", dataObj.globalSettings.backdropColor)
+            .attr("opacity", dataObj.globalSettings.backdropOpacity);
         // Get y limits
         const {ymax, ymin} = this.getYlimits();
         // Update scales for raw values to svg coordinates

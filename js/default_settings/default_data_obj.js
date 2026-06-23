@@ -10,6 +10,8 @@ const defaultDataObjectSettings = {
         maxOpacity: 1,
         smoothing: 7,
         bpShift: 0,
+        backdropColor: "#FFFFFF",
+        backdropOpacity: 1,
         combined: false,
         separateColors: false,
         colorTrace: false,
