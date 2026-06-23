@@ -65,7 +65,19 @@ const bedLoader = class {
         this.text_input = this.element.append("div")
             .classed("bed-text-input", true)
             .attr("contenteditable", "true")
-            .attr("placeholder", "Or paste BED file content here...");
+            .attr("placeholder", "Or paste BED file content here...")
+            .on("keydown", function(ev) {
+                if (ev.keyCode === 9) {
+                    ev.preventDefault();
+                    const selection = window.getSelection(),
+                        tabSpan = document.createElement("span");
+                    tabSpan.setAttribute("style", "white-space:pre");
+                    tabSpan.innerText = "\t";
+                    selection.deleteFromDocument();
+                    selection.getRangeAt(0).insertNode(tabSpan);
+                    selection.collapseToEnd();
+                }
+            });
         this.submit_button = this.element.append("button")
             .classed("panel-action-button", true)
             .text("Load pasted BED")
