@@ -48,6 +48,10 @@ button:focus {
     flex-flow: row nowrap;
 }
 
+#global-sliders td:first-child{
+    padding-left: 0px;
+}
+
 #download-svg-buttons {
     display: inline-block;
 }
