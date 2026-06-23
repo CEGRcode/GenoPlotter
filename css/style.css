@@ -112,7 +112,7 @@ button:focus {
 
 #download-svg-close {
     position: absolute;
-    top: 10px;
+    top: 20px;
     right: 10px;
 }
 
@@ -587,7 +587,7 @@ input[type=range] {
 
 #ref-line-help-close {
     position: absolute;
-    top: 10px;
+    top: 20px;
     right: 10px;
 }
 
