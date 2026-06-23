@@ -66,6 +66,7 @@ const bedLoader = class {
             .classed("bed-text-input", true)
             .attr("contenteditable", "true")
             .attr("placeholder", "Or paste BED file content here...")
+            // TODO: change default paste behavior since some browsers (e.g., Firefox) replace tabs with spaces
             .on("keydown", function(ev) {
                 if (ev.keyCode === 9) {
                     ev.preventDefault();
