@@ -67,7 +67,7 @@ const bedLoader = class {
             .attr("contenteditable", "true")
             .attr("placeholder", "Or paste BED file content here...")
             .on("keydown", function(ev) {
-                if (ev.keyCode === 9) {
+                if (ev.key === "Tab") {
                     ev.preventDefault();
                     const selection = window.getSelection(),
                         range = selection.getRangeAt(0),
