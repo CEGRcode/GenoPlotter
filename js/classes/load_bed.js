@@ -66,7 +66,6 @@ const bedLoader = class {
             .classed("bed-text-input", true)
             .attr("contenteditable", "true")
             .attr("placeholder", "Or paste BED file content here...")
-            // TODO: change default paste behavior since some browsers (e.g., Firefox) replace tabs with spaces
             .on("keydown", function(ev) {
                 if (ev.keyCode === 9) {
                     ev.preventDefault();
@@ -101,7 +100,7 @@ const bedLoader = class {
             .classed("panel-action-button", true)
             .text("Load pasted BED")
             .on("click", async function() {
-                let bed_data = self.parseBedFile(self.text_input.node().innerText);
+                let bed_data = self.parseBedFile(self.text_input.node().innerText.replace(/\u00A0 \u00A0 /g, "\t"));
                 self.reference_points = bed_data.reference_points;
                 self.radius = bed_data.radius;
                 self.label.text("BED (N = " + self.reference_points.length + ")");
