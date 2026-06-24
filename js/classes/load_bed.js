@@ -80,7 +80,7 @@ const bedLoader = class {
                         end = range.endContainer.parentElement;
                     selection.deleteFromDocument();
                     if (start === end) {
-                        selection.getRangeAt(0).insertNode(tabSpan);
+                        range.insertNode(tabSpan);
                         selection.collapseToEnd()
                     } else {
                         start.appendChild(tabSpan);
