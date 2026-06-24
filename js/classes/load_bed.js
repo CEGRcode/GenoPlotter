@@ -71,12 +71,30 @@ const bedLoader = class {
                 if (ev.keyCode === 9) {
                     ev.preventDefault();
                     const selection = window.getSelection(),
+                        range = selection.getRangeAt(0),
                         tabSpan = document.createElement("span");
                     tabSpan.setAttribute("style", "white-space:pre");
                     tabSpan.innerText = "\t";
+
+                    const start = range.startContainer.parentElement,
+                        end = range.endContainer.parentElement;
                     selection.deleteFromDocument();
-                    selection.getRangeAt(0).insertNode(tabSpan);
-                    selection.collapseToEnd();
+                    if (start === end) {
+                        selection.getRangeAt(0).insertNode(tabSpan);
+                        selection.collapseToEnd()
+                    } else {
+                        start.appendChild(tabSpan);
+                        while (end.firstChild) {
+                            start.appendChild(end.firstChild)
+                        };
+                        end.remove();
+
+                        const newRange = document.createRange();
+                        newRange.setStartAfter(tabSpan);
+                        newRange.collapse(true);
+                        selection.removeAllRanges();
+                        selection.addRange(newRange)
+                    }
                 }
             });
         this.submit_button = this.element.append("button")
