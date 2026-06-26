@@ -36,6 +36,10 @@ button:focus {
     max-width: 300px;
 }
 
+#axes-input {
+    margin-top: 5px;
+}
+
 #top-right-panel {
     display: flex;
     flex-flow: column nowrap;
@@ -153,6 +157,7 @@ button:focus {
 #bed-loader {
     width: 100%;
     overflow-x: auto;
+    margin-top: 5px;
 }
 
 input[type=file] {
