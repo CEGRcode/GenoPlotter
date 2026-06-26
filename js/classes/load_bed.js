@@ -23,24 +23,19 @@ const bedLoader = class {
                     };
                     reader.readAsText(ev.target.files[0])
                 });
-                self.reference_points = bed_data.reference_points;
-                self.radius = bed_data.radius;
-                self.skipped_lines_list = bed_data.skipped_lines;
+                dataObj.bedObj.reference_points = bed_data.reference_points;
+                dataObj.bedObj.radius = bed_data.radius;
+                dataObj.bedObj.file_name = ev.target.files[0].name;
+                dataObj.bedObj.skipped_lines_list = bed_data.skipped_lines;
 
-                self.label.text(ev.target.files[0].name);
-                self.nlines.text("N = " + self.reference_points.length);
-                self.skipped_lines
-                    .text("(" + self.skipped_lines_list.length + " line" +
-                        (self.skipped_lines_list.length === 1 ? "" : "s") + " skipped)")
-                    .attr("title", self.skipped_lines_list.length > 0 ? "Line(s) " +
-                        self.skipped_lines_list.join(", ") : null);
+                self.update();
 
-                if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
+                if (dataObj.bedObj.reference_points.length > 0 && dataObj.compositeData.length > 0) {
                     plotObj.togglePlaceholder(true)
                 };
 
-                const compositeData = await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
-                    targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));
+                const compositeData = await Promise.all(dataObj.compositeData.map(d => 
+                    targetSelectorObj.targets_object[d.name].fetchPileup(dataObj.bedObj.reference_points, dataObj.bedObj.radius)));
                 compositeData.forEach(function(compositeDataObj) {
                     dataObj.fileData[compositeDataObj.name] = {
                         xmin: compositeDataObj.xmin,
@@ -68,16 +63,13 @@ const bedLoader = class {
             .text("Load BED file")
             .on("click", function() {self.file_input.node().click()});
         this.label = this.element.append("div")
-            .attr("id", "bed-loader-label")
-            .text("No BED loaded");
+            .attr("id", "bed-loader-label");
         this.lines_container = this.element.append("div")
             .attr("id", "lines-label");
         this.nlines = this.lines_container.append("span")
-            .attr("id", "nlines-label")
-            .text("N = 0");
+            .attr("id", "nlines-label");
         this.skipped_lines = this.lines_container.append("span")
-            .attr("id", "skipped-lines-label")
-            .text("(0 lines skipped)");
+            .attr("id", "skipped-lines-label");
         this.text_input = this.element.append("div")
             .classed("bed-text-input", true)
             .attr("contenteditable", "true")
@@ -117,24 +109,19 @@ const bedLoader = class {
             .text("Load pasted BED")
             .on("click", async function() {
                 let bed_data = self.parseBedFile(self.text_input.node().innerText.replace(/\u00A0 \u00A0 /g, "\t"));
-                self.reference_points = bed_data.reference_points;
-                self.radius = bed_data.radius;
-                self.skipped_lines_list = bed_data.skipped_lines;
+                dataObj.bedObj.reference_points = bed_data.reference_points;
+                dataObj.bedObj.radius = bed_data.radius;
+                dataObj.bedObj.file_name = "Pasted BED";
+                dataObj.bedObj.skipped_lines_list = bed_data.skipped_lines;
 
-                self.label.text("Pasted BED");
-                self.nlines.text("N = " + self.reference_points.length);
-                self.skipped_lines
-                    .text("(" + self.skipped_lines_list.length + " line" +
-                        (self.skipped_lines_list.length === 1 ? "" : "s") + " skipped)")
-                    .attr("title", self.skipped_lines_list.length > 0 ? "Line(s) " +
-                        self.skipped_lines_list.join(", ") : null);
+                self.update();
 
-                if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
+                if (dataObj.bedObj.reference_points.length > 0 && dataObj.compositeData.length > 0) {
                     plotObj.togglePlaceholder(true)
                 };
 
-                const compositeData = await Promise.all(Object.keys(targetSelectorObj.selected_targets).map(d => 
-                    targetSelectorObj.targets_object[d].fetchPileup(self.reference_points, self.radius)));
+                const compositeData = await Promise.all(dataObj.compositeData.map(d => 
+                    targetSelectorObj.targets_object[d.name].fetchPileup(dataObj.bedObj.reference_points, dataObj.bedObj.radius)));
                 compositeData.forEach(function(compositeDataObj) {
                     dataObj.fileData[compositeDataObj.name] = {
                         xmin: compositeDataObj.xmin,
@@ -158,9 +145,7 @@ const bedLoader = class {
                 }
             });
 
-        this.reference_points = [];
-        this.radius = 500;
-        this.skipped_lines_list = []
+        this.update()
     }
 
     parseBedFile(content) {
@@ -203,5 +188,16 @@ const bedLoader = class {
             strand: d.strand
         }));
         return {reference_points: reference_points, radius: radius, skipped_lines: skipped_lines}
+    }
+
+    update() {
+        this.label.text(dataObj.bedObj.file_name);
+        this.nlines.text("N = " + dataObj.bedObj.reference_points.length);
+        const n_skipped = dataObj.bedObj.skipped_lines_list.length;
+        this.skipped_lines
+            .text(n_skipped === 0 ? "" :
+                ("(" + n_skipped + " line" + (n_skipped === 1 ? "" : "s") + " skipped)"))
+            .attr("title", n_skipped === 0 ? null :
+                (n_skipped === 1 ? "Line " : "Lines ") + dataObj.bedObj.skipped_lines_list.join(", "));
     }
 }

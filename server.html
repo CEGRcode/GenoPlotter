@@ -15,6 +15,8 @@
             <div id="top-panel">
                 <div id="top-left-panel">
                     <img src="images/logo-server.svg" width="200px">
+                    <button id="json-button" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-up"></i> Import session (JSON)</button>
+                    <input type="file" id="json-loader">
                     <button id="json-download" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
                     <div id="axes-input" class="text-left">
                         <div id="x-axis-input"></div>
@@ -131,7 +133,7 @@
 
     <!-- Small UI elements -->
     <script src="js/small_ui_elements/export_json.js"></script>
-    <script src="js/small_ui_elements/import_json.js"></script>
+    <script src="js/small_ui_elements/import_json_server.js"></script>
     <script src="js/small_ui_elements/autoscale_axes.js"></script>
     <script src="js/small_ui_elements/settings_tabs.js"></script>
     <script src="js/small_ui_elements/download_as_svg_button.js"></script>

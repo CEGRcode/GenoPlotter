@@ -17,10 +17,9 @@ const normalizationSelect = class {
                 dataObj.changeNormalization(value);
                 d3.selectAll(".normalization-factor-display")
                     .style("display", value === "none" ? "none" : null)
-                    .data(Object.keys(targetSelectorObj.selected_targets))
+                    .data(dataObj.compositeData)
                     .join("div")
-                        .text(d => "(" + (value === "none" ? "" : tableObj.rows[targetSelectorObj.selected_targets[d]]
-                            .compositeDataObj.normalizationFactor[dataObj.globalSettings.normalization].toPrecision(3)) + ")");
+                        .text(d => "(" + (value === "none" ? "" : d.normalizationFactor[dataObj.globalSettings.normalization].toPrecision(3)) + ")");
                 await dataObj.autoscaleAxisLimits(false, true);
                 xAxisInputObj.update();
                 yAxisInputObj.update();

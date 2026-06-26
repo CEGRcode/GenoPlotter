@@ -17,7 +17,7 @@ const backdropOpacityInput = class {
             .attr("max", 1)
             .attr("step", .1)
             .on("change", function() {
-                dataObj.globalSettings.backdropOpacity = this.value;
+                dataObj.globalSettings.backdropOpacity = parseFloat(this.value);
                 plotObj.updatePlot()
             });
 

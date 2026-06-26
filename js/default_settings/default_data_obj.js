@@ -42,5 +42,11 @@ const defaultDataObjectSettings = {
     nucleosomeSlider: {
         x: 0,
         lines: []
+    },
+    bedObj: {
+        reference_points: [],
+        radius: 500,
+        file_name: "No BED loaded",
+        skipped_lines_list: []
     }
 }

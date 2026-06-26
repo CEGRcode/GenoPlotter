@@ -81,7 +81,7 @@ const compositeTable = class {
 
     addRow(compositeDataObj) {
         if (this.nRows === 0) {
-            if (this.local || bedLoaderObj.reference_points.length > 0) {
+            if (this.local || dataObj.bedObj.reference_points.length > 0) {
                 plotObj.togglePlaceholder(true)
             };
             this.placeholderRow.style("display", "none")

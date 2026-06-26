@@ -54,8 +54,11 @@ const targetSelector = class {
         let targets = Object.keys(this.targets_object),
             target_list_node = this.target_list.node();
         targets
-            .sort((a, b) => !(this.targets_object[a].selected ^ this.targets_object[b].selected) ?
-                a.localeCompare(b) : this.targets_object[b].selected - this.targets_object[a].selected)
+            .sort((a, b) => (this.targets_object[a].selected && this.targets_object[b].selected) ?
+                this.selected_targets[a] - this.selected_targets[b] :
+                (this.targets_object[a].selected || this.targets_object[b].selected ?
+                    this.targets_object[b].selected - this.targets_object[a].selected : a.localeCompare(b)
+                ))
             .forEach(target => target_list_node.appendChild(this.targets_object[target].element.node()))
     }
 
@@ -73,5 +76,20 @@ const targetSelector = class {
                 this.selected_targets[target]++
             }
         }
+    }
+
+    updateFromDataObj() {
+        this.selected_targets = {};
+        this.element.selectAll(".target-checkbox").property("checked", false);
+
+        for (let idx = 0; idx < dataObj.compositeData.length; idx++) {
+            const sample = dataObj.compositeData[idx].name;
+            this.targets_object[sample].selected = true;
+            this.targets_object[sample].checkbox.property("checked", true);
+            this.selected_targets[sample] = idx
+        };
+
+        this.sortTargets();
+        this.updateSelectedCounter()
     }
 }

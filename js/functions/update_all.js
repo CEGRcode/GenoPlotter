@@ -1,6 +1,6 @@
-const updateAll = function() {
+const updateAll = function(local) {
     tableObj.loadFromDataObject();
-    if (typeof compositeLoaderObj !== "undefined") {
+    if (local) {
         compositeLoaderObj.updateReferenceCounter()
     };
     xAxisInputObj.update();
@@ -9,6 +9,8 @@ const updateAll = function() {
     opacityInputObj.update();
     smoothingInputObj.update();
     bpShiftInputObj.update();
+    backdropColorObj.update();
+    backdropOpacityObj.update();
     combineStrandsObj.update();
     separateColorsObj.update();
     colorTraceObj.update();
@@ -19,5 +21,9 @@ const updateAll = function() {
     referenceLinesObj.updateReferenceLines();
     referenceLinesInputObj.updateAll();
     nucleosomeSliderObj.updateNucleosomeSlider();
-    nucleosomeSliderInputObj.update()
+    nucleosomeSliderInputObj.update();
+    if (!local) {
+        bedLoaderObj.update();
+        targetSelectorObj.updateFromDataObj()
+    }
 }

@@ -158,25 +158,33 @@ const compositeObject = class {
     fetchPileup(reference_points, radius) {
         let self = this;
         return new Promise(async function(resolve) {
-            const xmin = -radius,
-                xmax = radius,
-                res = await fetch(document.URL + "api/bigwig/pileup", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        sample: self.name,
-                        ranges: reference_points
-                    })
-                }),
-                data = await res.json();
-            
-            self.ids = [self.name];
-            self.changeXmin(xmin);
-            self.changeXmax(xmax);
-            self.changeSense(data.results.sense);
-            self.changeAnti(data.results.anti);
+            if (reference_points.length > 0) {
+                const res = await fetch(document.URL + "api/bigwig/pileup", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            sample: self.name,
+                            ranges: reference_points
+                        })
+                    }),
+                    data = await res.json();
+                
+                self.ids = [self.name];
+                self.changeXmin(-radius);
+                self.changeXmax(radius);
+                self.changeSense(data.results.sense);
+                self.changeAnti(data.results.anti);
 
-            resolve()
+                resolve()
+            } else {
+                self.ids = [];
+                self.changeXmin(-radius);
+                self.changeXmax(radius);
+                self.changeSense([]);
+                self.changeAnti([]);
+
+                resolve()
+            }
         })
     }
 

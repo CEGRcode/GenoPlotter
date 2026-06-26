@@ -1,11 +1,12 @@
 const dataObject = class {
-    constructor({globalSettings, fileData, compositeData, referenceLines, nucleosomeSlider}) {
+    constructor({globalSettings, fileData, compositeData, referenceLines, nucleosomeSlider, bedObj}) {
         this.globalSettings = globalSettings;
         this.fileData = fileData;
         this.compositeData = compositeData;
         this.legendOrder = [...compositeData.keys()];
         this.referenceLines = referenceLines;
-        this.nucleosomeSlider = nucleosomeSlider
+        this.nucleosomeSlider = nucleosomeSlider;
+        this.bedObj = bedObj
     }
 
     changeXmin(xmin) {
@@ -237,7 +238,7 @@ const dataObject = class {
         this.referenceLines.verticalLines.splice(idx, 1)
     }
     
-    async importDataFromJSON(file) {
+    async importDataFromJSON(file, local) {
         const self = this;
         return new Promise(async function(resolve_, reject_) {
             const data = await new Promise(function(resolve, reject) {
@@ -280,17 +281,57 @@ const dataObject = class {
                 self.globalSettings = data.globalSettings;
 
                 self.fileData = data.fileData;
-                self.compositeData = [];
-                for (const idx in data.compositeData) {
-                    const compositeObj = new compositeObject({idx: idx, ...data.compositeData[idx]});
-                    compositeObj.updateData();
-                    self.compositeData.push(compositeObj)
+
+                if (data.bedObj) {
+                    self.bedObj = data.bedObj
+                } else {
+                    self.bedObj = {
+                        reference_points: [],
+                        radius: 500,
+                        file_name: "No BED loaded",
+                        skipped_lines_list: [],
+                    }
                 };
 
-                if (data.legendOrder) {
-                    self.legendOrder = data.legendOrder
+                if (local) {
+                    self.compositeData = [];
+                    for (let idx = 0; idx < data.compositeData.length; idx++) {
+                        const compositeObj = new compositeObject(data.compositeData[idx]);
+                        compositeObj.updateData();
+                        self.compositeData.push(compositeObj)
+                    };
+
+                    self.legendOrder = data.legendOrder ? data.legendOrder : [...data.compositeData.keys()]
                 } else {
-                    self.legendOrder = [...self.compositeData.keys()]
+                    const targets_set = new Set(Object.keys(targetSelectorObj.targets_object));
+                    self.compositeData = [];
+                    self.legendOrder = data.legendOrder ? data.legendOrder : [...data.compositeData.keys()];
+                    for (let idx = 0; idx < data.compositeData.length; idx++) {
+                        if (targets_set.has(data.compositeData[idx].name)) {
+                            const compositeObj = new compositeObject({idx: idx, ...data.compositeData[idx]});
+                            self.compositeData.push(compositeObj)
+                        } else {
+                            for (let j = self.legendOrder.length - 1; j >= 0; j--) {
+                                if (self.legendOrder[j] > idx) {
+                                    self.legendOrder[j]--
+                                } else if (self.legendOrder[j] === idx) {
+                                    self.legendOrder.splice(j, 1)
+                                }
+                            }
+                        }
+                    };
+
+                    await Promise.all(self.compositeData.map(d => d.fetchPileup(self.bedObj.reference_points, self.bedObj.radius)));
+                    self.compositeData.forEach(function(compositeDataObj) {
+                        compositeDataObj.ids.forEach(function(id) {
+                            self.fileData[id] = {
+                                xmin: compositeDataObj.xmin,
+                                xmax: compositeDataObj.xmax,
+                                sense: compositeDataObj.sense,
+                                anti: compositeDataObj.anti
+                            }
+                        })
+                    })
                 };
 
                 if (data.referenceLines) {
@@ -355,15 +396,13 @@ const dataObject = class {
         a.download = "composite_plot_config.json";
         a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(
             {
-                globalSettings: Object.assign({}, this.globalSettings, {normalization: "none"}),
+                globalSettings: this.globalSettings,
                 fileData: this.fileData,
-                compositeData: this.compositeData.map(compositeDataObj => Object.assign({}, compositeDataObj, {
-                    scale: compositeDataObj.scale * (self.globalSettings.normalization !== "none" ?
-                        compositeDataObj.normalizationFactor[self.globalSettings.normalization] : 1)
-                })),
+                compositeData: this.compositeData,
                 legendOrder: this.legendOrder,
                 referenceLines: this.referenceLines,
-                nucleosomeSlider: this.nucleosomeSlider
+                nucleosomeSlider: this.nucleosomeSlider,
+                bedObj: this.bedObj
             },
             null, 4
         ));
