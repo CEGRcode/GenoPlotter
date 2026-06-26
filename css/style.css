@@ -177,10 +177,11 @@ input[type=file] {
 }
 
 .bed-text-input {
-    width: 300px;
+    width: 250px;
     height: 150px;
     border: 1px solid #BBBBBB;
-    overflow-y: auto;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 [placeholder]:empty::before {
