@@ -168,6 +168,14 @@ input[type=file] {
     margin-left: 5px;
 }
 
+#lines-label {
+    margin-left: 5px;
+}
+
+#nlines-label {
+    margin-right: 3px;
+}
+
 .bed-text-input {
     width: 300px;
     height: 150px;

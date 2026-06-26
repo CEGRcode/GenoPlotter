@@ -25,7 +25,15 @@ const bedLoader = class {
                 });
                 self.reference_points = bed_data.reference_points;
                 self.radius = bed_data.radius;
-                self.label.text(ev.target.files[0].name + " (N = " + self.reference_points.length + ")");
+                self.skipped_lines_list = bed_data.skipped_lines;
+
+                self.label.text(ev.target.files[0].name);
+                self.nlines.text("N = " + self.reference_points.length);
+                self.skipped_lines
+                    .text("(" + self.skipped_lines_list.length + " line" +
+                        (self.skipped_lines_list.length === 1 ? "" : "s") + " skipped)")
+                    .attr("title", self.skipped_lines_list.length > 0 ? "Line(s) " +
+                        self.skipped_lines_list.join(", ") : null);
 
                 if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
                     plotObj.togglePlaceholder(true)
@@ -59,9 +67,17 @@ const bedLoader = class {
             .classed("panel-action-button", true)
             .text("Load BED file")
             .on("click", function() {self.file_input.node().click()});
-        this.label = this.element.append("label")
+        this.label = this.element.append("div")
             .attr("id", "bed-loader-label")
             .text("No BED loaded");
+        this.lines_container = this.element.append("div")
+            .attr("id", "lines-label");
+        this.nlines = this.lines_container.append("span")
+            .attr("id", "nlines-label")
+            .text("N = 0");
+        this.skipped_lines = this.lines_container.append("span")
+            .attr("id", "skipped-lines-label")
+            .text("(0 lines skipped)");
         this.text_input = this.element.append("div")
             .classed("bed-text-input", true)
             .attr("contenteditable", "true")
@@ -103,7 +119,15 @@ const bedLoader = class {
                 let bed_data = self.parseBedFile(self.text_input.node().innerText.replace(/\u00A0 \u00A0 /g, "\t"));
                 self.reference_points = bed_data.reference_points;
                 self.radius = bed_data.radius;
-                self.label.text("BED (N = " + self.reference_points.length + ")");
+                self.skipped_lines_list = bed_data.skipped_lines;
+
+                self.label.text("Pasted BED");
+                self.nlines.text("N = " + self.reference_points.length);
+                self.skipped_lines
+                    .text("(" + self.skipped_lines_list.length + " line" +
+                        (self.skipped_lines_list.length === 1 ? "" : "s") + " skipped)")
+                    .attr("title", self.skipped_lines_list.length > 0 ? "Line(s) " +
+                        self.skipped_lines_list.join(", ") : null);
 
                 if (self.reference_points.length > 0 && Object.keys(targetSelectorObj.selected_targets).length > 0) {
                     plotObj.togglePlaceholder(true)
@@ -135,20 +159,24 @@ const bedLoader = class {
             });
 
         this.reference_points = [];
-        this.radius = 500
+        this.radius = 500;
+        this.skipped_lines_list = []
     }
 
     parseBedFile(content) {
         let lines = content.split("\n"),
             midpoints = [],
-            radius = 0;
-        for (let line of lines) {
+            radius = 0,
+            skipped_lines = [];
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
             if (line.startsWith("#") || line.trim() === "") {
                 continue
             };
 
             let fields = line.split("\t");
             if (fields.length < 6) {
+                skipped_lines.push(i);
                 console.warn("Skipping malformed BED line: " + line);
                 continue
             };
@@ -174,6 +202,6 @@ const bedLoader = class {
             end: d.pos + radius + 1,
             strand: d.strand
         }));
-        return {reference_points: reference_points, radius: radius}
+        return {reference_points: reference_points, radius: radius, skipped_lines: skipped_lines}
     }
 }
