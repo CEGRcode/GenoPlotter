@@ -32,12 +32,12 @@ button:focus {
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 10px;
+    gap: 5px;
     max-width: 300px;
 }
 
 #axes-input {
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 #top-right-panel {
@@ -156,7 +156,7 @@ button:focus {
 #bed-loader {
     width: 100%;
     overflow-x: auto;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 input[type=file] {
@@ -177,10 +177,11 @@ input[type=file] {
 
 .bed-text-input {
     width: 250px;
-    height: 150px;
+    height: 100px;
     border: 1px solid #BBBBBB;
     white-space: nowrap;
     overflow: auto;
+    margin-bottom: 3px;
 }
 
 [placeholder]:empty::before {

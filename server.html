@@ -14,13 +14,14 @@
         <div class="container-fluid">
             <div id="top-panel">
                 <div id="top-left-panel">
+                    <img src="images/logo-server.svg" width="200px">
                     <button id="json-download" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
                     <div id="axes-input" class="text-left">
                         <div id="x-axis-input"></div>
                         <div id="y-axis-input"></div>
+                        <button id="autoscale-axes-button" class="panel-action-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
+                        <div id="lock-axes"></div>
                     </div>
-                    <button id="autoscale-axes-button" class="panel-action-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
-                    <div id="lock-axes"></div>
                     <div id="bed-loader"></div>
                 </div>
                 <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
