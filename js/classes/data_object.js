@@ -56,6 +56,14 @@ const dataObject = class {
         this.globalSettings.bpShift = bpShift
     }
 
+    changeBackdropColor(color) {
+        this.globalSettings.backdropColor = color
+    }
+
+    changeBackdropOpacity(opacity) {
+        this.globalSettings.backdropOpacity = opacity
+    }
+
     changeCombined(combined) {
         this.globalSettings.combined = combined
     }
@@ -258,6 +266,8 @@ const dataObject = class {
                 data.globalSettings.maxOpacity = typeof data.globalSettings.maxOpacity === "number" ? data.globalSettings.maxOpacity : 1;
                 data.globalSettings.smoothing = typeof data.globalSettings.smoothing === "number" ? data.globalSettings.smoothing : 7;
                 data.globalSettings.bpShift = typeof data.globalSettings.bpShift === "number" ? data.globalSettings.bpShift : 0;
+                data.globalSettings.backdropColor = typeof data.globalSettings.backdropColor === "string" ? data.globalSettings.backdropColor : "#FFFFFF";
+                data.globalSettings.backdropOpacity = typeof data.globalSettings.backdropOpacity === "number" ? data.globalSettings.backdropOpacity : 1;
                 data.globalSettings.combined = typeof data.globalSettings.combined === "boolean" ? data.globalSettings.combined : false;
                 data.globalSettings.colorTrace = typeof data.globalSettings.colorTrace === "boolean" ? data.globalSettings.colorTrace : false;
                 data.globalSettings.enableTooltip = typeof data.globalSettings.enableTooltip === "boolean" ? data.globalSettings.enableTooltip : true;

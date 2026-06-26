@@ -24,9 +24,7 @@ const compositeTable = class {
             this.headerRow.append("th").text("Opacity");
             this.headerRow.append("th").text("Smooth");
             this.headerRow.append("th").text("Shift");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
+            this.headerRow.append("th").classed("actions-col", true).text("Actions");
             this.headerRow.append("th").classed("upload-col", true).text("Upload files");
             this.headerRow.append("th");
             this.headerRow.append("th")
@@ -39,9 +37,7 @@ const compositeTable = class {
             this.headerRow.append("th").text("Opacity");
             this.headerRow.append("th").text("Smooth");
             this.headerRow.append("th").text("Shift");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
-            this.headerRow.append("th");
+            this.headerRow.append("th").classed("actions-col", true).text("Actions");
 
             this.normalizationSelectObj = new normalizationSelect("normalization-select")
         }
@@ -51,28 +47,46 @@ const compositeTable = class {
             animation: 150,
             ghostClass: 'blue-background-class',
             onEnd: local ? function(ev) {
-                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateRowOrder(ev.oldIndex - 1, ev.newIndex - 1);
                 self.updateStickyRows();
-                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                dataObj.moveCompositeData(ev.oldIndex - 1, ev.newIndex - 1);
                 plotObj.updatePlot()
             } : function(ev) {
-                self.updateRowOrder(ev.oldIndex, ev.newIndex);
+                self.updateRowOrder(ev.oldIndex - 1, ev.newIndex - 1);
                 self.updateStickyRows();
-                dataObj.moveCompositeData(ev.oldIndex, ev.newIndex);
+                dataObj.moveCompositeData(ev.oldIndex - 1, ev.newIndex - 1);
                 plotObj.updatePlot();
-                targetSelectorObj.moveTarget(ev.oldIndex, ev.newIndex)
+                targetSelectorObj.moveTarget(ev.oldIndex - 1, ev.newIndex - 1)
             }
         });
 
         this.rows = [];
         this.nRows = 0;
 
+        this.placeholderRow = this.table.append("tr")
+            .classed("placeholder-row", true)
+            .on("mousedown", function() {self.sortable.option("disabled", true)})
+            .on("mouseup", function() {self.sortable.option("disabled", false)})
+            .on("mouseleave", function() {self.sortable.option("disabled", false)});
         if (local) {
-            this.addRow(dataObj.addCompositeData({idx: this.nRows}))
+            this.placeholderRow.append("td")
+                .attr("colspan", 11)
+                .text("Click the green \"+\" to create a composite")
+        } else {
+            this.placeholderRow.append("td")
+                .attr("colspan", 8)
+                .text("Select a target to create a composite")
         }
     }
 
     addRow(compositeDataObj) {
+        if (this.nRows === 0) {
+            if (this.local || bedLoaderObj.reference_points.length > 0) {
+                plotObj.togglePlaceholder(true)
+            };
+            this.placeholderRow.style("display", "none")
+        };
+
         // Add the row
         this.rows.push(new compositeRow(
             this,
@@ -98,7 +112,12 @@ const compositeTable = class {
 
         this.rows[idx].remove();
         this.rows.splice(idx, 1);
-        this.nRows--
+        this.nRows--;
+
+        if (this.nRows === 0) {
+            plotObj.togglePlaceholder(false);
+            this.placeholderRow.style("display", null)
+        }
     }
 
     loadFromDataObject() {

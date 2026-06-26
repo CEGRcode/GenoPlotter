@@ -6,6 +6,7 @@
     <script src="js/libraries/Sortable.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" href="images/favicon.png">
 </head>
 
 <body style="overflow-x: hidden;">
@@ -13,37 +14,72 @@
         <div class="container-fluid">
             <div id="top-panel">
                 <div id="top-left-panel">
-                    <button id="json-download" class="stretch-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
+                    <img src="images/logo-server.svg" width="200px">
+                    <button id="json-download" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
                     <div id="axes-input" class="text-left">
                         <div id="x-axis-input"></div>
                         <div id="y-axis-input"></div>
+                        <button id="autoscale-axes-button" class="panel-action-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
+                        <div id="lock-axes"></div>
                     </div>
-                    <button id="autoscale-axes-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
-                    <div id="lock-axes"></div>
-                    <br/>
                     <div id="bed-loader"></div>
                 </div>
                 <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
+                <div id="main-plot-placeholder">
+                    <span id="plot-placeholder-text">Load a BED file and select target(s) to get started</span>
+                </div>
                 <div id="top-right-panel">
                     <div id="settings-tabs"></div>
-                    <div id="global-settings" class="settings-section">
-                        <table id="slider-settings">
-                            <tr id="opacity-input"></tr>
-                            <tr id="smoothing-input"></tr>
-                            <tr id="bp-shift-input"></tr>
-                        </table>
-
-                        <div id="combine-strands"></div>
-                        <div id="separate-colors"></div>
-                        <div id="color-trace"></div>
-                        <div id="enable-plot-tooltip"></div>
-                        <div id="show-legend"></div>
-                        <div id="download-svg-buttons">
-                            <button id="download-as-svg"><i class="fa fas fa-lg fa-file-image"></i> Download as SVG</button>
+                    <div id="settings-panel-content">
+                        <div id="global-settings" class="settings-section">
+                            <table id="global-sliders" class="global-table">
+                                <tr id="opacity-input"></tr>
+                                <tr id="smoothing-input"></tr>
+                                <tr id="bp-shift-input"></tr>
+                            </table>
+                            <table id="global-misc" class="global-table">
+                                <tr>
+                                    <td>
+                                        <div id="backdrop-color"></div>
+                                    </td>
+                                    <td>
+                                        <div id="backdrop-opacity"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="combine-strands"></div>
+                                    </td>
+                                    <td>
+                                        <div id="color-trace"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div id="separate-colors"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="show-legend"></div>
+                                    </td>
+                                    <td>
+                                        <div id="enable-plot-tooltip"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button id="download-as-svg" class="panel-action-button">
+                                <i class="fa fas fa-lg fa-file-image"></i>
+                                <span>Download as SVG</span>
+                            </button>
                         </div>
+                        <div id="reference-lines-input" class="settings-section hidden"></div>
+                        <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                     </div>
-                    <div id="reference-lines-input" class="settings-section hidden"></div>
-                    <div id="nucleosome-slider-input" class="settings-section hidden"></div>
+                    <a id="source-code-and-documentation" href="https://github.com/CEGRcode/GenoPlotter/">
+                        <img src="images/GitHub_Invertocat_Black.svg" id="github-logo" width="20px" height="20px"></svg>
+                        <label id="github-logo-label" for="github-logo">Source code and documentation</label>
+                    </a>
                 </div>
             </div>
             <div id="bottom-panel">
@@ -65,6 +101,8 @@
     <script src="js/classes/opacity_input.js"></script>
     <script src="js/classes/smoothing_input.js"></script>
     <script src="js/classes/bp_shift_input.js"></script>
+    <script src="js/classes/backdrop_color_input.js"></script>
+    <script src="js/classes/backdrop_opacity_input.js"></script>
     <script src="js/classes/combined_checkbox.js"></script>
     <script src="js/classes/separate_colors_checkbox.js"></script>
     <script src="js/classes/color_trace_checkbox.js"></script>

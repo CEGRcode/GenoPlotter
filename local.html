@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" href="images/favicon.png">
 </head>
 <!-- Miscellaneous useful icons: -->
 <!-- fa-file-waveform -->
@@ -22,61 +23,87 @@
         <div class="padded-container">
             <div id="top-panel">
                 <div id="top-left-panel">
-                    <button id="json-button" class="stretch-button"><i class="fas fa-lg fa-file-arrow-up"></i> Import session (JSON)</button>
+                    <img src="images/logo-local.svg" width="200px">
+                    <button id="json-button" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-up"></i> Import session (JSON)</button>
                     <input type="file" id="json-loader">
-                    <button id="json-download" class="stretch-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
+                    <button id="json-download" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
                     <input type="file" id="multi-composite-loader">
-                    <button id="multi-composite-button" class="stretch-button" title="Load a concatenated composite file to fill multiple rows at once"><i class="fas fa-lg fa-layer-group"></i> Upload multi-composite</button>
-                    <br/>
+                    <button id="multi-composite-button" class="panel-action-button" title="Load a concatenated composite file to fill multiple rows at once"><i class="fas fa-lg fa-layer-group"></i> Upload multi-composite</button>
                     <div id="axes-input" class="text-left">
-                        <!-- Zoom In/Out -->
-                        <!-- fa-square-minus -->
-                        <!-- fa-magnifying-glass-minus -->
                         <div id="x-axis-input"></div>
                         <div id="y-axis-input"></div>
-                        <!-- symmetric y -->
-                        <!-- <i class="fas fa-lg fa-arrows-up-down"></i> -->
+                        <button id="autoscale-axes-button" class="panel-action-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
+                        <div id="lock-axes"></div>
                     </div>
-                    <button id="autoscale-axes-button"><i class="fas fa-lg fa-maximize"></i> Autoscale axes</button>
-                    <!-- <i class="fas fa-lg fa-maximize"></i> -->
-                    <!-- <i class="fas fa-lg fa-minimize"></i> -->
-                    <div id="lock-axes"></div>
-                    <!-- <i class="fas fa-lg fa-lock"></i> -->
-                    <!-- <i class="fas fa-lg fa-unlock"></i> -->
                 </div>
                 <svg id="main-plot" baseProfile="full" version="1.1" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica"></svg>
+                <div id="main-plot-placeholder">
+                    <span id="plot-placeholder-text">Create a composite(s) with the table below or by clicking "Upload multi-composite" to get started</span>
+                </div>
                 <div id="top-right-panel">
                     <div id="settings-tabs"></div>
-                    <div id="global-settings" class="settings-section">
-                        <select id="preset-dropdown"></select>
-                        <table>
-                            <tr id="opacity-input"></tr>
-                            <!-- <i class="fas fa-lg fa-arrow-up"></i> -->
-                            <tr id="smoothing-input"></tr>
-                            <!-- <i class="fas fa-lg fa-icicles fa-rotate-180"></i> -->
-                            <!-- <i class="fas fa-lg fa-mound"></i> -->
-                            <tr id="bp-shift-input"></tr>
-                            <!-- <i class="fas fa-lg fa-right-from-bracket"></i> -->
-                        </table>
-
-                        <div id="combine-strands"></div>
-                        <!-- <i class="fas fa-xl fa-code-merge fa-rotate-90"></i> -->
-                        <!-- <i class="fas fa-xl fa-arrows-split-up-and-left fa-rotate-90"></i> -->
-                        <div id="separate-colors"></div>
-                        <!-- <i class="far fa-xl fa-circle"></i> -->
-                        <!-- <i class="fas fa-xl fa-circle"></i> -->
-                        <!-- <i class="fas fa-xl fa-circle-half-stroke"></i> -->
-                        <div id="color-trace"></div>
-                        <!-- <i class="fas fa-xl fa-chart-area"></i> -->
-                        <div id="enable-plot-tooltip"></div>
-                        <!-- <i class="far fa-xl fa-message"></i> -->
-                        <div id="show-legend"></div>
-                        <!-- <i class="far fa-xl fa-rectangle-list"></i> -->
-                        <br/>
-                        <button id="download-as-svg"><i class="fa fas fa-lg fa-file-image"></i> Download as SVG</button>
+                    <div id="settings-panel-content">
+                        <div id="global-settings" class="settings-section">
+                            <!-- <div class="settings-panel-intro">
+                                <div class="settings-panel-header">
+                                    <h5 class="settings-section-title">Global Settings</h5>
+                                </div>
+                            </div> -->
+                            <select id="preset-dropdown"></select>
+                            <table id="global-sliders" class="global-table">
+                                <tr id="opacity-input"></tr>
+                                <!-- <i class="fas fa-lg fa-arrow-up"></i> -->
+                                <tr id="smoothing-input"></tr>
+                                <!-- <i class="fas fa-lg fa-icicles fa-rotate-180"></i> -->
+                                <!-- <i class="fas fa-lg fa-mound"></i> -->
+                                <tr id="bp-shift-input"></tr>
+                                <!-- <i class="fas fa-lg fa-right-from-bracket"></i> -->
+                            </table>
+                            <table id="global-misc" class="global-table">
+                                <tr>
+                                    <td>
+                                        <div id="backdrop-color"></div>
+                                    </td>
+                                    <td>
+                                        <div id="backdrop-opacity"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="combine-strands"></div>
+                                    </td>
+                                    <td>
+                                        <div id="color-trace"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div id="separate-colors"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="show-legend"></div>
+                                    </td>
+                                    <td>
+                                        <div id="enable-plot-tooltip"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button id="download-as-svg" class="panel-action-button">
+                                <i class="fa fas fa-lg fa-file-image"></i>
+                                <span>Download as SVG</span>
+                            </button>
+                        </div>
+                        <!-- See js/classes/reference_lines_input.js -->
+                        <div id="reference-lines-input" class="settings-section hidden"></div>
+                        <!-- See js/classes/nucleosome_slider_input.js -->
+                        <div id="nucleosome-slider-input" class="settings-section hidden"></div>
                     </div>
-                    <div id="reference-lines-input" class="settings-section hidden"></div>
-                    <div id="nucleosome-slider-input" class="settings-section hidden"></div>
+                    <a id="source-code-and-documentation" href="https://github.com/CEGRcode/GenoPlotter/">
+                        <img src="images/GitHub_Invertocat_Black.svg" id="github-logo" width="20px" height="20px"></svg>
+                        <label id="github-logo-label" for="github-logo">Source code and documentation</label>
+                    </a>
                 </div>
             </div>
             <div id="composite-table"></div>
@@ -96,6 +123,8 @@
     <script src="js/classes/opacity_input.js"></script>
     <script src="js/classes/smoothing_input.js"></script>
     <script src="js/classes/bp_shift_input.js"></script>
+    <script src="js/classes/backdrop_color_input.js"></script>
+    <script src="js/classes/backdrop_opacity_input.js"></script>
     <script src="js/classes/combined_checkbox.js"></script>
     <script src="js/classes/separate_colors_checkbox.js"></script>
     <script src="js/classes/color_trace_checkbox.js"></script>

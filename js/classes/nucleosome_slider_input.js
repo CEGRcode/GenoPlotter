@@ -7,6 +7,17 @@ const nucleosomeSliderInput = class {
 
         const self = this;
 
+        // Add intro block: title + description
+        this.introSection = this.container.append("div")
+            .classed("settings-panel-intro", true);
+        // this.headerSection = this.introSection.append("div")
+        //     .classed("settings-panel-header", true);
+        // this.headerSection.append("h5")
+        //     .classed("settings-section-title", true)
+        //     .text("Nucleosome slider");
+        this.introSection.append("span")
+            .classed("settings-header-description", true)
+            .text("Overlay a draggable nucleosome footprint marker to annotate specific base-pairs (e.g. for periodicity) and project onto a PDB structure.");
         this.nucleosomePositionSection = this.container.append("div")
             .classed("nucleosome-position-section", true)
             .text("Nucleosome position:");
@@ -40,6 +51,7 @@ const nucleosomeSliderInput = class {
         this.molVizSection = this.container.append("div")
             .classed("mol-viz-section", true);
         this.molVizSection.append("button")
+            .classed("panel-action-button", true)
             .on("click", this.generate3DVisual)
             .append("text")
             .text("Generate 3D visual ")
