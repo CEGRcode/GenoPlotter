@@ -1,6 +1,22 @@
-# GenoPlotter
+# GenoPlotter: a user-friendly browser tool for plotting quantitative data relative to genomic loci
 
-**GenoPlotter** is a **genomic composite visualization tool** designed for bioinformaticians and bench scientists to visualize and analyze signal occupancy across genomic regions. It supports dual deployment modes:
+### Justin S Cha<sup>1</sup>, Olivia WM Lang<sup>1</sup>, Benjamin O Beer<sup>2</sup>, B Franklin Pugh<sup>1</sup>, William KM Lai<sup>1,3*</sup>
+
+<sup>1</sup>Department of Molecular Biology and Genetics, Cornell University, USA
+<br>
+<sup>2</sup>College of Agriculture and Life Sciences, Cornell University, USA
+<br>
+<sup>3</sup>Department of Computational Biology, Cornell University, USA
+<br>
+<sup>*</sup>Corresponding author
+
+### Correspondence: wkl29@cornell.edu
+
+## Abstract
+
+Line plots of quantitative data relative to genomic loci, or composite plots, have become a crucial way to quickly convey biomolecular snapshots of specific genomic features. They have been used to represent and understand chromatin accessibility, transcription factor occupancy, DNA sequence grammar, and other aspects of gene regulation. It is important even for experimental scientists not well-versed in computation to quickly generate and manipulate such plots to maximize the clarity of their findings. We present **GenoPlotter**, an interactive browser tool that allows users to easily produce publication-ready composite plots with adjustable settings tailored for quantitative omics data. These settings include strand separation, composite scaling, and smoothing among other useful settings. GenoPlotter also allows users to save a session as a JSON configuration file that can easily be sent to other users and loaded on another instance. GenoPlotter provides a way for scientists to easily optimize the interpretability of their composite plots with broad applications to omics data.
+
+**GenoPlotter** supports dual deployment modes:
 
 - **Local Mode** (`local.html`): Standalone web app requiring no server - load and visualize data entirely in the browser
 - **Server Mode** (`server.html`): Full-stack deployment with Node.js backend for efficient querying of large BIGWIG files
