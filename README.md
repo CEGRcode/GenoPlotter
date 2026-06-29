@@ -58,6 +58,21 @@ Then your GenoPlotter instance can be accessed by entering the remote server's I
 
 To stop the server, enter the background shell with `tmux a -t GenoPlotter` and interrupt the server with `Ctrl+C`.
 
+## Saving plots
+Users can save the plot as an SVG by clicking the "Download as SVG" button, which gives the option of saving it with or without text labels.
+
+{Screenshot placeholder}
+
+Users can also save the session as a plain text JSON file with the "Export session (JSON)" button.
+
+{Screenshot placeholder}
+
+The JSON file is easily shareable with other users and can be loaded by clicking the "Import session (JSON)" button.
+
+{Screenshot placeholder}
+
+A Python script to generate the plot SVG from a JSON session on the command line is provided in `python/plot_from_json.py`.
+
 ## Examples
 
 ### Local mode
