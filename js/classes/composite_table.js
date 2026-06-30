@@ -121,10 +121,14 @@ const compositeTable = class {
         }
     }
 
-    loadFromDataObject() {
+    loadFromDataObject(local=true) {
         this.clear();
         for (const compositeDataObj of dataObj.compositeData) {
             this.addRow(compositeDataObj)
+        };
+
+        if (!local) {
+            this.normalizationSelectObj.update()
         }
     }
 

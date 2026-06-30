@@ -1,5 +1,5 @@
 const updateAll = function(local) {
-    tableObj.loadFromDataObject();
+    tableObj.loadFromDataObject(local);
     if (local) {
         compositeLoaderObj.updateReferenceCounter()
     };

@@ -41,6 +41,6 @@ const normalizationSelect = class {
     }
 
     update() {
-        this.dropdown.attr("value", dataObj.globalSettings.normalization)
+        this.dropdown.node().value = dataObj.globalSettings.normalization
     }
 }
