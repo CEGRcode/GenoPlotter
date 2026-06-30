@@ -56,7 +56,8 @@ const compositeTable = class {
                 self.updateStickyRows();
                 dataObj.moveCompositeData(ev.oldIndex - 1, ev.newIndex - 1);
                 plotObj.updatePlot();
-                targetSelectorObj.moveTarget(ev.oldIndex - 1, ev.newIndex - 1)
+                targetSelectorObj.moveTarget(ev.oldIndex - 1, ev.newIndex - 1);
+                targetSelectorObj.sortTargets();
             }
         });
 
