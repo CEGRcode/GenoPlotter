@@ -7,7 +7,8 @@ const lockAxesObj = new lockAxes("lock-axes");
 
 const bedLoaderObj = new bedLoader("bed-loader");
 
-let plotObj = new plotObject("main-plot", 500, 300, {top: 30, right: 190, bottom: 35, left: 60});
+let plotObj = new plotObject("main-plot", defaultPlotDimensions.width,
+    defaultPlotDimensions.height, defaultPlotDimensions.margins);
 const legendObj = new legendObject();
 
 const opacityInputObj = new opacityInput("opacity-input");
