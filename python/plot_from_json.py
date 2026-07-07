@@ -107,6 +107,15 @@ def genoplotter_json2svg(dataObj, width=500, height=300, margins={'top': 30, 'ri
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
     svg.setAttribute('font-family', 'Helvetica')
     svg.setAttribute('viewBox', '0 0 {} {}'.format(width, height))
+
+    backdrop = svg.appendChild(document.createElement('rect'))
+    backdrop.setAttribute('x', str(margins['left']))
+    backdrop.setAttribute('y', str(margins['top']))
+    backdrop.setAttribute('width', str(width - margins['left'] - margins['right']))
+    backdrop.setAttribute('height', str(height - margins['top'] - margins['bottom']))
+    backdrop.setAttribute('stroke', 'none')
+    backdrop.setAttribute('fill', globalSettings['backdropColor'] if 'backdropColor' in globalSettings else '#FFFFFF')
+    backdrop.setAttribute('opacity', str(globalSettings['backdropOpacity'] if 'backdropOpacity' in globalSettings else 1))
     
     compositesGroup = svg.appendChild(document.createElement('g'))
     for idx, compositeObj in reversed(list(enumerate(dataObj['compositeData']))):
