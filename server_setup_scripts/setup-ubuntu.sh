@@ -16,7 +16,7 @@ $(<${GENOPLOTTER_DIR}/nginx/GenoPlotter)
 EOF
 \" > /etc/nginx/sites-available/GenoPlotter"
 [ -f /etc/nginx/sites-enabled/default ] && sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
+[ -f /etc/nginx/sites-enabled/GenoPlotter ] || sudo ln -s /etc/nginx/sites-available/GenoPlotter /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 
