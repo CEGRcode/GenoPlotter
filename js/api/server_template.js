@@ -12,8 +12,8 @@ app.use(cors({
         : ['http://localhost:3000']
 }))
 
-const BIGWIGS = '$1',
-  NORM_FACTORS = '$2',
+const BIGWIGS = '$(realpath $1)',
+  NORM_FACTORS = '$([ -f $2 ] && realpath $2)',
   BWPairs = [],
   sampleMap = {},
   normTable = {}
