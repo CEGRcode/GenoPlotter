@@ -16,7 +16,10 @@ server {
     directio 8m;
     output_buffers 1 512k;
 
+    client_max_body_size 10M;
+
     location / {
+        client_max_body_size 10M;
         proxy_pass http://localhost:3000;
     }
 }
