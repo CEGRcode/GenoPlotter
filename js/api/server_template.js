@@ -197,4 +197,9 @@ app.get('/api/bigwig/normalization_methods', async (_, res) => {
 
 // Standardize index location
 app.use(express.static('$(dirname $(dirname $(realpath $0)))'))
-app.listen(3000)
+const server = app.listen(3000)
+
+server.timeout = 1200000
+server.keepAliveTimeout = 600000
+server.headersTimeout = 610000
+server.requestTimeout = 3000000
