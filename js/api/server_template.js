@@ -13,7 +13,7 @@ app.use(cors({
 }))
 
 const BIGWIGS = '$(realpath $1)',
-  NORM_FACTORS = '$([ -f $2 ] && realpath $2)',
+  NORM_FACTORS = '$([ ! -z $2 ] && [ -f $2 ] && realpath $2)',
   BWPairs = [],
   sampleMap = {},
   normTable = {}
