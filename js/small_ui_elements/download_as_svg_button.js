@@ -24,7 +24,7 @@ d3.select("#download-as-svg").on("click", function() {
             .classed("panel-action-button", true)
             .text("Include labels")
             .on("click", function() {
-                plotObj.downloadAsSVG(true);
+                plotObj.downloadAsSVG(false);
                 overlay.remove()
             }),
         excludeTextButton = buttonContainer.append("button")
@@ -32,7 +32,7 @@ d3.select("#download-as-svg").on("click", function() {
             .classed("panel-action-button", true)
             .text("Plot only")
             .on("click", function() {
-                plotObj.downloadAsSVG();
+                plotObj.downloadAsSVG(true);
                 overlay.remove()
             });
 })
