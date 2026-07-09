@@ -2,7 +2,7 @@
 
 set -e
 
-if [[ ! -n $1 ]] ; then
+if [[ ! -f $1 ]] ; then
     echo 'Usage: setup-ubuntu.sh <bigwig_list_file> <normalization_factors_file (optional)>'
     exit 0
 fi
