@@ -12,6 +12,10 @@ if [[ ! -f $1 ]] ; then
     exit 1
 fi
 
+if [[ -n $2 && ! -f $2 ]] ; then
+    echo "Warning: normalization_factors_file $2 does not exist...will be ignored"
+fi
+
 GENOPLOTTER_DIR=$(dirname $(dirname $(realpath $0)))
 
 sudo apt-get install -y nginx
