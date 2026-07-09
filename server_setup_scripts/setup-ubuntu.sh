@@ -2,9 +2,14 @@
 
 set -e
 
-if [[ ! -f $1 ]] ; then
+if [[ ! -n $1 ]] ; then
     echo 'Usage: setup-ubuntu.sh <bigwig_table_file> <normalization_factors_file (optional)>'
     exit 0
+fi
+
+if [[ ! -f $1 ]] ; then
+    echo "Error: bigwig_table_file $1 does not exist"
+    exit 1
 fi
 
 GENOPLOTTER_DIR=$(dirname $(dirname $(realpath $0)))
