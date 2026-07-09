@@ -3,7 +3,7 @@
 set -e
 
 if [[ ! -f $1 ]] ; then
-    echo 'Usage: setup-ubuntu.sh <bigwig_list_file> <normalization_factors_file (optional)>'
+    echo 'Usage: setup-ubuntu.sh <bigwig_table_file> <normalization_factors_file (optional)>'
     exit 0
 fi
 
