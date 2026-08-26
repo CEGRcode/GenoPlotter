@@ -3,7 +3,7 @@ const legendObject = class {
         const mainPlot = plotObj._elements.mainPlot;
         this.legend = mainPlot.append("g")
             .attr("id", "composite-legend")
-            .attr("transform", "translate(" + (plotObj.width - plotObj.margins.right + 25) + " " + plotObj.margins.top + ")");
+            .attr("transform", "translate(" + (plotObj.width - plotObj.margins.right + 15) + " " + plotObj.margins.top + ")");
         this.legendElements = [];
     }
 
@@ -26,6 +26,7 @@ const legendObject = class {
             .data(() => [null])
             .join("rect")
                 .classed("legend-color", true)
+                .attr("x", 10)
                 .attr("width", 15)
                 .attr("height", 15)
                 .attr("stroke", "#000000")
@@ -35,14 +36,14 @@ const legendObject = class {
             .data(d => [d])
             .join("polygon")
                 .classed("legend-color-sense", true)
-                .attr("points", "0,0 15,0 15,15 0,15")
+                .attr("points", "10,0 25,0 25,15 10,15")
                 .attr("fill", d => d.primaryColor)
                 .attr("display", d => d.hideSense ? "none" : null);
         elSelect.selectAll("polygon.legend-color-anti")
             .data(d => [d])
             .join("polygon")
                 .classed("legend-color-anti", true)
-                .attr("points", "15,0 15,15 0,15")
+                .attr("points", "25,0 25,15 10,15")
                 .attr("fill", d => dataObj.globalSettings.separateColors && !dataObj.globalSettings.combined ?
                     (d.secondaryColor || d.primaryColor) : d.primaryColor)
                 .attr("display", d => d.hideAnti ? "none" : null);
@@ -51,7 +52,7 @@ const legendObject = class {
             .join("text")
                 .classed("plot-text", true)
                 .classed("legend-text", true)
-                .attr("x", 20)
+                .attr("x", 30)
                 .attr("y", 10)
                 .attr("font-size", "10px")
                 .text(d => d.name);
@@ -78,7 +79,6 @@ const legendObject = class {
                 return moveArr
             })
             .join("polygon")
-                .attr("transform", "translate(" + (plotObj.margins.right - 36) + " 0)")
                 .classed("legend-move", true)
                 .attr("display", d => d.points ? null : "none")
                 .attr("points", d => d.points)
