@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import cors from 'cors'
 import { BigWig } from '@gmod/bbi'
+import { RemoteFileWithRangeCache } from '@gmod/range-cache-filehandle'
 
 const app = express()
 app.use(express.json({ limit: '10mb' }))
@@ -85,7 +86,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
     let forwardBW, reverseBW
     
     if (forward.startsWith('http://') || forward.startsWith('https://')) {
-      forwardBW = new BigWig({ url: forward })
+      forwardBW = new BigWig({ filehandle: new RemoteFileWithRangeCache(forward) })
     } else {
       const forwardPath = path.resolve(forward)
       if (!fs.existsSync(forwardPath)) {
@@ -95,7 +96,7 @@ app.post('/api/bigwig/pileup', async (req, res) => {
     }
     
     if (reverse.startsWith('http://') || reverse.startsWith('https://')) {
-      reverseBW = new BigWig({ url: reverse })
+      reverseBW = new BigWig({ filehandle: new RemoteFileWithRangeCache(reverse) })
     } else {
       const reversePath = path.resolve(reverse)
       if (!fs.existsSync(reversePath)) {
