@@ -1,4 +1,5 @@
 {
+    "version": "0.1-beta",
     "globalSettings": {
         "xmin": -500,
         "xmax": 500,
@@ -8887,7 +8888,7 @@
             "ids": [
                 "32895_Htz1_swc3D"
             ],
-            "filesLoaded": 0
+            "filesLoaded": 1
         },
         {
             "name": "32893_Htz1_Swc3-177-255D",
@@ -11119,7 +11120,7 @@
             "ids": [
                 "32893_Htz1_Swc3-177-255D"
             ],
-            "filesLoaded": 0
+            "filesLoaded": 1
         },
         {
             "name": "32892_Htz1_-",
@@ -13351,7 +13352,7 @@
             "ids": [
                 "32892_Htz1_-"
             ],
-            "filesLoaded": 0
+            "filesLoaded": 1
         }
     ],
     "legendOrder": [
