@@ -396,6 +396,7 @@ const dataObject = class {
         a.download = "composite_plot_config.json";
         a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(
             {
+                version: GenoPlotterVersion,
                 globalSettings: this.globalSettings,
                 fileData: this.fileData,
                 compositeData: this.compositeData,
