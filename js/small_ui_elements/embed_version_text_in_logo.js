@@ -1,0 +1,1 @@
+d3.select("#version-text").text(d3.select("#version-text").text() + " " + GenoPlotterVersion)

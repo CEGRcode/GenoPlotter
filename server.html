@@ -14,7 +14,22 @@
         <div class="container-fluid">
             <div id="top-panel">
                 <div id="top-left-panel">
-                    <img src="images/logo-server.svg" width="200px">
+                    <svg id="genoplotter-logo" xmlns="http://www.w3.org/2000/svg" width="200" viewBox="0 0 255 64" role="img" aria-label="GenoPlotter">
+                        <title>GenoPlotter</title>
+                        
+                        <g>
+                            <rect x="6" y="6" width="52" height="52" fill="none" stroke="#000000" stroke-width="2"></rect>
+                            <line x1="6" y1="32" x2="58" y2="32" stroke="#000000" stroke-width="2"></line>
+                            <path d="M6 32 Q20 32 24 18 Q28 6 32 24 Q35 32 58 30 L58 32 L6 32 Z" fill="#007bff"></path>
+                            <path d="M6 32 Q20 32 25 45 Q30 58 34 39 Q38 32 58 34 L58 32 L6 32 Z" fill="#007bff" opacity="0.55"></path>
+                        </g>
+                        
+                        <text x="74" y="42" font-family="-apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, &#39;Helvetica Neue&#39;, Arial, sans-serif" font-size="34" font-weight="500" letter-spacing="-0.5">
+                            <tspan fill="#212529">Geno</tspan><tspan fill="#007bff">Plotter</tspan>
+                        </text>
+
+                        <text id="version-text" x="100" y="54" font-family="-apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, &#39;Helvetica Neue&#39;, Arial, sans-serif" font-size="10" fill="#000000">Server version</text>
+                    </svg>
                     <button id="json-button" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-up"></i> Import session (JSON)</button>
                     <input type="file" id="json-loader">
                     <button id="json-download" class="panel-action-button"><i class="fas fa-lg fa-file-arrow-down"></i> Export session (JSON)</button>
@@ -134,6 +149,7 @@
     <script src="js/functions/update_all.js"></script>
 
     <!-- Small UI elements -->
+    <script src="js/small_ui_elements/embed_version_text_in_logo.js"></script>
     <script src="js/small_ui_elements/export_json.js"></script>
     <script src="js/small_ui_elements/import_json_server.js"></script>
     <script src="js/small_ui_elements/autoscale_axes.js"></script>
