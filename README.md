@@ -104,3 +104,9 @@ To load the reference points, simply click the "Load BED file" button and select
 Then check boxes in the targets list below to view the data for the corresponding samples:
 
 ![server_check-targets_screenshot](images/server_example_check_targets.png)
+
+### Generating a plot from a JSON session
+To use the Python script described above to generate a plot from a JSON session:
+```
+python GenoPlotter/python/plot_from_json.py --output /path/to/output/file GenoPlotter/sample_inputs/example_config.json
+```
