@@ -21,6 +21,10 @@ Line plots of quantitative data relative to genomic loci, or composite plots, ha
 - **Local Mode** (`local.html`): Standalone web app requiring no server - load and visualize data entirely in the browser
 - **Server Mode** (`server.html`): Full-stack deployment with Node.js backend for efficient querying of large BIGWIG files
 
+## Quickstart
+
+Go to `https://pughlab.mbg.cornell.edu/GenoPlotter/` (local mode). Click the "Import session (JSON)" button, then select `sample_inputs/example_config.json`.
+
 ## Prerequisites
 
 For the local version, any modern web browser will work (e.g., Chrome, Firefox, Safari, etc.). To deploy the server version, a remote server (ubuntu supported) is required to host the API and genomic BIGWIG files.
@@ -28,7 +32,7 @@ For the local version, any modern web browser will work (e.g., Chrome, Firefox, 
 ## Getting started
 
 ### Local mode (no server required)
-First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open `local.html` using an internet browser.
+First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open `local.html` using an internet browser. Alternatively, you can use the website `https://pughlab.mbg.cornell.edu/GenoPlotter/` as in the Quickstart.
 
 ### Server setup
 The remote version of GenoPlotter requires a table of BIGWIG files formatted as a tab-separated table:
