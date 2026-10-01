@@ -121,13 +121,16 @@ Then check boxes in the targets list below to view the data for the correspondin
     ]
 }
 ```
+
 `/api/bigwig/list` - GET endpoint that returns the list of samples provided during server setup with their corresponding forward and reverse bigWig files.
+
 `/api/bigwig/normalization` - POST endpoint that returns the normalization factors for the given sample provided during server setup. Takes a body formatted as:
 ```
 {
     "sample": sampleName
 }
 ```
+
 `/api/bigwig/normalization_methods` - GET endpoint that returns the list of normalizations provided during server setup.
 
 ### Generating a plot from a JSON session
