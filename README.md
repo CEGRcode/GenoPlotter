@@ -109,6 +109,27 @@ Then check boxes in the targets list below to view the data for the correspondin
 
 ![server_check-targets_screenshot](images/server_example_check_targets.png)
 
+#### API endpoints
+`/api/bigwig/pileup` - POST endpoint that returns the composite pileup for the given sample and list of genomic coordinates. Takes a body formatted as:
+```
+{
+    "sample": sampleName,
+    "ranges": [
+        {"chrom": "chr1", "start": 1, "end": 100, "strand": "+"},
+        {"chrom": "chr2", "start": 101, "end": 200, "strand": "-"},
+        ...
+    ]
+}
+```
+`/api/bigwig/list` - GET endpoint that returns the list of samples provided during server setup with their corresponding forward and reverse bigWig files.
+`/api/bigwig/normalization` - POST endpoint that returns the normalization factors for the given sample provided during server setup. Takes a body formatted as:
+```
+{
+    "sample": sampleName
+}
+```
+`/api/bigwig/normalization_methods` - GET endpoint that returns the list of normalizations provided during server setup.
+
 ### Generating a plot from a JSON session
 To use the Python script described above to generate a plot from a JSON session:
 ```
