@@ -23,7 +23,7 @@ Line plots of quantitative data relative to genomic loci, or composite plots, ha
 
 ## Quickstart
 
-Go to `https://pughlab.mbg.cornell.edu/GenoPlotter/` (local mode). Click the "Import session (JSON)" button, then select `sample_inputs/example_config.json`.
+Go to [https://pughlab.mbg.cornell.edu/GenoPlotter/](https://pughlab.mbg.cornell.edu/GenoPlotter/) (local mode). Click the "Import session (JSON)" button, then select `sample_inputs/example_config.json`.
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ For the local version, any modern web browser will work (e.g., Chrome, Firefox, 
 ## Getting started
 
 ### Local mode (no server required)
-First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open `local.html` using an internet browser. Alternatively, you can use the website `https://pughlab.mbg.cornell.edu/GenoPlotter/` as in the Quickstart.
+First, clone this repository with `git clone https://github.com/CEGRcode/GenoPlotter.git`. Then simply open `local.html` using an internet browser. Alternatively, you can use the website [https://pughlab.mbg.cornell.edu/GenoPlotter/](https://pughlab.mbg.cornell.edu/GenoPlotter/) as in the Quickstart.
 
 ### Server setup
 The remote version of GenoPlotter requires a table of BIGWIG files formatted as a tab-separated table:
